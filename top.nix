@@ -1,4 +1,4 @@
-{ nixpkgs }:
+{ nixpkgs, macos_sdk }:
 
 rec {
   inherit nixpkgs;
@@ -17,7 +17,7 @@ rec {
       arch = "armv6";
       gcc_options = "--with-fpu=vfp --with-float=hard ";
     };
-    macos = import ./macos { inherit native; };
+    macos = import ./macos { inherit native macos_sdk; };
   };
 
   pkgFun = crossenv: import ./pkgs.nix { inherit crossenv; } // crossenv;
@@ -81,7 +81,7 @@ rec {
 
   # gcroots is a derivation that builds a list of the items that we usually do
   # not want to garbage collect.
-  gcroots_func = env: env.default_native_inputs ++ [env.qt];	
+  gcroots_func = env: env.default_native_inputs ++ [env.qt];
   gcroots = native.make_derivation rec {
     name = "gcroots.txt";
     builder = ./file_builder.sh;
