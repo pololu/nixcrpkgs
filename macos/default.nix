@@ -143,7 +143,7 @@ let
     name = "macos-sdk";
     builder = ./sdk_builder.sh;
     src = if macos_sdk != null then macos_sdk else ./MacOSX.sdk.tar.xz;
-    native_inputs = [ nixpkgs.ruby ];
+    native_inputs = [ nixpkgs.xmlstarlet ];
   } // {
     version = builtins.readFile "${sdk}/version.txt";
   };
