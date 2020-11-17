@@ -1,13 +1,13 @@
 { crossenv, libudev }:
 
 let
-  version = "1.1.0";
+  version = "1.2.0";
 
   name = "libusbp-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
     url = "https://github.com/pololu/libusbp/archive/${version}.tar.gz";
-    sha256 = "18l34580ci1pq8p3133dnp8nzlz17qw2796xsz1gn0aca6978izc";
+    sha256 = "15qss392iy01fbxkqkikbsy218bn1b6z21zalbgsld6h8jy7icsj";
   };
 
   lib = crossenv.make_derivation {
