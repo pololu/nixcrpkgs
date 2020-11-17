@@ -3,7 +3,7 @@
 # binutils.  So clang and binutils recipes could be shared by the
 # different platforms we targets.
 
-{ native }:
+{ native, macos_sdk }:
 let
   nixpkgs = native.nixpkgs;
 
@@ -142,7 +142,7 @@ let
   sdk = native.make_derivation rec {
     name = "macos-sdk";
     builder = ./sdk_builder.sh;
-    src = ./MacOSX.sdk.tar.xz;
+    src = if macos_sdk != null then macos_sdk else ./MacOSX.sdk.tar.xz;
     native_inputs = [ nixpkgs.ruby ];
   } // {
     version = builtins.readFile "${sdk}/version.txt";
