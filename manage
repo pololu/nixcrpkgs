@@ -6,6 +6,7 @@
 require 'open3'
 require 'pathname'
 require 'set'
+require 'fileutils'
 require_relative 'support/graph'
 require_relative 'support/expand_brackets'
 
@@ -193,7 +194,10 @@ end
 def nix_db
   return $db if $db
   require 'sqlite3'  # gem install sqlite3
-  $db = SQLite3::Database.new '/nix/var/nix/db/db.sqlite', readonly: true
+  # sqlite3 readonly mode doesn't actually work: sqlite3 needs to be able to
+  # write to the database file, so we copy it to a directory we control.
+  FileUtils.cp '/nix/var/nix/db/db.sqlite', 'nixdb.sqlite'
+  $db = SQLite3::Database.new 'nixdb.sqlite', readonly: true
 end
 
 # Given an array of derivations (paths to .drv files in /nix), this function
@@ -507,6 +511,7 @@ help:
 
 The derivations we care about are defined in support/derivations.txt.
 END
+    return
   end
 
   if action == :gcroots
