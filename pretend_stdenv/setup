@@ -1,1 +1,2 @@
 export PATH=$_PATH
+export MAKEFLAGS="-j$NIX_BUILD_CORES"
