@@ -27,10 +27,11 @@ mkdir build
 cd build
 
 CFLAGS="-Wno-deprecated -Wno-deprecated-declarations -Wno-unused-result -Werror -Wfatal-errors -O2 -g -I../include -I../include/foreign -DPROGRAM_PREFIX=\\\"$host-\\\" -D__LITTLE_ENDIAN__ -D__private_extern__= -D__DARWIN_UNIX03 -DPACKAGE_NAME=\\\"cctools\\\" -DPACKAGE_VERSION=\\\"$apple_version\\\" -DEMULATED_HOST_CPU_TYPE=16777223 -DEMULATED_HOST_CPU_SUBTYPE=3"
+CFLAGS+=" -DHAVE_BCMP -DHAVE_BZERO -DHAVE_BCOPY -DHAVE_INDEX -DHAVE_RINDEX"
 
 CXXFLAGS="-std=gnu++11 $CFLAGS"
 
-LDFLAGS="-ldl -lpthread"
+LDFLAGS="-ldl -lm -lpthread"
 
 for f in ../lipo.c ../libstuff/*.c; do
   echo "compiling $f"

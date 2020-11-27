@@ -61,11 +61,11 @@ let
   tapi = native.make_derivation rec {
     name = "tinytapi-${version}";
 
-    version = "1.0.0";
+    version = "41a441a2";  # 1.0.0 ish
 
     src = nixpkgs.fetchurl {
       url = "https://github.com/DavidEGrayson/tinytapi/archive/${version}.tar.gz";
-      sha256 = "1hipsnpnlmrg63q7c7mx07dgc7sn86agf3jh1gys1rri0cdn1w1b";
+      sha256 = "0kdbgsgndrwf1xlix34g8mqzgpxx96lgp3i9ksdz5cfh20h68j3p";
     };
 
     builder = ./tinytapi_builder.sh;
@@ -73,23 +73,24 @@ let
     native_inputs = [ libyaml ];
   };
 
-  cctools_commit = "c1cc758";
-  cctools_apple_version = "274.2";  # from README.md
+  cctools_commit = "634a0843";
+  cctools_apple_version = "949.0.1";  # from README.md
   cctools_port_src = nixpkgs.fetchurl {
     url = "https://github.com/tpoechtrager/cctools-port/archive/${cctools_commit}.tar.gz";
-    sha256= "11bfcndzbdmjp2piabyqs34da617fh5fhirqvb9w87anfan15ffa";
+    sha256 = "02zrfx8zc1ab47jlfnk7jwdahzf5v96h32n5lxvagcglywr7wgra";
   };
 
+  # We build ld with clang because it uses "Blocks", a clang extension.
   ld = native.make_derivation rec {
     name = "cctools-ld64";
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     patches = [
-      ./cctools-format.patch
-      ./cctools-ld64-registers.patch
+      #./cctools-format.patch
+      #./cctools-ld64-registers.patch
     ];
     builder = ./ld_builder.sh;
-    native_inputs = [ tapi ];
+    native_inputs = [ nixpkgs.clang tapi ];
     inherit host;
   };
 
@@ -99,7 +100,7 @@ let
     src = ld.src;
     builder = ./ranlib_builder.sh;
     patches = [
-      ./cctools-format.patch
+      #./cctools-format.patch
       ./cctools-bytesex.patch
     ];
     inherit host;
@@ -123,7 +124,6 @@ let
     src = cctools_port_src;
     builder = ./lipo_builder.sh;
     patches = [
-      ./cctools-format.patch
     ];
     inherit host;
   };
