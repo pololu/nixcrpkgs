@@ -1,0 +1,69 @@
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h apple-libtapi-fixed/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h	2020-08-31 22:29:49.000000000 -0700
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h	2020-11-29 15:40:33.705448412 -0800
+@@ -78,7 +78,7 @@
+   /// This value is temporary for bringup and will be removed.
+   /// \since 1.4
+   zippered = ~0U,
+-} __attribute__((deprecated));
++};
+
+ ///
+ /// \brief Defines a list of Objective-C constraints.
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/APIJSONSerializer.cpp apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/APIJSONSerializer.cpp
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/APIJSONSerializer.cpp	2020-08-31 22:29:49.000000000 -0700
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/APIJSONSerializer.cpp	2020-11-29 15:18:13.241448412 -0800
+@@ -1199,7 +1199,7 @@
+   if (err)
+     return std::move(err);
+
+-  return result;
++  return std::move(result);
+ }
+
+ TAPI_NAMESPACE_INTERNAL_END
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/FileListReader.cpp apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/FileListReader.cpp
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/FileListReader.cpp	2020-11-29 15:47:29.821448412 -0800
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/FileListReader.cpp	2020-11-29 15:48:13.765448412 -0800
+@@ -149,7 +149,7 @@
+   if (error)
+     return std::move(error);
+
+-  return reader;
++  return std::move(reader);
+ }
+
+ FileListReader::~FileListReader() { delete &impl; }
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/MachODylibReader.cpp apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/MachODylibReader.cpp
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/MachODylibReader.cpp	2020-08-31 22:29:49.000000000 -0700
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/MachODylibReader.cpp	2020-11-29 16:24:59.777448412 -0800
+@@ -165,7 +165,7 @@
+     result.second.visit(converter);
+   }
+
+-  return file;
++  return std::move(file);
+ }
+
+ TAPI_NAMESPACE_INTERNAL_END
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/MachOReader.cpp apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/MachOReader.cpp
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/lib/Core/MachOReader.cpp	2020-08-31 22:29:49.000000000 -0700
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/lib/Core/MachOReader.cpp	2020-11-29 17:20:24.033448412 -0800
+@@ -396,7 +396,7 @@
+         return std::move(error);
+     }
+
+-    return results;
++    return std::move(results);
+   }
+
+   // Only expecting MachO universal binaries at this point.
+@@ -446,7 +446,7 @@
+         "Requested architectures don't exist",
+         std::make_error_code(std::errc::not_supported));
+
+-  return results;
++  return std::move(results);
+ }
+
+ TAPI_NAMESPACE_INTERNAL_END

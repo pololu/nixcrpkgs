@@ -1,3 +1,9 @@
+# Note: There are 3 LLVM versions in sight here:
+# 1. The one that comes with tapi.
+#    (Just so that the tapi library can use its YAML parser!)
+# 2. The used by nixpkgs.clang which we use to build ld.
+# 3. The one we build here (macos.clang) and use as our cross-compiler.
+
 # Note: To reduce clutter here, it might be nice to move clang to
 # `native`, and also make `native` provide a function for building
 # binutils.  So clang and binutils recipes could be shared by the
@@ -9,7 +15,6 @@ let
 
   arch = "x86_64";
 
-  # was darwin15, changed to darwin so that lld guesses flavor=Darwin correctly
   darwin_name = "darwin15";
 
   # Qt 5.12 expects macOS 10.12 or later
@@ -52,25 +57,20 @@ let
       "-DLLVM_ENABLE_ASSERTIONS=OFF";
   };
 
-  # Previously we used a port of Apple's TAPI library from here:
-  #   https://github.com/DavidEGrayson/tapi/archive/f98d0c3.tar.gz
-  # Another version of that libtrary is here:
-  #   https://github.com/tpoechtrager/apple-libtapi
-  # But those versions require LLVM and clang 5.0.0, so now we are using
-  # tinytapi instead.
   tapi = native.make_derivation rec {
-    name = "tinytapi-${version}";
-
-    version = "41a441a2";  # 1.0.0 ish
+    name = "tapi-${version}";
+    version = "1100.0.11";
+    TAPI_FULL_VERSION = "11.0.0"; # From build.sh in tpoechtrager/apple-libtapi.
 
     src = nixpkgs.fetchurl {
-      url = "https://github.com/DavidEGrayson/tinytapi/archive/${version}.tar.gz";
-      sha256 = "0kdbgsgndrwf1xlix34g8mqzgpxx96lgp3i9ksdz5cfh20h68j3p";
+      url = "https://github.com/tpoechtrager/apple-libtapi/archive/a662842.tar.gz";
+      sha256 = "01xk02m9n964h3bzq1p4r4ijrr44pwgnijg18yvc8h68bc0slfpy";
     };
-
-    builder = ./tinytapi_builder.sh;
-    libyaml = nixpkgs.libyaml;
-    native_inputs = [ libyaml ];
+    patches = [
+      ./tapi.patch
+    ];
+    builder = ./tapi_builder.sh;
+    native_inputs = [ nixpkgs.python3 ];
   };
 
   cctools_commit = "634a0843";
@@ -150,8 +150,7 @@ let
 
   # Note: compiler-rt actually builds itself for three different architectures:
   # i386, x86_64, x86_64h.  It uses lipo to create fat archives that hold
-  # binaries for all the different architectures.  We only want x86_64 but it's
-  # not obvious how to achieve that.
+  # binaries for all the different architectures.
   compiler_rt = native.make_derivation rec {
     name = "compiler-rt-${version}";
 
@@ -225,7 +224,7 @@ let
 
     # License information that should be shipped with any software
     # compiled by this environment.
-    global_license_set = { };  # TODO: compiler-rt
+    global_license_set = { compiler_rt = compiler_rt.license; };
 
     # Handy shortcuts.
     inherit clang compiler_rt tapi ld ranlib ar lipo sdk toolchain;
