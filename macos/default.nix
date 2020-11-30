@@ -60,15 +60,12 @@ let
   tapi = native.make_derivation rec {
     name = "tapi-${version}";
     version = "1100.0.11";
-    TAPI_FULL_VERSION = "11.0.0"; # From build.sh in tpoechtrager/apple-libtapi.
-
+    TAPI_REPOSITORY_STRING = "tpoechtrager/apple-libtapi";
     src = nixpkgs.fetchurl {
       url = "https://github.com/tpoechtrager/apple-libtapi/archive/a662842.tar.gz";
       sha256 = "01xk02m9n964h3bzq1p4r4ijrr44pwgnijg18yvc8h68bc0slfpy";
     };
-    patches = [
-      ./tapi.patch
-    ];
+    patches = [ ./tapi.patch ];
     builder = ./tapi_builder.sh;
     native_inputs = [ nixpkgs.python3 ];
   };

@@ -2,7 +2,6 @@ source $setup
 
 tar -xf $src
 mv apple-libtapi-* tapi
-
 cd tapi
 for patch in $patches; do
   echo applying patch $patch
@@ -20,15 +19,14 @@ cmake ../src/llvm \
  -DLLVM_INCLUDE_TESTS=OFF \
  -DCMAKE_BUILD_TYPE=RELEASE \
  -DCMAKE_INSTALL_PREFIX=$out \
- -DTAPI_REPOSITORY_STRING=$version \
- -DTAPI_FULL_VERSION=$TAPI_FULL_VERSION
+ -DTAPI_REPOSITORY_STRING=$TAPI_REPOSITORY_STRING
 
 make clangBasic
 make libtapi
 make install-libtapi install-tapi-headers
 
 mkdir -p $out/lib/pkgconfig
-cat  > $out/lib/pkgconfig/libtapi.pc <<END
+cat > $out/lib/pkgconfig/libtapi.pc <<END
 prefix=$out
 libdir=\${prefix}/lib
 includedir=\${prefix}/include
