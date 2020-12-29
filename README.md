@@ -145,7 +145,7 @@ Each build recipe in nixcrpkgs specifies a version number for the software that 
 You should occasionally run `nix-collect-garbage` to remove items that are no
 longer needed and reclaim your disk space.  However, note that Nix will
 typically remove all of your cross compilers and libraries when you run this
-command, which could require you to do a length mass rebuild the next time you
+command, which could require you to do a lengthy mass rebuild the next time you
 want to build your software.
 
 There is a method you can use to prevent Nix from garbage collecting the most
