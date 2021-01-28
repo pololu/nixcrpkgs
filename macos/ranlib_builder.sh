@@ -42,4 +42,3 @@ eval "gcc $CFLAGS -DRANLIB ../misc/libtool.c *.o $LDFLAGS -o $host-ranlib"
 
 mkdir -p $out/bin
 cp $host-libtool $host-ranlib $out/bin/
-
