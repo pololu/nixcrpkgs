@@ -24,7 +24,7 @@ mkdir build
 cd build
 
 CFLAGS="-Wno-format -Wno-deprecated -Wno-deprecated-declarations -Wno-unused-result"
-CFLAGS+=" -Werror -Wfatal-errors"
+CFLAGS+=" -Wfatal-errors"
 CFLAGS+=" -O2 -g -fblocks"
 CFLAGS+=" -I../ld64/src -I../ld64/src/ld -I../ld64/src/ld/parsers -I../ld64/src/abstraction -I../ld64/src/3rd -I../ld64/src/3rd/include -I../ld64/src/3rd/BlocksRuntime -I../include -I../include/foreign"
 CFLAGS+=" -DTAPI_SUPPORT -DPROGRAM_PREFIX=\\\"$host-\\\""
