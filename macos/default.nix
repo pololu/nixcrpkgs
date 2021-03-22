@@ -70,11 +70,11 @@ let
     native_inputs = [ nixpkgs.python3 ];
   };
 
-  cctools_commit = "634a0843";
-  cctools_apple_version = "949.0.1";  # from README.md
+  cctools_commit = "a635ceb";
+  cctools_apple_version = "973.0.1";  # from README.md
   cctools_port_src = nixpkgs.fetchurl {
     url = "https://github.com/tpoechtrager/cctools-port/archive/${cctools_commit}.tar.gz";
-    sha256 = "02zrfx8zc1ab47jlfnk7jwdahzf5v96h32n5lxvagcglywr7wgra";
+    sha256 = "19z8fp7zw35xyril3nxgay5lp51sdw1pfsm7nqcp1hkv41lnr579";
   };
 
   # We build ld with clang because it uses "Blocks", a clang extension.
