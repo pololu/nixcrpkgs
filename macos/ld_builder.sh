@@ -24,14 +24,14 @@ mkdir build
 cd build
 
 CFLAGS="-Wno-format -Wno-deprecated -Wno-deprecated-declarations -Wno-unused-result"
-CFLAGS+=" -Wfatal-errors"
-CFLAGS+=" -O2 -g -fblocks"
-CFLAGS+=" -I../ld64/src -I../ld64/src/ld -I../ld64/src/ld/parsers -I../ld64/src/abstraction -I../ld64/src/3rd -I../ld64/src/3rd/include -I../ld64/src/3rd/BlocksRuntime -I../include -I../include/foreign"
-CFLAGS+=" -DTAPI_SUPPORT -DPROGRAM_PREFIX=\\\"$host-\\\""
-CFLAGS+=" $(pkg-config --cflags libtapi)"
+CFLAGS+=" -Wfatal-errors -O2 -g -fblocks"
+CFLAGS+=" -I../ld64/src -I../ld64/src/ld -I../ld64/src/ld/parsers -I../ld64/src/abstraction -I../ld64/src/3rd -I../ld64/src/3rd/include -I../ld64/src/3rd/BlocksRuntime"
+CFLAGS+=" -I../include -I../include/foreign"
+CFLAGS+=" $(pkg-config --cflags libtapi) -DTAPI_SUPPORT"
+CFLAGS+=" -DPROGRAM_PREFIX=\\\"$host-\\\""
 CFLAGS+=" -DHAVE_BCMP -DHAVE_BZERO -DHAVE_BCOPY -DHAVE_INDEX -DHAVE_RINDEX -D__LITTLE_ENDIAN__"
 
-CXXFLAGS="-std=gnu++11 $CFLAGS"
+CXXFLAGS="-std=gnu++17 $CFLAGS"
 
 LDFLAGS="$(pkg-config --libs libtapi) -ldl -lpthread"
 

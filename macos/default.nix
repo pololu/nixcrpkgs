@@ -83,8 +83,8 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     patches = [
-      #./cctools-format.patch
-      #./cctools-ld64-registers.patch
+      #./cctools-format.patch  TODO
+      #./cctools-ld64-registers.patch TODO
     ];
     builder = ./ld_builder.sh;
     native_inputs = [ nixpkgs.clang tapi ];
@@ -97,7 +97,7 @@ let
     src = ld.src;
     builder = ./ranlib_builder.sh;
     patches = [
-      #./cctools-format.patch
+      #./cctools-format.patch TODO
       ./cctools-bytesex.patch
     ];
     inherit host;
