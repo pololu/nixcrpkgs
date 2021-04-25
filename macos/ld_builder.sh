@@ -35,7 +35,7 @@ CXXFLAGS="-std=gnu++17 $CFLAGS"
 
 LDFLAGS="$(pkg-config --libs libtapi) -ldl -lpthread"
 
-for f in ../ld64/src/ld/*.c ../ld64/src/3rd/*.c; do
+for f in ../ld64/src/ld/*.c ../ld64/src/3rd/*.c ../ld64/src/3rd/**/*.c; do
   echo "compiling $f"
   eval "clang -c $CFLAGS $f -o $(basename $f).o"
 done
