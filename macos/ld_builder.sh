@@ -45,7 +45,7 @@ for f in $(find ../ld64/src -name \*.cpp); do
   eval "clang++ -c $CXXFLAGS $f -o $(basename $f).o"
 done
 
-clang *.o $LDFLAGS -o $host-ld
+clang++ *.o $LDFLAGS -o $host-ld
 
 mkdir -p $out/bin
 cp $host-ld $out/bin
