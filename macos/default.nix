@@ -83,8 +83,8 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     patches = [
+      ./cctools-ld64-abs-paths.patch
       #./cctools-format.patch  TODO
-      #./cctools-ld64-registers.patch TODO
     ];
     builder = ./ld_builder.sh;
     native_inputs = [ nixpkgs.clang tapi ];

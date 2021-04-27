@@ -1,0 +1,37 @@
+diff -ur cctools-port-a635ceb/cctools/ld64/src/ld/Options.cpp cctools-port-abs-paths/cctools/ld64/src/ld/Options.cpp
+--- cctools-port-a635ceb/cctools/ld64/src/ld/Options.cpp	2021-03-20 11:16:02.000000000 -0700
++++ cctools-port-abs-paths/cctools/ld64/src/ld/Options.cpp	2021-04-25 14:54:01.276000000 -0700
+@@ -4385,15 +4385,15 @@
+ 	if ( addStandardLibraryDirectories ) {
+ 		if ( platform == ld::Platform::driverKit ) {
+ 			// <rdar://problem/60663707> ld64 should use different default search paths for driverkit programs, so clang does not have to add them
+-			libraryPaths.push_back("/System/DriverKit/usr/lib");
+-			frameworkPaths.push_back("/System/DriverKit/System/Library/Frameworks/");
++			libraryPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/System/DriverKit/usr/lib");
++			frameworkPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/System/DriverKit/System/Library/Frameworks/");
+ 		}
+ 		else {
+-			libraryPaths.push_back("/usr/lib");
+-			libraryPaths.push_back("/usr/local/lib");
++			libraryPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/usr/lib");
++			libraryPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/usr/local/lib");
+ 
+-			frameworkPaths.push_back("/Library/Frameworks/");
+-			frameworkPaths.push_back("/System/Library/Frameworks/");
++			frameworkPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/Library/Frameworks/");
++			frameworkPaths.push_back("/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/System/Library/Frameworks/");
+ 		}
+ 	}
+ 
+diff -ur cctools-port-a635ceb/cctools/libstuff/dylib_table.c cctools-port-abs-paths/cctools/libstuff/dylib_table.c
+--- cctools-port-a635ceb/cctools/libstuff/dylib_table.c	2021-03-20 11:16:02.000000000 -0700
++++ cctools-port-abs-paths/cctools/libstuff/dylib_table.c	2021-04-25 14:51:36.572000000 -0700
+@@ -36,7 +36,7 @@
+ #include "stuff/allocate.h"
+ #include "stuff/dylib_table.h"
+ /* This may change to "/MacOSX/System" someday */
+-#define SYSTEM_LIBRARY "/System/Library"
++#define SYSTEM_LIBRARY "/does-not-exist-71dc680a636e4e5e8ce7a99068e22aa0/System/Library"
+ 
+ /*
+  * parse_dylib_table() opens the file_name passed to it and parses it as a
