@@ -84,7 +84,6 @@ let
     src = cctools_port_src;
     patches = [
       ./cctools-ld64-abs-paths.patch
-      #./cctools-format.patch  TODO
     ];
     builder = ./ld_builder.sh;
     native_inputs = [ nixpkgs.clang tapi ];
@@ -97,7 +96,6 @@ let
     src = ld.src;
     builder = ./ranlib_builder.sh;
     patches = [
-      #./cctools-format.patch TODO
       ./cctools-bytesex.patch
     ];
     inherit host;
