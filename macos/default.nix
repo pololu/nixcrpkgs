@@ -107,7 +107,6 @@ let
     src = cctools_port_src;
     builder = ./ar_builder.sh;
     patches = [
-      ./cctools-format.patch
       ./cctools-libstuff-no-error.patch
     ];
     inherit host ranlib;
@@ -118,8 +117,7 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     builder = ./lipo_builder.sh;
-    patches = [
-    ];
+    patches = [];
     inherit host;
   };
 
@@ -128,9 +126,7 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     builder = ./strip_builder.sh;
-    patches = [
-      ./cctools-format.patch
-    ];
+    patches = [];
     inherit host;
   };
 
@@ -222,7 +218,7 @@ let
     global_license_set = { compiler_rt = compiler_rt.license; };
 
     # Handy shortcuts.
-    inherit clang compiler_rt tapi ld ranlib ar lipo sdk toolchain;
+    inherit clang compiler_rt tapi ld ranlib ar lipo strip sdk toolchain;
 
     # Build tools available on the PATH for every derivation.
     default_native_inputs = native.default_native_inputs
