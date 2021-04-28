@@ -1,0 +1,12 @@
+diff --no-dereference -ur apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h apple-libtapi-fixed/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h
+--- apple-libtapi-a66284251b46d591ee4a0cb4cf561b92a0c138d8/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h	2020-08-31 22:29:49.000000000 -0700
++++ apple-libtapi-fixed/src/llvm/projects/libtapi/include/tapi/LinkerInterfaceFile.h	2020-11-29 15:40:33.705448412 -0800
+@@ -78,7 +78,7 @@
+   /// This value is temporary for bringup and will be removed.
+   /// \since 1.4
+   zippered = ~0U,
+-} __attribute__((deprecated));
++};
+
+ ///
+ /// \brief Defines a list of Objective-C constraints.

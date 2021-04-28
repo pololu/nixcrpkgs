@@ -26,7 +26,7 @@ class Array
   def sum
     inject(0, :+)
   end
-end
+end unless Array.instance_methods.include?(:sum)
 
 class AnticipatedError < RuntimeError
 end

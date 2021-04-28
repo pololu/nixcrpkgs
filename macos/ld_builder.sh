@@ -23,23 +23,29 @@ rm -r ld64/src/other
 mkdir build
 cd build
 
-CFLAGS="-Wno-deprecated -Wno-deprecated-declarations -Wno-unused-result -Werror -Wfatal-errors -O2 -g -I../ld64/src -I../ld64/src/ld -I../ld64/src/ld/parsers -I../ld64/src/abstraction -I../ld64/src/3rd -I../ld64/src/3rd/include -I../ld64/src/3rd/BlocksRuntime -I../include -I../include/foreign -DTAPI_SUPPORT -DPROGRAM_PREFIX=\\\"$host-\\\" -D__LITTLE_ENDIAN__ -D__private_extern__= $(pkg-config --cflags libtapi)"
+CFLAGS="-Wno-format -Wno-deprecated -Wno-deprecated-declarations -Wno-unused-result"
+CFLAGS+=" -Wfatal-errors -O2 -g -fblocks"
+CFLAGS+=" -I../ld64/src -I../ld64/src/ld -I../ld64/src/ld/parsers -I../ld64/src/abstraction -I../ld64/src/3rd -I../ld64/src/3rd/include -I../ld64/src/3rd/BlocksRuntime"
+CFLAGS+=" -I../include -I../include/foreign"
+CFLAGS+=" $(pkg-config --cflags libtapi) -DTAPI_SUPPORT"
+CFLAGS+=" -DPROGRAM_PREFIX=\\\"$host-\\\""
+CFLAGS+=" -DHAVE_BCMP -DHAVE_BZERO -DHAVE_BCOPY -DHAVE_INDEX -DHAVE_RINDEX -D__LITTLE_ENDIAN__"
 
-CXXFLAGS="-std=gnu++11 $CFLAGS"
+CXXFLAGS="-std=gnu++17 $CFLAGS"
 
 LDFLAGS="$(pkg-config --libs libtapi) -ldl -lpthread"
 
-for f in ../ld64/src/ld/*.c ../ld64/src/3rd/*.c; do
+for f in ../ld64/src/ld/*.c ../ld64/src/3rd/*.c ../ld64/src/3rd/**/*.c; do
   echo "compiling $f"
-  eval "gcc -c $CFLAGS $f -o $(basename $f).o"
+  eval "clang -c $CFLAGS $f -o $(basename $f).o"
 done
 
 for f in $(find ../ld64/src -name \*.cpp); do
   echo "compiling $f"
-  eval "g++ -c $CXXFLAGS $f -o $(basename $f).o"
+  eval "clang++ -c $CXXFLAGS $f -o $(basename $f).o"
 done
 
-g++ *.o $LDFLAGS -o $host-ld
+clang++ *.o $LDFLAGS -o $host-ld
 
 mkdir -p $out/bin
 cp $host-ld $out/bin
