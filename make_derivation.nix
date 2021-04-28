@@ -32,7 +32,7 @@ let
   };
 
   default_attrs = {
-    system = builtins.currentSystem;
+    system = nixpkgs.system;
 
     SHELL = "${nixpkgs.bashInteractive}/bin/bash";
 
