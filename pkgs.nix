@@ -37,6 +37,18 @@ rec {
     inherit crossenv;
   };
 
+  gmp = import ./pkgs/gmp {
+    inherit crossenv;
+  };
+
+  mpfr = import ./pkgs/mpfr {
+    inherit crossenv gmp;
+  };
+
+  libmpc = import ./pkgs/libmpc {
+    inherit crossenv gmp mpfr;
+  };
+
   gdb = import ./pkgs/gdb {
     inherit crossenv expat;
     curses = pdcurses;
