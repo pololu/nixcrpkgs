@@ -3,7 +3,7 @@
 rec {
   inherit nixpkgs;
 
-  # Some native build tools.
+  # Some native build tools and libraries.
   native = import ./native { inherit nixpkgs; };
 
   # Cross-compiling environments for each target system.

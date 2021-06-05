@@ -6,8 +6,7 @@ mv mpc-* libmpc
 mkdir build
 cd build
 
-../libmpc/configure --prefix=$out --host=$host --disable-shared \
-  --with-gmp=$gmp --with-mpfr=$mpfr
+../libmpc/configure --prefix=$out $configure_flags
 
 make
 

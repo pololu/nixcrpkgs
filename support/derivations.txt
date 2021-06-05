@@ -15,7 +15,7 @@ omni.dejavu-fonts
 {$windows}.gdb
 {$all}.hello
 {$all}.hello_cpp
-{$all}.libmpc
+{$all,native}.libmpc
 {$linux}.libudev
 {$all}.libusb
 {$all}.libusbp{,.examples}

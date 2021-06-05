@@ -6,7 +6,7 @@ mv gmp-* gmp
 mkdir build
 cd build
 
-../gmp/configure --prefix=$out --host=$host --disable-shared
+../gmp/configure --prefix=$out $configure_flags
 
 make
 

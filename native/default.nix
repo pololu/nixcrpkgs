@@ -31,14 +31,15 @@ let
     make_derivation = import ../make_derivation.nix native_base;
   };
 
-  pkgconf = import ./pkgconf { env = native_base; };
+  native = native_base // rec {
+    pkgconf = import ./pkgconf { env = native_base; };
+    gmp = import ../pkgs/gmp { env = native_base; };
+    mpfr = import ../pkgs/mpfr { env = native_base; inherit gmp; };
+    libmpc = import ../pkgs/libmpc { env = native_base; inherit gmp mpfr; };
 
-  native = native_base // {
     default_native_inputs = native_base.default_native_inputs ++ [
       pkgconf
     ];
-
-    inherit pkgconf;
 
     make_derivation = import ../make_derivation.nix native;
   };

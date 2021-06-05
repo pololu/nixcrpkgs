@@ -38,15 +38,17 @@ rec {
   };
 
   gmp = import ./pkgs/gmp {
-    inherit crossenv;
+    env = crossenv;
   };
 
   mpfr = import ./pkgs/mpfr {
-    inherit crossenv gmp;
+    env = crossenv;
+    inherit gmp;
   };
 
   libmpc = import ./pkgs/libmpc {
-    inherit crossenv gmp mpfr;
+    env = crossenv;
+    inherit gmp mpfr;
   };
 
   gdb = import ./pkgs/gdb {
