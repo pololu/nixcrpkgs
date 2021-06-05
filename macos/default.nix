@@ -89,11 +89,11 @@ let
     inherit host;
   };
 
-  ranlib = native.make_derivation rec {
-    name = "cctools-ranlib";
+  misc = native.make_derivation rec {
+    name = "cctools-misc";
     apple_version = cctools_apple_version;
-    src = ld.src;
-    builder = ./ranlib_builder.sh;
+    src = cctools_port_src;
+    builder = ./misc_builder.sh;
     patches = [
       ./cctools-bytesex.patch
     ];
@@ -108,25 +108,8 @@ let
     patches = [
       ./cctools-libstuff-no-error.patch
     ];
-    inherit host ranlib;
-  };
-
-  lipo = native.make_derivation rec {
-    name = "cctools-lipo";
-    apple_version = cctools_apple_version;
-    src = cctools_port_src;
-    builder = ./lipo_builder.sh;
-    patches = [];
     inherit host;
-  };
-
-  strip = native.make_derivation rec {
-    name = "cctools-strip";
-    apple_version = cctools_apple_version;
-    src = cctools_port_src;
-    builder = ./strip_builder.sh;
-    patches = [];
-    inherit host;
+    ranlib = misc;
   };
 
   sdk = native.make_derivation rec {
@@ -155,7 +138,7 @@ let
 
     patches = [ ./compiler_rt.patch ];
 
-    native_inputs = [ clang ar ranlib lipo ld nixpkgs.python2 ];
+    native_inputs = [ clang ld misc ar nixpkgs.python2 ];
 
     _cflags = "-target ${host} --sysroot ${sdk} " +
       "-I${sdk}/usr/include -mlinker-version=${ld.apple_version}";
@@ -169,7 +152,7 @@ let
       "-DDARWIN_osx_SYSROOT=${sdk} " +
       "-DCMAKE_LINKER=${ld}/bin/${host}-ld " +
       "-DCMAKE_AR=${ar}/bin/${host}-ar " +
-      "-DCMAKE_RANLIB=${ranlib}/bin/${host}-ranlib " +
+      "-DCMAKE_RANLIB=${misc}/bin/${host}-ranlib " +
       "-DCOMPILER_RT_BUILD_XRAY=OFF";
 
     inherit host sdk;
@@ -179,7 +162,7 @@ let
     name = "macos-toolchain";
     builder = ./toolchain_builder.sh;
     src_file = ./wrapper.cpp;
-    inherit host clang ld ranlib ar lipo strip;
+    inherit host clang ld misc ar;
 
     CXXFLAGS =
       "-std=c++11 " +
@@ -217,7 +200,7 @@ let
     global_license_set = { compiler_rt = compiler_rt.license; };
 
     # Handy shortcuts.
-    inherit clang compiler_rt tapi ld ranlib ar lipo strip sdk toolchain;
+    inherit clang compiler_rt tapi ld misc ar sdk toolchain;
 
     # Build tools available on the PATH for every derivation.
     default_native_inputs = native.default_native_inputs

@@ -35,16 +35,33 @@ CFLAGS+=" -D__LITTLE_ENDIAN__ -D__private_extern__= -D__DARWIN_UNIX03"
 CFLAGS+=" -DEMULATED_HOST_CPU_TYPE=16777223 -DEMULATED_HOST_CPU_SUBTYPE=3"
 CFLAGS+=" -DHAVE_BCMP -DHAVE_BZERO -DHAVE_BCOPY -DHAVE_INDEX -DHAVE_RINDEX"
 
-CXXFLAGS="-std=gnu++17 $CFLAGS"
+LDFLAGS="-ldl -lm -lpthread"
 
-LDFLAGS="-ldl -lpthread"
-
-for f in ../misc/strip.c ../libstuff/*.c; do
+for f in ../libstuff/*.c; do
   echo "compiling $f"
   eval "gcc -c $CFLAGS $f -o $(basename $f).o"
 done
 
-gcc *.o $LDFLAGS -o $host-strip
+echo building $host-libtool
+eval "gcc ../misc/libtool.c *.o $CFLAGS $LDFLAGS -o $host-libtool"
+
+echo building lipo
+eval "gcc ../misc/lipo.c *.o $CFLAGS $LDFLAGS -o lipo"
+
+echo building $host-nm
+eval "gcc ../misc/nm.c *.o $CFLAGS $LDFLAGS -o $host-nm"
+
+echo building $host-size
+eval "gcc ../misc/size.c *.o $CFLAGS $LDFLAGS -o $host-size"
+
+echo building $host-strings
+eval "gcc ../misc/strings.c *.o $CFLAGS $LDFLAGS -o $host-strings"
+
+echo building $host-strip
+eval "gcc ../misc/strip.c *.o $CFLAGS $LDFLAGS -o $host-strip"
+
+echo building $host-ranlib
+eval "gcc ../misc/libtool.c *.o -DRANLIB $CFLAGS $LDFLAGS -o $host-ranlib"
 
 mkdir -p $out/bin
-cp $host-strip $out/bin/
+cp $host-* lipo $out/bin/
