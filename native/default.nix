@@ -6,6 +6,8 @@ let
 
     is_cross = false;
 
+    exe_suffix = "";
+
     default_native_inputs = [
       nixpkgs.bashInteractive
       nixpkgs.binutils

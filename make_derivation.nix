@@ -45,12 +45,14 @@ let
       (if attrs ? PKG_CONFIG_PATH then [attrs.PKG_CONFIG_PATH] else []) ++
       (path_map "/lib/pkgconfig" native_inputs)
     );
+
+    inherit (env) exe_suffix;
   };
 
   cross_attrs = if !env.is_cross then {} else {
     NIXCRPKGS = true;
 
-    inherit (env) host arch os exe_suffix;
+    inherit (env) host arch os;
 
     PKG_CONFIG_CROSS_PATH = path_join (
       (if attrs ? PKG_CONFIG_CROSS_PATH then [attrs.PKG_CONFIG_CROSS_PATH] else []) ++
