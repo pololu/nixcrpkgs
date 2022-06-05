@@ -99,11 +99,12 @@ To generate the tarball, follow these steps:
 2. Download this repository to the machine.
 3. In a Terminal window, run the `macos/gen_sdk_package.sh` script from this repository.
 4. After several minutes, the current directory should have a tarball with a name like
-  `MacOSX10.12.sdk.tar.xz` and a size of about 25 MB.
+  `MacOSX12.3.sdk.tar.bz2` and a size of about 100 MB.
 5. Copy the SDK tarball file to the machine where you will be building software,
   and put it in the `macos` directory.
 6. The nixcrpkgs build recipe for the SDK is hardcoded to look for a file named
-  `MacOSX.sdk.tar.xz`, so rename the tarball to that.
+  `MacOSX.sdk.tar.xz`, so rename the tarball to that.  (Changing the extension
+   is fine.)
 7. Consider keeping a backup of the tarball so you can always rebuild any software you
   made with it.
 

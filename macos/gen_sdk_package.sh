@@ -1,13 +1,77 @@
 #!/usr/bin/env bash
 #
-# Package the OS X SDKs into a tar file to be used by `build.sh`.
+# Package the macOS SDKs into a tar file to be used by `build.sh`.
 #
 
-# This file comes from the osxcross project and is licensed under the GNU GPLv2.
-# For more information, see the `COPYING` file from:
-#  https://github.com/tpoechtrager/osxcross/tree/1a1733a773fe26e7b6c93b16fbf9341f22fac831
+# The code below is copyrighted by Thomes Poechtrager and can be licensed under the
+# GNU GPLv2.  It comes from:
+# https://github.com/tpoechtrager/osxcross/blob/610542781/tools/gen_sdk_package.sh
+# Modifications have been made to it by other authors.
 
 export LC_ALL=C
+
+
+command -v gnutar &>/dev/null
+
+if [ $? -eq 0 ]; then
+  TAR=gnutar
+else
+  TAR=tar
+fi
+
+
+if [ -z "$SDK_COMPRESSOR" ]; then
+  command -v xz &>/dev/null
+
+  if [ $? -eq 0 ]; then
+    SDK_COMPRESSOR=xz
+    SDK_EXT="tar.xz"
+  else
+    SDK_COMPRESSOR=bzip2
+    SDK_EXT="tar.bz2"
+  fi
+fi
+
+case $SDK_COMPRESSOR in
+  "gz")
+    SDK_COMPRESSOR=gzip
+    SDK_EXT=".tar.gz"
+    ;;
+  "bzip2")
+    SDK_EXT=".tar.bz2"
+    ;;
+  "xz")
+    SDK_EXT=".tar.xz"
+    ;;
+  "zip")
+    SDK_EXT=".zip"
+    ;;
+  *)
+    echo "error: unknown compressor \"$SDK_COMPRESSOR\"" >&2
+    exit 1
+esac
+
+function compress()
+{
+  case $SDK_COMPRESSOR in
+    "zip")
+      $SDK_COMPRESSOR -q -5 -r - $1 > $2 ;;
+    *)
+      tar cf - $1 | $SDK_COMPRESSOR -5 - > $2 ;;
+  esac
+}
+
+
+function rreadlink()
+{
+  if [ ! -h "$1" ]; then
+    echo "$1"
+  else
+    local link="$(expr "$(command ls -ld -- "$1")" : '.*-> \(.*\)$')"
+    cd $(dirname $1)
+    rreadlink "$link" | sed "s|^\([^/].*\)\$|$(dirname $1)/\1|"
+  fi
+}
 
 function set_xcode_dir()
 {
@@ -22,17 +86,18 @@ function set_xcode_dir()
   fi
 }
 
+
 if [ $(uname -s) != "Darwin" ]; then
   if [ -z "$XCODEDIR" ]; then
-    echo "This script must be run on OS X" 1>&2
+    echo "This script must be run on macOS" 1>&2
     echo "... Or with XCODEDIR=... on Linux" 1>&2
     exit 1
   else
-    case $XCODEDIR in
+    case "$XCODEDIR" in
       /*) ;;
       *) XCODEDIR="$PWD/$XCODEDIR" ;;
     esac
-    set_xcode_dir $XCODEDIR
+    set_xcode_dir "$XCODEDIR"
   fi
 else
   set_xcode_dir $(echo /Volumes/Xcode* | tr ' ' '\n' | grep -v "beta" | head -n1)
@@ -51,7 +116,7 @@ else
   fi
 fi
 
-if [ ! -d $XCODEDIR ]; then
+if [ ! -d "$XCODEDIR" ]; then
   echo "cannot find Xcode (XCODEDIR=$XCODEDIR)" 1>&2
   exit 1
 fi
@@ -60,27 +125,9 @@ echo -e "found Xcode: $XCODEDIR"
 
 WDIR=$(pwd)
 
-which gnutar &>/dev/null
-
-if [ $? -eq 0 ]; then
-  TAR=gnutar
-else
-  TAR=tar
-fi
-
-which xz &>/dev/null
-
-if [ $? -eq 0 ]; then
-  COMPRESSOR=xz
-  PKGEXT="tar.xz"
-else
-  COMPRESSOR=bzip2
-  PKGEXT="tar.bz2"
-fi
-
 set -e
 
-pushd $XCODEDIR &>/dev/null
+pushd "$XCODEDIR" &>/dev/null
 
 if [ -d "Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs" ]; then
   pushd "Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs" &>/dev/null
@@ -101,12 +148,12 @@ else
         exit 1
       fi
 
-      pushd $SDKDIR &>/dev/null
+      pushd "$SDKDIR" &>/dev/null
     fi
   fi
 fi
 
-SDKS=$(ls | grep "^MacOSX10.*" | grep -v "Patch")
+SDKS=$(ls | grep -E "^MacOSX\d.*" | grep -v "Patch")
 
 if [ -z "$SDKS" ]; then
     echo "No SDK found" 1>&2
@@ -132,9 +179,11 @@ for SDK in $SDKS; do
   fi
 
   TMP=$(mktemp -d /tmp/XXXXXXXXXXX)
-  cp -r $SDK $TMP &>/dev/null || true
+  cp -r $(rreadlink $SDK) $TMP/$SDK &>/dev/null || true
 
-  pushd $XCODEDIR &>/dev/null
+  pushd "$XCODEDIR" &>/dev/null
+
+  mkdir -p $TMP/$SDK/usr/include/c++
 
   # libc++ headers for C++11/C++14
   if [ -d $LIBCXXDIR1 ]; then
@@ -151,7 +200,7 @@ for SDK in $SDKS; do
   popd &>/dev/null
 
   pushd $TMP &>/dev/null
-  $TAR -cf - * | $COMPRESSOR -9 -c - > "$WDIR/$SDK.$PKGEXT"
+  compress "*" "$WDIR/$SDK$SDK_EXT"
   popd &>/dev/null
 
   rm -rf $TMP
