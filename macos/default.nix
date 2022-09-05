@@ -21,41 +21,45 @@ let
 
   # Qt 5.12 expects macOS 10.12 or later
   # (see macx.conf and http://doc.qt.io/qt-5/macos.html).
-  macos_version_min = "10.12";
+  macos_version_min = "11.0";  # TODO: is this OK?
 
   host = "${arch}-apple-${darwin_name}";
 
+  clang_version = "14.0.6";  # 2022-06-24
+
+  clang_src = nixpkgs.fetchurl {
+    url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${clang_version}/clang-${clang_version}.src.tar.xz";
+    sha256 = "K1hHtqYxGLnv5chVSDY8gf/glrZsOzZ16VPiY0KuQDE=";
+  };
+
+  llvm_src = nixpkgs.fetchurl {
+    url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${clang_version}/llvm-${clang_version}.src.tar.xz";
+    sha256 = "BQki7KrKV4H99mMeqSvHFRg/IC+dLxUUcibwI0FPYZo=";
+  };
+
+  compiler-rt_src = nixpkgs.fetchurl {
+    url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${clang_version}/compiler-rt-${clang_version}.src.tar.xz";
+    sha256 = "iN8wOEDKj7/5ROFeYcFBIm/nn10rjon7AkJk13hBoC4=";
+  };
+
   clang = native.make_derivation rec {
-    name = "clang-${version}";
+    name = "clang-${clang_version}";
 
-    version = "7.0.1";
+    version = clang_version;  # TODO: remove
+    src = clang_src;
+    inherit llvm_src;
 
-    src = nixpkgs.fetchurl {
-      url = "http://releases.llvm.org/${version}/cfe-${version}.src.tar.xz";
-      sha256 = "067lwggnbg0w1dfrps790r5l6k8n5zwhlsw7zb6zvmfpwpfn4nx4";
-    };
-
-    llvm_src = nixpkgs.fetchurl {
-      url = "http://releases.llvm.org/${version}/llvm-${version}.src.tar.xz";
-      sha256 = "16s196wqzdw4pmri15hadzqgdi926zln3an2viwyq0kini6zr3d3";
-    };
-
-    # Note: We aren't actually using lld for anything yet.
-    lld_src = nixpkgs.fetchurl {
-      url = "http://releases.llvm.org/${version}/lld-${version}.src.tar.xz";
-      sha256 = "0ca0qygrk87lhjk6cpv1wbmdfnficqqjsda3k7b013idvnralsc8";
-    };
-
-    patches = [ ./clang.patch ];
+    patches = [ ];  # TODO: port clang7.patch to our new version
 
     builder = ./clang_builder.sh;
 
-    native_inputs = [ nixpkgs.python2 ];
+    native_inputs = [ nixpkgs.python3 ];
 
     cmake_flags =
       "-DCMAKE_BUILD_TYPE=Release " +
       # "-DCMAKE_BUILD_TYPE=Debug " +
       "-DLLVM_TARGETS_TO_BUILD=X86\;ARM\;AArch64 " +
+      "-DLLVM_INCLUDE_BENCHMARKS=OFF " +
       "-DLLVM_ENABLE_ASSERTIONS=OFF";
   };
 
@@ -64,19 +68,19 @@ let
     version = "1100.0.11";
     TAPI_REPOSITORY_STRING = "tpoechtrager/apple-libtapi";
     src = nixpkgs.fetchurl {
-      url = "https://github.com/tpoechtrager/apple-libtapi/archive/a662842.tar.gz";
-      sha256 = "01xk02m9n964h3bzq1p4r4ijrr44pwgnijg18yvc8h68bc0slfpy";
+      url = "https://github.com/tpoechtrager/apple-libtapi/archive/b7b5bdb.tar.gz";  # 2022-05-29
+      sha256 = "V3uG9XKfJNwQ66SJlTY8/9XWK7CATIBR4cGi8IpxBzc=";
     };
     patches = [ ./tapi.patch ];
     builder = ./tapi_builder.sh;
     native_inputs = [ nixpkgs.python3 ];
   };
 
-  cctools_commit = "a635ceb";
+  cctools_commit = "0466329";  # 2022-01-14
   cctools_apple_version = "973.0.1";  # from README.md
   cctools_port_src = nixpkgs.fetchurl {
     url = "https://github.com/tpoechtrager/cctools-port/archive/${cctools_commit}.tar.gz";
-    sha256 = "19z8fp7zw35xyril3nxgay5lp51sdw1pfsm7nqcp1hkv41lnr579";
+    sha256 = "cKcYlBjCCG0gwpnF1ZJQz1lAeCx3iJLMyJnGZRbtJA4=";
   };
 
   # We build ld with clang because it uses "Blocks", a clang extension.
@@ -127,20 +131,15 @@ let
   # i386, x86_64, x86_64h.  It uses lipo to create fat archives that hold
   # binaries for all the different architectures.
   compiler_rt = native.make_derivation rec {
-    name = "compiler-rt-${version}";
+    name = "compiler-rt-${clang_version}";
 
-    version = clang.version;
-
-    src = nixpkgs.fetchurl {
-      url = "http://releases.llvm.org/7.0.1/compiler-rt-${version}.src.tar.xz";
-      sha256 = "065ybd8fsc4h2hikbdyricj6pyv4r7r7kpcikhb2y5zf370xybkq";
-    };
+    src = compiler-rt_src;
 
     builder = ./compiler_rt_builder.sh;
 
-    patches = [ ./compiler_rt.patch ];
+    patches = [ ./compiler_rt.patch ]; # TODO: port compiler_rt7.patch to this version
 
-    native_inputs = [ clang ld misc ar nixpkgs.python2 ];
+    native_inputs = [ clang ld misc ar nixpkgs.python3 ];
 
     _cflags = "-target ${host} --sysroot ${sdk} " +
       "-I${sdk}/usr/include -mlinker-version=${ld.apple_version}";
@@ -152,6 +151,7 @@ let
       "-DCMAKE_SYSTEM_NAME=Darwin " +
       "-DCMAKE_OSX_SYSROOT=${sdk} " +
       "-DDARWIN_osx_SYSROOT=${sdk} " +
+      "-DDARWIN_macosx_OVERRIDE_SDK_VERSION=${sdk.version} " +
       "-DCMAKE_LINKER=${ld}/bin/${host}-ld " +
       "-DCMAKE_AR=${ar}/bin/${host}-ar " +
       "-DCMAKE_RANLIB=${misc}/bin/${host}-ranlib " +
