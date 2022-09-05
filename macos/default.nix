@@ -1,20 +1,22 @@
-# Note: There are 3 LLVM versions in sight here:
+# Note: There are 4 LLVM versions in sight here:
 # 1. The one that comes with tapi.
 #    (Just so that the tapi library can use its YAML parser!)
-# 2. The used by nixpkgs.clang which we use to build ld.
+# 2. The one used by nixpkgs.clang which we use to build ld.
 # 3. The one we build here (macos.clang) and use as our cross-compiler.
+# 4. The one that provides compiler-rt.
 
 # Note: To reduce clutter here, it might be nice to move clang to
 # `native`, and also make `native` provide a function for building
 # binutils.  So clang and binutils recipes could be shared by the
 # different platforms we targets.
 
-{ native, macos_sdk }:
+{ native, macos_sdk, arch }:
 let
   nixpkgs = native.nixpkgs;
 
-  arch = "x86_64";
-
+  # Note: According to build.sh in the osxcross project, we should set the
+  # number in the darwin name based on the SDK version we have, but I am not
+  # sure it matters.
   darwin_name = "darwin15";
 
   # Qt 5.12 expects macOS 10.12 or later
@@ -53,7 +55,7 @@ let
     cmake_flags =
       "-DCMAKE_BUILD_TYPE=Release " +
       # "-DCMAKE_BUILD_TYPE=Debug " +
-      "-DLLVM_TARGETS_TO_BUILD=X86\;ARM " +
+      "-DLLVM_TARGETS_TO_BUILD=X86\;ARM\;AArch64 " +
       "-DLLVM_ENABLE_ASSERTIONS=OFF";
   };
 
