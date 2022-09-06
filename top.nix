@@ -58,7 +58,9 @@ rec {
   linux-rpi = armv6-linux-musl;
   rpi = armv6-linux-musl;
   macos = x86_64-macos;
-  mac = macos;
+  mac = x86_64-macos;
+  macos-arm = arm64-macos;
+  mac-arm = arm64-macos;
 
   # filter is a function that can be applied to a local directory to filter out
   # files that are likely to change frequently without affecting the build,
