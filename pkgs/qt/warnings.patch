@@ -1,0 +1,45 @@
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/corelib/kernel/qvariant.h qtbase-everywhere-src-5.12.4/src/corelib/kernel/qvariant.h
+--- qtbase-everywhere-src-5.12.4-orig/src/corelib/kernel/qvariant.h	2022-09-05 17:16:33.796000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/corelib/kernel/qvariant.h	2022-09-06 09:48:15.325000000 -0700
+@@ -396,10 +396,6 @@
+             : type(variantType), is_shared(false), is_null(false)
+         {}
+ 
+-        inline Private(const Private &other) Q_DECL_NOTHROW
+-            : data(other.data), type(other.type),
+-              is_shared(other.is_shared), is_null(other.is_null)
+-        {}
+         union Data
+         {
+             char c;
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qlinkedlist.h qtbase-everywhere-src-5.12.4/src/corelib/tools/qlinkedlist.h
+--- qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qlinkedlist.h	2022-09-05 17:16:33.804000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/corelib/tools/qlinkedlist.h	2022-09-06 09:58:47.661000000 -0700
+@@ -346,7 +346,7 @@
+         i = i->n;
+         delete n;
+     }
+-    delete x;
++    if (x != nullptr) delete x;
+ }
+ 
+ template <typename T>
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qlist.h qtbase-everywhere-src-5.12.4/src/corelib/tools/qlist.h
+--- qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qlist.h	2022-09-05 17:16:33.804000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/corelib/tools/qlist.h	2022-09-06 09:56:03.789000000 -0700
+@@ -236,7 +236,6 @@
+ #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+         // can't remove it in Qt 5, since doing so would make the type trivial,
+         // which changes the way it's passed to functions by value.
+-        inline iterator(const iterator &o) Q_DECL_NOTHROW : i(o.i){}
+ #endif
+         inline T &operator*() const { return i->t(); }
+         inline T *operator->() const { return &i->t(); }
+@@ -289,7 +288,6 @@
+ #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+         // can't remove it in Qt 5, since doing so would make the type trivial,
+         // which changes the way it's passed to functions by value.
+-        inline const_iterator(const const_iterator &o) Q_DECL_NOTHROW : i(o.i) {}
+ #endif
+ #ifdef QT_STRICT_ITERATORS
+         inline explicit const_iterator(const iterator &o) Q_DECL_NOTHROW : i(o.i) {}

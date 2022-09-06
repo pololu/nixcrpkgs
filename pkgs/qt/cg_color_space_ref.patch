@@ -1,0 +1,11 @@
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h qtbase-everywhere-src-5.12.4/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h
+--- qtbase-everywhere-src-5.12.4-orig/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h	2022-09-05 17:16:33.764000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h	2022-09-06 09:41:32.853000000 -0700
+@@ -42,6 +42,7 @@
+ 
+ #include <qpa/qplatformgraphicsbuffer.h>
+ #include <private/qcore_mac_p.h>
++#include "qpaintengine_mac_p.h"
+ 
+ QT_BEGIN_NAMESPACE
+ 

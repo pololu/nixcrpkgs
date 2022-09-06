@@ -45,8 +45,8 @@ let
       ./absolute-paths.patch
 
       # macOS configuration: Don't run tools from /usr/bin, use the right
-      # compiler, and don't pass redundant options to it (-arch, -isysroot,
-      # -mmacosx-version-min).
+      # compiler, and don't pass redundant options to it (-arch, -isysroot).
+      # Qt still passes -mmacosx-version-min but I think it's redundant.
       ./macos-config.patch
 
       # Qt uses X11/cursorfont.h, which is from libx11, but it does not
@@ -81,7 +81,23 @@ let
       # with your application (e.g. https://dejavu-fonts.github.io/ ).
       # That list of extensions comes from qbasicfontdatabase.cpp.
       ./font-dir.patch
+
+      # Fix compilation errors on macOS due to use of std::numeric_limits
+      # without including its header.
+      ./include_limits.patch
+
+      # Fix a compilation error about CGColorSpaceRef on macOS.
+      ./cg_color_space_ref.patch
+
+      # Fix some warnings that make the build output noisy and possibly
+      # indicate bugs.
+      ./warnings.patch
     ];
+
+    # Try to silence a warning coming from qvariant.h.
+    #CPPFLAGS="-Wno-deprecated-copy-with-user-provided-copy";  # does nothing
+    #CXXFLAGS="-Wno-deprecated-copy-with-user-provided-copy";
+    #QMAKE_CXXFLAGS="-Wno-deprecated-copy-with-user-provided-copy";
 
     configure_flags =
       "-opensource -confirm-license " +

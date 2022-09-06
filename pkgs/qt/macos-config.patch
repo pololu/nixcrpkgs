@@ -1,6 +1,6 @@
-diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/common/clang-mac.conf qtbase-everywhere-src-5.12.4/mkspecs/common/clang-mac.conf
---- qtbase-everywhere-src-5.12.4-orig/mkspecs/common/clang-mac.conf	2019-08-17 11:27:28.315000000 -0700
-+++ qtbase-everywhere-src-5.12.4/mkspecs/common/clang-mac.conf	2019-08-17 11:28:33.791000000 -0700
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/common/clang-mac.conf qtbase-everywhere-src-5.12.4/mkspecs/common/clang-mac.conf
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/common/clang-mac.conf	2022-09-05 17:16:33.700000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/common/clang-mac.conf	2022-09-05 17:55:58.140000000 -0700
 @@ -6,8 +6,6 @@
  
  QMAKE_XCODE_GCC_VERSION = com.apple.compilers.llvm.clang.1_0
@@ -10,9 +10,21 @@ diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/common/clang-mac.conf qtbase-
  QMAKE_AR_LTCG  = libtool -static -o
  
  QMAKE_CFLAGS_APPLICATION_EXTENSION  = -fapplication-extension
-diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_post.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_post.prf
---- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_post.prf	2019-08-17 11:27:28.327000000 -0700
-+++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_post.prf	2019-08-17 11:28:33.791000000 -0700
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/common/macx.conf qtbase-everywhere-src-5.12.4/mkspecs/common/macx.conf
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/common/macx.conf	2022-09-05 17:16:33.700000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/common/macx.conf	2022-09-05 17:56:48.572000000 -0700
+@@ -5,7 +5,7 @@
+ QMAKE_PLATFORM         += macos osx macx
+ QMAKE_MAC_SDK           = macosx
+ 
+-QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.12
++QMAKE_MACOSX_DEPLOYMENT_TARGET = 11.0
+ QMAKE_APPLE_DEVICE_ARCHS = x86_64
+ QT_MAC_SDK_VERSION_MIN = 10.13
+ QT_MAC_SDK_VERSION_MAX = 10.14
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_post.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_post.prf
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_post.prf	2022-09-05 17:16:33.704000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_post.prf	2022-09-05 17:55:58.144000000 -0700
 @@ -3,7 +3,7 @@
  contains(TEMPLATE, .*app) {
      !macx-xcode:if(isEmpty(BUILDS)|build_pass) {
@@ -84,9 +96,9 @@ diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_post.prf
  QMAKE_XCODE_LIBRARY_SUFFIX = $$qtPlatformTargetSuffix()
  
  xcode_product_bundle_identifier_setting.name = PRODUCT_BUNDLE_IDENTIFIER
-diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_pre.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_pre.prf
---- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_pre.prf	2019-08-17 11:27:28.327000000 -0700
-+++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_pre.prf	2019-08-17 11:28:33.791000000 -0700
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_pre.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_pre.prf
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_pre.prf	2022-09-05 17:16:33.704000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/default_pre.prf	2022-09-05 17:55:58.144000000 -0700
 @@ -1,43 +1,6 @@
  CONFIG = asset_catalogs rez $$CONFIG
  load(default_pre)
@@ -131,9 +143,9 @@ diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/default_pre.prf 
  QMAKE_ASSET_CATALOGS_APP_ICON = AppIcon
  
  # Make the default debug info format for static debug builds
-diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.mk qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.mk
---- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.mk	2019-08-17 11:27:28.327000000 -0700
-+++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.mk	2019-08-17 11:32:30.271000000 -0700
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.mk qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.mk
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.mk	2022-09-05 17:16:33.704000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.mk	2022-09-05 17:55:58.144000000 -0700
 @@ -1,7 +1,7 @@
  
  ifeq ($(QT_MAC_SDK_NO_VERSION_CHECK),)
@@ -144,9 +156,9 @@ diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.mk qtbase-ev
      ifneq ($(CURRENT_MAC_SDK_VERSION),$(EXPORT_QMAKE_MAC_SDK_VERSION))
          # We don't want to complain about out of date SDK unless the target needs to be remade.
          # This covers use-cases such as running 'make check' after moving the build to a
-diff -ur qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.prf
---- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.prf	2019-08-17 11:27:28.327000000 -0700
-+++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.prf	2019-08-17 11:28:33.791000000 -0700
+diff -ru qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.prf qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.prf
+--- qtbase-everywhere-src-5.12.4-orig/mkspecs/features/mac/sdk.prf	2022-09-05 17:16:33.704000000 -0700
++++ qtbase-everywhere-src-5.12.4/mkspecs/features/mac/sdk.prf	2022-09-05 17:55:58.144000000 -0700
 @@ -18,7 +18,7 @@
          sdk = $$QMAKE_MAC_SDK
  

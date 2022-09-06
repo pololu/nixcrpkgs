@@ -1,0 +1,35 @@
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/corelib/global/qendian.h qtbase-everywhere-src-5.12.4/src/corelib/global/qendian.h
+--- qtbase-everywhere-src-5.12.4-orig/src/corelib/global/qendian.h	2022-09-05 17:16:33.780000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/corelib/global/qendian.h	2022-09-05 17:19:02.768000000 -0700
+@@ -48,6 +48,8 @@
+ #include <stdlib.h>
+ #include <string.h>
+ 
++#include <limits>
++
+ #ifdef min // MSVC
+ #undef min
+ #undef max
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qbytearraymatcher.h qtbase-everywhere-src-5.12.4/src/corelib/tools/qbytearraymatcher.h
+--- qtbase-everywhere-src-5.12.4-orig/src/corelib/tools/qbytearraymatcher.h	2022-09-05 17:16:33.804000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/corelib/tools/qbytearraymatcher.h	2022-09-05 17:20:31.180000000 -0700
+@@ -42,6 +42,8 @@
+ 
+ #include <QtCore/qbytearray.h>
+ 
++#include <limits>
++
+ QT_BEGIN_NAMESPACE
+ 
+ 
+diff -ur qtbase-everywhere-src-5.12.4-orig/src/tools/moc/generator.cpp qtbase-everywhere-src-5.12.4/src/tools/moc/generator.cpp
+--- qtbase-everywhere-src-5.12.4-orig/src/tools/moc/generator.cpp	2022-09-05 17:16:33.916000000 -0700
++++ qtbase-everywhere-src-5.12.4/src/tools/moc/generator.cpp	2022-09-05 17:27:52.224000000 -0700
+@@ -42,6 +42,7 @@
+ 
+ #include <math.h>
+ #include <stdio.h>
++#include <limits>
+ 
+ #include <private/qmetaobject_p.h> //for the flags.
+ #include <private/qplugin_p.h> //for the flags.

@@ -19,7 +19,8 @@ cd build
 PKG_CONFIG=pkg-config-cross \
 $out/src/configure -prefix $out $configure_flags
 
-make
+# -j1 makes it much easier to see which error stopped the build
+make -j1
 
 make install
 
