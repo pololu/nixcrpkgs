@@ -14,14 +14,14 @@
 let
   nixpkgs = native.nixpkgs;
 
-  # Note: According to build.sh in the osxcross project, we should set the
-  # number in the darwin name based on the SDK version we have, but I am not
-  # sure it matters.
-  darwin_name = "darwin15";
+  # macOS 11 is the first version to support ARM and it was released in 2020,
+  # so it seems reasonable to specify it as the minimum version which various
+  # tools ask for, but I'm not sure what all the implications are.
+  macos_version_min = "11.0";
 
-  # Qt 5.12 expects macOS 10.12 or later
-  # (see macx.conf and http://doc.qt.io/qt-5/macos.html).
-  macos_version_min = "11.0";  # TODO: is this OK?
+  # This is the Darwin version corresponding to macOS 11.0 according to
+  # https://en.wikipedia.org/wiki/Darwin_(operating_system)
+  darwin_name = "darwin20.1";
 
   host = "${arch}-apple-${darwin_name}";
 
@@ -131,7 +131,7 @@ let
   # i386, x86_64, x86_64h.  It uses lipo to create fat archives that hold
   # binaries for all the different architectures.
   compiler_rt = native.make_derivation rec {
-    name = "compiler-rt-${clang_version}";
+    name = "compiler-rt-${clang_version}-${host}";
 
     src = compiler-rt_src;
 
@@ -151,10 +151,12 @@ let
       "-DCMAKE_SYSTEM_NAME=Darwin " +
       "-DCMAKE_OSX_SYSROOT=${sdk} " +
       "-DDARWIN_osx_SYSROOT=${sdk} " +
-      "-DDARWIN_macosx_OVERRIDE_SDK_VERSION=${sdk.version} " +
+      "-DDARWIN_osx_ARCHS=${arch} " +
+      "-DDARWIN_osx_BUILTIN_ARCHS=${arch} " +
       "-DCMAKE_LINKER=${ld}/bin/${host}-ld " +
       "-DCMAKE_AR=${ar}/bin/${host}-ar " +
       "-DCMAKE_RANLIB=${misc}/bin/${host}-ranlib " +
+      "-DCOMPILER_RT_BUILD_SANITIZERS=OFF " +
       "-DCOMPILER_RT_BUILD_XRAY=OFF";
 
     inherit host sdk;
@@ -190,8 +192,8 @@ let
     exe_suffix = "";
     cmake_system = "Darwin";
     meson_system = "darwin";
-    meson_cpu_family = "x86_64";
-    meson_cpu = "x86_64";
+    meson_cpu_family = arch;
+    meson_cpu = arch;
 
     # Build tools.
     inherit nixpkgs native;

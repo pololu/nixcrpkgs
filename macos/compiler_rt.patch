@@ -38,20 +38,3 @@ diff -ur compiler-rt-14.0.6.src/cmake/Modules/AddCompilerRT.cmake compiler-rt-14
          # Ad-hoc sign the dylibs
          add_custom_command(TARGET ${libname}
            POST_BUILD  
-diff -ur compiler-rt-14.0.6.src/lib/tsan/rtl/tsan_interceptors_posix.cpp compiler-rt-14.0.6.src.patched/lib/tsan/rtl/tsan_interceptors_posix.cpp
---- compiler-rt-14.0.6.src/lib/tsan/rtl/tsan_interceptors_posix.cpp	2022-06-22 09:46:24.000000000 -0700
-+++ compiler-rt-14.0.6.src.patched/lib/tsan/rtl/tsan_interceptors_posix.cpp	2022-09-05 16:18:15.596000000 -0700
-@@ -554,9 +554,10 @@
- extern "C" void __tsan_setjmp(uptr sp) { SetJmp(cur_thread_init(), sp); }
- 
- #if SANITIZER_MAC
--TSAN_INTERCEPTOR(int, setjmp, void *env);
--TSAN_INTERCEPTOR(int, _setjmp, void *env);
--TSAN_INTERCEPTOR(int, sigsetjmp, void *env);
-+// These caused a linker error, so I commented them out.  Might break something.
-+//TSAN_INTERCEPTOR(int, setjmp, void *env);
-+//TSAN_INTERCEPTOR(int, _setjmp, void *env);
-+//TSAN_INTERCEPTOR(int, sigsetjmp, void *env);
- #else  // SANITIZER_MAC
- 
- #if SANITIZER_NETBSD
