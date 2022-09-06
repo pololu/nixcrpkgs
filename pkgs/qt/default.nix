@@ -13,7 +13,7 @@
 { crossenv, libudev, libxall, at-spi2-headers, dejavu-fonts }:
 
 let
-  version = "5.12.4";
+  version = "5.12.12";
 
   name = "qtbase-${version}";
 
@@ -31,7 +31,7 @@ let
 
   base_src = crossenv.nixpkgs.fetchurl {
     url = "https://download.qt.io/official_releases/qt/5.12/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
-    sha256 = "158i0apc3i8bbgrk9j1k34y2b03v0kwwv8m7aaaxpxsglppwgyr0";
+    sha256 = "fBXDFZC27BJAgkKxoyB10dVF814dQf260x7GcNAGgPI=";
   };
 
   base_raw = crossenv.make_derivation {
