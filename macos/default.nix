@@ -49,7 +49,7 @@ let
     src = clang_src;
     inherit llvm_src;
 
-    patches = [ ];  # TODO: port clang7.patch to our new version
+    patches = [ ];
 
     builder = ./clang_builder.sh;
 
@@ -137,7 +137,7 @@ let
 
     builder = ./compiler_rt_builder.sh;
 
-    patches = [ ./compiler_rt.patch ]; # TODO: port compiler_rt7.patch to this version
+    patches = [ ./compiler_rt.patch ];
 
     native_inputs = [ clang ld misc ar nixpkgs.python3 ];
 
