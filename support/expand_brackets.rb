@@ -1,6 +1,6 @@
 def expand_brackets_core(str, depth)
   finished_parts = []
-  active_parts = [+'']
+  active_parts = ['']
   while true
     if str.empty?
       raise AnticipatedError, "Unmatched opening brace" if depth > 0

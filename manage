@@ -511,7 +511,7 @@ help:
 
 The derivations we care about are defined in support/derivations.txt.
 END
-    return
+    exit 0
   end
 
   if action == :gcroots
