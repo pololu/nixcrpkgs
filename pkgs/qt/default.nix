@@ -125,13 +125,15 @@ let
           "-device-option QMAKE_XCODE_VERSION=10.0"
         else "" );
 
-     cross_inputs =
-       if crossenv.os == "linux" then [
-           libudev  # not sure if this helps, but Qt does look for it
-           libxall
-           at-spi2-headers  # for accessibility
-         ]
-       else [];
+    cross_inputs =
+      if crossenv.os == "linux" then [
+        libudev  # not sure if this helps, but Qt does look for it
+        libxall
+        at-spi2-headers  # for accessibility
+      ]
+      else [];
+
+    libxall = if crossenv.os == "linux" then libxall else "";
   };
 
   # This wrapper aims to make Qt easier to use by generating CMake package files
