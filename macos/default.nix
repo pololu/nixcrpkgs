@@ -3,7 +3,7 @@
 #    (Just so that the tapi library can use its YAML parser!)
 # 2. The one used by nixpkgs.clang which we use to build ld.
 # 3. The one we build here (macos.clang) and use as our cross-compiler.
-# 4. The one that provides compiler-rt.
+#    We also use compiler-rt from this version.
 
 # Note: To reduce clutter here, it might be nice to move clang to
 # `native`, and also make `native` provide a function for building
@@ -45,7 +45,6 @@ let
   clang = native.make_derivation rec {
     name = "clang-${clang_version}";
 
-    version = clang_version;  # TODO: remove
     src = clang_src;
     inherit llvm_src;
 

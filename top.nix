@@ -18,7 +18,7 @@ rec {
       gcc_options = "--with-fpu=vfp --with-float=hard ";
     };
     x86_64-macos = import ./macos { inherit native macos_sdk; arch = "x86_64"; };
-    arm64-macos = import ./macos { inherit native macos_sdk; arch = "arm64"; };
+    aarch64-macos = import ./macos { inherit native macos_sdk; arch = "aarch64"; };
   };
 
   pkgFun = crossenv: import ./pkgs.nix { inherit crossenv; } // crossenv;
@@ -30,7 +30,7 @@ rec {
   x86_64-linux-musl = pkgFun crossenvs.x86_64-linux-musl;
   armv6-linux-musl = pkgFun crossenvs.armv6-linux-musl;
   x86_64-macos = pkgFun crossenvs.x86_64-macos;
-  arm64-macos = pkgFun crossenvs.arm64-macos;
+  aarch64-macos = pkgFun crossenvs.aarch64-macos;
 
   envs = [
     i686-w64-mingw32
@@ -39,7 +39,7 @@ rec {
     x86_64-linux-musl
     armv6-linux-musl
     x86_64-macos
-    arm64-macos
+    aarch64-macos
   ];
 
   # omni is convenient name for packages that are used for cross-compiling but
@@ -59,8 +59,8 @@ rec {
   rpi = armv6-linux-musl;
   macos = x86_64-macos;
   mac = x86_64-macos;
-  macos-arm = arm64-macos;
-  mac-arm = arm64-macos;
+  macos-arm = aarch64-macos;
+  mac-arm = aarch64-macos;
 
   # filter is a function that can be applied to a local directory to filter out
   # files that are likely to change frequently without affecting the build,
