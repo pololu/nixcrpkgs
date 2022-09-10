@@ -17,11 +17,11 @@ Packages collection (Nixpkgs)][nixpkgs].
 ## Features
 
 - Supported target platforms:
-  - Windows (32-bit or 64-bit) using [mingw-w64](https://mingw-w64.org/)
+  - Windows (i686 or x86_64) using [mingw-w64](https://mingw-w64.org/)
     and [GCC](https://gcc.gnu.org/) 8.2.0
-  - Linux (32-bit, 64-bit, and ARM) using [musl](https://www.musl-libc.org/)
+  - Linux (i686, x86_64, and ARM) using [musl](https://www.musl-libc.org/)
     and [GCC](https://gcc.gnu.org/) 8.2.0
-  - macOS using [Clang](https://clang.llvm.org/) 14.0.6
+  - macOS (x86_64 and ARM) using [Clang](https://clang.llvm.org/) 14.0.6
 - Supported languages for cross-compiling:
   - C
   - C++
