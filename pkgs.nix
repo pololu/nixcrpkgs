@@ -167,5 +167,9 @@ rec {
   tic = import ./pkgs/tic {
     inherit crossenv libusbp qt;
   };
+
+  jrkg2 = import ./pkgs/jrkg2 {
+    inherit crossenv libusbp qt;
+  };
 };
 in pkgs

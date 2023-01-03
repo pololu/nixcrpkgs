@@ -1,7 +1,7 @@
 source $setup
 
 tar -xf $src
-mv pololu-tic-software-* src
+mv pololu-jrk-g2-software-* src
 
 mkdir build
 cd build
