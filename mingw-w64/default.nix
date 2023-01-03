@@ -9,11 +9,11 @@ let
 
   mingw-w64_info = rec {
     name = "mingw-w64-${version}";
-    version = "2018-10-18";
+    version = "v10.0.0";  # 2022-04-04
     src = nixpkgs.fetchgit {
       url = "git://git.code.sf.net/p/mingw-w64/mingw-w64";
-      rev = "c69c7a706d767c5ca3c7d1c70887fcd8e1f940b3";
-      sha256 = "028g8wpy56m3nlna6dnzsz66355kn6gqmwmkm9raas9s1ayzv5il";
+      rev = version;
+      hash = "sha256-s47X6J7VIc7FOs7+XZi3E8Q0RMvBDx6thj7lZQcNU6Q=";
     };
     patches = [
       ./guid-selectany.patch

@@ -15,7 +15,7 @@ native.make_derivation rec {
 
   target = "${arch}-w64-mingw32";
 
-  version = "8.2.0";
+  version = "8.2.0";  # 2018-07-26
 
   src = fetchurl {
     url = "mirror://gnu/gcc/gcc-${version}/gcc-${version}.tar.xz";
