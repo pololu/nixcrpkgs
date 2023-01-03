@@ -51,11 +51,6 @@ rec {
     inherit gmp mpfr;
   };
 
-  gdb = import ./pkgs/gdb {
-    inherit crossenv expat;
-    curses = pdcurses;
-  };
-
   libudev = import ./pkgs/libudev {
     inherit crossenv;
   };

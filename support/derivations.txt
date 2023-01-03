@@ -12,7 +12,6 @@ omni.at-spi2-headers
 omni.dejavu-fonts
 {$windows}.devcon
 {$all}.expat
-{$windows}.gdb
 {$all}.hello
 {$all}.hello_cpp
 {$all,native}.libmpc
