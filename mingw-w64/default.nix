@@ -15,9 +15,7 @@ let
       rev = version;
       hash = "sha256-s47X6J7VIc7FOs7+XZi3E8Q0RMvBDx6thj7lZQcNU6Q=";
     };
-    patches = [
-      ./guid-selectany.patch
-    ];
+    patches = [];
     configure_flags = "--enable-secure-api --enable-idl";
   };
 

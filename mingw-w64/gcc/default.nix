@@ -15,39 +15,29 @@ native.make_derivation rec {
 
   target = "${arch}-w64-mingw32";
 
-  version = "8.2.0";  # 2018-07-26
+  version = "12.2.0";  # 2022-08-19
 
   src = fetchurl {
     url = "mirror://gnu/gcc/gcc-${version}/gcc-${version}.tar.xz";
-    sha256 = "10007smilswiiv2ymazr3b6x2i933c0ycxrr529zh4r6p823qv0r";
+    hash = "sha256-5UnPnPNZSgDie2WJ1DItcOByDN0hPzm+tBgeBpJiMP8=";
   };
 
   builder = ./builder.sh;
 
   patches = [
-    # Make it so GCC does not force us to have a "mingw" symlink.
+    # NATIVE_SYSTEM_HEADER_DIR:  The GCC configuration files for MinGW throw
+    # away our --with-native-system-header-dir argument because of POSIX path
+    # conversion issues when the host system is Windows:
+    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52947
+    # However this workaround causes problems for us because our include files
+    # are not inside a "mingw" directory.  It also causes problems in MSYS2
+    # (see the sed command in the PKGBUILD).  I believe there should be a better
+    # solution possible in GCC but it's hard to know all the requirements.
+    #
+    # STANDARD_STARTFILE_PREFIX: I haven't looked into this one as much but it
+    # causes important system libraries to not be found, breaking the build
+    # of libstdc++-v3.
     ./mingw-search-paths.patch
-
-    # Make --with-sysroot and --with-native-system-header-dir work
-    # as described in the GCC documentation.
-    ./cppdefault.patch
-
-    # Remove hardcoded absolute paths.
-    ./no-sys-dirs.patch
-
-    # Fix a bug in GCC that causes an internal compiler error when
-    # compiling Qt's qrandom.cpp:
-    # https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58372#c14
-    # Patch is from comment #42 by Uros Bizjak.
-    # https://gcc.gnu.org/viewcvs/gcc/branches/gcc-8-branch/gcc/cfgexpand.c?view=patch&r1=264557&r2=266014&pathrev=266014
-    ./stack-alignment-58372.patch
-
-    # This patch is from nixpkgs.
-    ./libstdc++-target.patch
-
-    # Fix compilation errors about missing ISL function declarations.
-    # https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=05103aed1d34b5ca07c9a70c95a7cb1d47e22c47
-    ./isl-headers.patch
   ];
 
   native_inputs = [
