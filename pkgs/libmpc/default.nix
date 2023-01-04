@@ -6,7 +6,7 @@ env.make_derivation rec {
   version = "1.2.1";
 
   src = env.nixpkgs.fetchurl {
-    url = "https://ftp.gnu.org/gnu/mpc/mpc-${version}.tar.gz";
+    url = "mirror://gnu/mpc/mpc-${version}.tar.gz";
     sha256 = "0n846hqfqvmsmim7qdlms0qr86f1hck19p12nq3g3z2x74n3sl0p";
   };
 
