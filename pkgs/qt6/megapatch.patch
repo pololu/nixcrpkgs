@@ -1,0 +1,29 @@
+diff -ur qtbase-everywhere-src-6.4.1-orig/configure qtbase-everywhere-src-6.4.1/configure
+--- qtbase-everywhere-src-6.4.1-orig/configure	2023-01-04 09:01:56.149000000 -0800
++++ qtbase-everywhere-src-6.4.1/configure	2023-01-04 09:22:14.297000000 -0800
+@@ -239,4 +239,5 @@
+     cd ..
+ fi
+ 
++set -x
+ cmake "-DOPTFILE=$optfilename" $top_level_arg -P "$relpath/cmake/QtProcessConfigureArgs.cmake"
+diff -ur qtbase-everywhere-src-6.4.1-orig/src/gui/configure.cmake qtbase-everywhere-src-6.4.1/src/gui/configure.cmake
+--- qtbase-everywhere-src-6.4.1-orig/src/gui/configure.cmake	2023-01-04 09:01:56.333000000 -0800
++++ qtbase-everywhere-src-6.4.1/src/gui/configure.cmake	2023-01-04 09:05:55.657000000 -0800
+@@ -25,6 +25,7 @@
+ 
+ 
+ #### Libraries
++message("LINUX=${LINUX}")
+ qt_set01(X11_SUPPORTED LINUX OR HPUX OR FREEBSD OR NETBSD OR OPENBSD OR SOLARIS OR HURD) # special case
+ qt_find_package(ATSPI2 PROVIDED_TARGETS PkgConfig::ATSPI2 MODULE_NAME gui QMAKE_LIB atspi)
+ qt_find_package(DirectFB PROVIDED_TARGETS PkgConfig::DirectFB MODULE_NAME gui QMAKE_LIB directfb)
+@@ -64,6 +65,8 @@
+ if((X11_SUPPORTED) OR QT_FIND_ALL_PACKAGES_ALWAYS)
+     qt_find_package(X11 PROVIDED_TARGETS X11::SM X11::ICE MODULE_NAME gui QMAKE_LIB x11sm)
+ endif()
++message("X11_SUPPORTED=${X11_SUPPORTED}")
++message("QT_FIND_ALL_PACKAGES_ALWAYS=${QT_FIND_ALL_PACKAGES_ALWAYS}")
+ if((X11_SUPPORTED) OR QT_FIND_ALL_PACKAGES_ALWAYS)
+     qt_find_package(XCB 1.11 PROVIDED_TARGETS XCB::XCB MODULE_NAME gui QMAKE_LIB xcb)
+ endif()

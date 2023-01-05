@@ -160,6 +160,10 @@ rec {
     inherit crossenv libudev libxall at-spi2-headers dejavu-fonts;
   };
 
+  qt6 = import ./pkgs/qt6 {
+    inherit crossenv libudev libxall at-spi2-headers dejavu-fonts;
+  };
+
   pavr2 = import ./pkgs/pavr2 {
     inherit crossenv libusbp qt;
   };
