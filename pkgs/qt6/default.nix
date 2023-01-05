@@ -4,6 +4,8 @@ let
   version = "6.4.1";
   name = "qtbase-${version}";
 
+  nixpkgs = crossenv.nixpkgs;
+
   base_src = crossenv.nixpkgs.fetchurl {
     url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
     hash = "sha256-UyrXHMD5yPfLknZsR7w9IyY8YIdr7NkFOAL5cnryT64=";
@@ -17,13 +19,19 @@ let
 
     patches = [];
 
-    pcre2 = crossenv.nixpkgs.pcre2;
+    gcc_lib = nixpkgs.gccForLibs.lib;
+
+    glibc = nixpkgs.glibc;
+    glibc_out = glibc.bin;
+
+    pcre2 = nixpkgs.pcre2;
+    pcre2_out = pcre2.out;
     pcre2_dev = pcre2.dev;
 
-    zlib = crossenv.nixpkgs.zlib;
+    zlib = nixpkgs.zlib;
     zlib_dev = zlib.dev;
 
-    native_inputs = [ crossenv.nixpkgs.perl pcre2_dev ];
+    native_inputs = [ nixpkgs.perl pcre2_dev nixpkgs.patchelf ];
 
     builder = ./qt_host_builder.sh;
 
@@ -41,6 +49,9 @@ let
       "-- " +
       # ZLIB_INCLUDE_DIR is an uncdocumented variable used by cmake's FindZLIB.
       "-DZLIB_ROOT=${zlib} -DZLIB_INCLUDE_DIR=${zlib_dev}/include " +
+      # Might not be important, but this prevents src/corelib/CMakeLists.txt
+      # from reading /bin/ls to determine the ELF interpreter.
+      "-DELF_INTERPRETER=${glibc}/lib/ld-linux-x86-64.so.2" +
       "";
   };
 
