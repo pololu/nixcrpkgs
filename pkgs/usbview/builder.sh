@@ -27,6 +27,8 @@ $host-gcc -mwindows -std=gnu99 -O2 \
   -lcomctl32 -lcomdlg32 -lsetupapi -lshell32 -lshlwapi -lole32 -lgdi32 \
   -o usbview.exe
 
+$host-strip usbview.exe
+
 mkdir -p $out/bin $out/license
 cp usbview.exe $out/bin
 cp $src/LICENSE $out/license

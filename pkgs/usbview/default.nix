@@ -2,6 +2,10 @@
 
 if crossenv.os != "windows" then "windows only" else
 
+# TODO: Why is this version not showing USB descriptors, while the
+# older version from MSYS2 (commit c4ba9c6) is?  Maybe because we
+# used that weird linker option?
+
 crossenv.make_derivation rec {
   name = "usbview-${version}";
 
