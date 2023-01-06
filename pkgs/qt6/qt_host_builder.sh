@@ -18,5 +18,11 @@ cmake --build . --parallel --verbose
 cmake --install .
 
 cd $out/libexec
-patchelf --set-rpath $gcc_lib/lib:$glibc/lib:$pcre2_out/lib moc
-# patchelf --set-interpreter $glibc/lib/ld-linux-x86-64.so.2 moc
+rpath=$rpath:$out/lib
+patchelf --set-rpath $rpath cmake_automoc_parser moc qlalr qvkgen rcc tracegen uic
+
+# Not sure if this helps
+patchelf --set-interpreter $glibc/lib/ld-linux-x86-64.so.2 cmake_automoc_parser moc qlalr qvkgen rcc tracegen uic
+
+# Not sure if this helps
+ln -s $zlib_out/lib/libz.so.1 .

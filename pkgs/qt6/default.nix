@@ -20,18 +20,14 @@ let
     patches = [];
 
     gcc_lib = nixpkgs.gccForLibs.lib;
-
     glibc = nixpkgs.glibc;
-    glibc_out = glibc.bin;
-
     pcre2 = nixpkgs.pcre2;
-    pcre2_out = pcre2.out;
-    pcre2_dev = pcre2.dev;
-
     zlib = nixpkgs.zlib;
-    zlib_dev = zlib.dev;
+    zlib_out = zlib.out;
 
-    native_inputs = [ nixpkgs.perl pcre2_dev nixpkgs.patchelf ];
+    native_inputs = [ nixpkgs.perl pcre2.dev nixpkgs.patchelf ];
+
+    rpath = "${gcc_lib}/lib:${glibc}/lib:${pcre2.out}/lib:${zlib.out}/lib";
 
     builder = ./qt_host_builder.sh;
 
@@ -48,7 +44,7 @@ let
       "-no-feature-xml " +
       "-- " +
       # ZLIB_INCLUDE_DIR is an uncdocumented variable used by cmake's FindZLIB.
-      "-DZLIB_ROOT=${zlib} -DZLIB_INCLUDE_DIR=${zlib_dev}/include " +
+      "-DZLIB_ROOT=${zlib} -DZLIB_INCLUDE_DIR=${zlib.dev}/include " +
       # Might not be important, but this prevents src/corelib/CMakeLists.txt
       # from reading /bin/ls to determine the ELF interpreter.
       "-DELF_INTERPRETER=${glibc}/lib/ld-linux-x86-64.so.2" +
