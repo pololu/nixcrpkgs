@@ -73,18 +73,15 @@ let
     builder = ./builder.sh;
 
     patches = [
-      ./megapatch.patch
+      ./megapatch.patch  # TODO: remove
     ];
 
     native_inputs = [ crossenv.nixpkgs.perl ];
 
-    inherit qt_host;
-
-    # TODO: see https://stackoverflow.com/questions/70113095/how-to-cross-compile-qt6-on-linux-for-windows
+    inherit qt_host; # TODO: remove
 
     configure_flags =
-      "-cmake-generator Ninja " +
-      "-qt-host-path ${qt_host}/lib/cmake/Qt6HostInfo/ " +
+      "-qt-host-path ${qt_host} " +
       "-xplatform ${platform} " +
       "-device-option CROSS_COMPILE=${crossenv.host}- " +
       "-release " +  # change to -debug if you want debugging symbols
@@ -93,5 +90,12 @@ let
       #"-DQT_FORCE_BUILD_TOOLS=ON " +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt ";
   };
+
+  examples = crossenv.make_derivation {
+    name = "qt-examples-${version}";
+    src = base_src;
+    cross_inputs = [ base_raw ];
+    builder = ./examples_builder.sh;
+  };
 in
-  base_raw
+  base_raw // { inherit examples; }

@@ -37,7 +37,7 @@ PKG_CONFIG=pkg-config-cross \
 #  ln -s $libxall/include/xcb include/
 #fi
 
-cmake --build .
+cmake --build . --parallel --verbose
 cmake --install .
 
 
