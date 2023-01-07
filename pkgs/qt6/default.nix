@@ -27,7 +27,7 @@ let
 
     native_inputs = [ nixpkgs.perl pcre2.dev nixpkgs.patchelf ];
 
-    rpath = "${gcc_lib}/lib:${glibc}/lib:${pcre2.out}/lib:${zlib.out}/lib";
+    rpath = "${pcre2.out}/lib:${zlib.out}/lib:${glibc}/lib:${gcc_lib}/lib";
 
     builder = ./qt_host_builder.sh;
 
@@ -49,6 +49,9 @@ let
       # from reading /bin/ls to determine the ELF interpreter.
       "-DELF_INTERPRETER=${glibc}/lib/ld-linux-x86-64.so.2" +
       "";
+
+    # tmphax
+    zlib_opts = "-DZLIB_ROOT=${zlib} -DZLIB_INCLUDE_DIR=${zlib.dev}/include ";
   };
 
   platform =
