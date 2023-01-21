@@ -1,0 +1,15 @@
+--- a/cmake/3rdparty/extra-cmake-modules/modules/ECMFindModuleHelpers.cmake
++++ b/cmake/3rdparty/extra-cmake-modules/modules/ECMFindModuleHelpers.cmake
+@@ -207,7 +207,11 @@ macro(ecm_find_package_handle_library_components module_name)
+ 
+         if(NOT ECM_FPWC_SKIP_PKG_CONFIG AND ${module_name}_${ecm_fpwc_comp}_pkg_config)
+             pkg_check_modules(PKG_${module_name}_${ecm_fpwc_comp} QUIET
++                              IMPORTED_TARGET GLOBAL
+                               ${${module_name}_${ecm_fpwc_comp}_pkg_config})
++            if (TARGET PkgConfig::PKG_${module_name}_${ecm_fpwc_comp})
++                list(APPEND ecm_fpwc_dep_targets PkgConfig::PKG_${module_name}_${ecm_fpwc_comp})
++            endif()
+         endif()
+ 
+         find_path(${module_name}_${ecm_fpwc_comp}_INCLUDE_DIR
+

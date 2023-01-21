@@ -1,3 +1,15 @@
+diff -ur qtbase-everywhere-src-6.4.1-orig/cmake/QtFindPackageHelpers.cmake qtbase-everywhere-src-6.4.1/cmake/QtFindPackageHelpers.cmake
+--- qtbase-everywhere-src-6.4.1-orig/cmake/QtFindPackageHelpers.cmake	2023-01-04 09:01:56.141000000 -0800
++++ qtbase-everywhere-src-6.4.1/cmake/QtFindPackageHelpers.cmake	2023-01-08 16:24:49.776001000 -0800
+@@ -127,6 +127,7 @@
+     # qt_find_package(Qt6 COMPONENTS Core) doesn't end up calling find_package(Qt6Core).
+     if (NOT ${ARGV0}_FOUND AND NOT _qt_find_package_skip_find_package)
+         # Call original function without our custom arguments.
++        message("Calling find_package: ${arg_UNPARSED_ARGUMENTS}")
+         find_package(${arg_UNPARSED_ARGUMENTS})
+     endif()
+ 
+Only in qtbase-everywhere-src-6.4.1/config.tests: cmake_zstd.zstd
 diff -ur qtbase-everywhere-src-6.4.1-orig/configure qtbase-everywhere-src-6.4.1/configure
 --- qtbase-everywhere-src-6.4.1-orig/configure	2023-01-04 09:01:56.149000000 -0800
 +++ qtbase-everywhere-src-6.4.1/configure	2023-01-04 09:22:14.297000000 -0800
@@ -7,9 +19,10 @@ diff -ur qtbase-everywhere-src-6.4.1-orig/configure qtbase-everywhere-src-6.4.1/
  
 +set -x
  cmake "-DOPTFILE=$optfilename" $top_level_arg -P "$relpath/cmake/QtProcessConfigureArgs.cmake"
+Only in qtbase-everywhere-src-6.4.1: result
 diff -ur qtbase-everywhere-src-6.4.1-orig/src/gui/configure.cmake qtbase-everywhere-src-6.4.1/src/gui/configure.cmake
 --- qtbase-everywhere-src-6.4.1-orig/src/gui/configure.cmake	2023-01-04 09:01:56.333000000 -0800
-+++ qtbase-everywhere-src-6.4.1/src/gui/configure.cmake	2023-01-04 09:05:55.657000000 -0800
++++ qtbase-everywhere-src-6.4.1/src/gui/configure.cmake	2023-01-08 16:21:34.468001000 -0800
 @@ -25,6 +25,7 @@
  
  

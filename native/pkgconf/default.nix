@@ -3,6 +3,8 @@
 # static linking, we often need to edit the pc files with sed to change
 # Libs.private into a second Libs field.
 
+# TODO: Why are --libs-only-other and --cflags-only-other not working?  pkg_check_modules uses these.
+
 { env }:
 
 env.make_derivation rec {

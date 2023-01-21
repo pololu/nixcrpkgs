@@ -33,6 +33,8 @@ omni.dejavu-fonts
 {$all}.p-load
 {$all}.qt slow=1
 {$all}.qt.examples
+{$all}.qt6 slow=1
+{$all}.qt6.examples
 {$windows}.readline
 {$all}.tic
 {$windows}.usbview

@@ -17,8 +17,6 @@ let
 
     src = base_src;
 
-    patches = [];
-
     gcc_lib = nixpkgs.gccForLibs.lib;
     glibc = nixpkgs.glibc;
     pcre2 = nixpkgs.pcre2;
@@ -49,9 +47,6 @@ let
       # from reading /bin/ls to determine the ELF interpreter.
       "-DELF_INTERPRETER=${glibc}/lib/ld-linux-x86-64.so.2" +
       "";
-
-    # tmphax
-    zlib_opts = "-DZLIB_ROOT=${zlib} -DZLIB_INCLUDE_DIR=${zlib.dev}/include ";
   };
 
   platform =
@@ -66,36 +61,46 @@ let
         else crossenv.compiler;
     in "${os_code}-${compiler_code}";
 
-  base_raw = crossenv.make_derivation {
-    name = "qtbase-raw-${version}";
+  base = crossenv.make_derivation {
+    name = "qtbase-${version}";
     inherit version;
-    src = base_src;
-    builder = ./builder.sh;
 
+    src = base_src;
     patches = [
-      ./megapatch.patch  # TODO: remove
+      ./megapatch.patch
+
+      # This fixes a linker error when building Qt for Linux, which is caused by
+      # it not respecting the info in XCB's .pc files.
+      ./find_xcb.patch
     ];
+
+    builder = ./builder.sh;
 
     native_inputs = [ crossenv.nixpkgs.perl ];
 
-    inherit qt_host; # TODO: remove
+    cross_inputs = if crossenv.os == "linux" then [ libxall ]
+      else [];
 
     configure_flags =
       "-qt-host-path ${qt_host} " +
       "-xplatform ${platform} " +
       "-device-option CROSS_COMPILE=${crossenv.host}- " +
-      "-release " +  # change to -debug if you want debugging symbols
+      "-release " +
       "-no-shared -static " +
+      (if crossenv.os == "linux" then
+        "-xcb " +
+        "-no-opengl "  # TODO: support OpenGL on Linux
+      else "") +
       "-- " +
-      #"-DQT_FORCE_BUILD_TOOLS=ON " +
+      "-DFEATURE_system_xcb_xinput=ON " +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt ";
   };
 
   examples = crossenv.make_derivation {
     name = "qt-examples-${version}";
     src = base_src;
-    cross_inputs = [ base_raw ];
+    cross_inputs = [ base ];
     builder = ./examples_builder.sh;
   };
 in
-  base_raw // { inherit examples; }
+  base // { inherit examples; }
