@@ -82,7 +82,8 @@ let
 
     native_inputs = [ crossenv.nixpkgs.perl ];
 
-    cross_inputs = if crossenv.os == "linux" then [ libxall ]
+    cross_inputs =
+      if crossenv.os == "linux" then [ libxall libudev at-spi2-headers ]
       else [];
 
     configure_flags =

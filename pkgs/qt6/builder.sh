@@ -14,13 +14,8 @@ cd ../../..
 mkdir build
 cd build
 
-set -x
-PKG_CONFIG=pkg-config-cross \
-../src/configure -prefix $out $configure_flags
-
-# TODO: add an exit here and figure out how to enable the X11 accessibility bridge
-
-cmake --build . --parallel --verbose
+PKG_CONFIG=pkg-config-cross ../src/configure -prefix $out $configure_flags
+cmake --build . --parallel
 cmake --install .
 
 
