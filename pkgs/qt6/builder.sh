@@ -19,6 +19,8 @@ PKG_CONFIG=pkg-config-cross \
 ../src/configure -prefix $out $configure_flags
 #--trace 2> cmake.log
 
+cmake --build . -t src/plugins/platforms/xcb/CMakeFiles/XcbQpaPrivate.dir/qxcbcursor.cpp.o
+
 cmake --build . --parallel --verbose
 cmake --install .
 
