@@ -18,4 +18,13 @@ PKG_CONFIG=pkg-config-cross ../src/configure -prefix $out $configure_flags
 cmake --build . --parallel
 cmake --install .
 
+cd $out
+for i in $cross_inputs; do
+  if [ -d $i/lib/pkgconfig ]; then
+    mkdir -p lib/pkgconfig
+    ln -s $i/lib/pkgconfig/* lib/pkgconfig/
+  fi
+done
 
+# TODO: need to avoid running this if the cmake file doesn't exist
+sed -i 's/PkgConfig::X11;//' lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake

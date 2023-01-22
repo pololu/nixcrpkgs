@@ -67,8 +67,6 @@ let
 
     src = base_src;
     patches = [
-      ./megapatch.patch
-
       # This fixes a linker error when building Qt for Linux, which is caused by
       # it not respecting the info in XCB's .pc files.
       # https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
@@ -76,6 +74,12 @@ let
 
       # Fixes a compilation error. qtx11extra_p.h uses <xcb/xcb.h>.
       ./qtx11extras.patch
+
+      # Fixes a compilation error.  qxcbcursor.cpp uses X11/cursorfont.h.
+      # TODO: Once everything is compiling, try to get rid of that 'sed'
+      # command in the builder script by add PkgConfig::X11 to
+      # PRIVATE_LIBRARIES (?) instead of public libraries.
+      ./find_x11.patch
     ];
 
     builder = ./builder.sh;
