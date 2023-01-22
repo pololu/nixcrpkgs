@@ -1,11 +1,11 @@
 diff -ur qtbase-everywhere-src-6.4.1-orig/src/plugins/platforms/xcb/CMakeLists.txt qtbase-everywhere-src-6.4.1/src/plugins/platforms/xcb/CMakeLists.txt
 --- qtbase-everywhere-src-6.4.1-orig/src/plugins/platforms/xcb/CMakeLists.txt	2023-01-04 09:01:56.381000000 -0800
-+++ qtbase-everywhere-src-6.4.1/src/plugins/platforms/xcb/CMakeLists.txt	2023-01-21 22:54:03.988000000 -0800
++++ qtbase-everywhere-src-6.4.1/src/plugins/platforms/xcb/CMakeLists.txt	2023-01-21 23:22:58.196000000 -0800
 @@ -4,6 +4,8 @@
  ## XcbQpaPrivate Module:
  #####################################################################
  
-+find_package(X11)
++pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
 +
  qt_internal_add_module(XcbQpaPrivate
      CONFIG_MODULE_NAME xcb_qpa_lib
@@ -14,7 +14,7 @@ diff -ur qtbase-everywhere-src-6.4.1-orig/src/plugins/platforms/xcb/CMakeLists.t
          # XCB::XINPUT # special case remove handled below
          XCB::XKB
          XKB::XKB
-+        X11::X11
++        PkgConfig::X11
  )
  
  # special case begin
