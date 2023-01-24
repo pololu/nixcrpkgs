@@ -10,11 +10,11 @@ native.make_derivation rec {
     hash = "sha256-ZFwl9WO4rcCoHb1qQc/79NNwg6OC4C1dPfT2XAlRbQA=";
   };
 
-  native_inputs = [ native.nixpkgs.texinfo ];
-
   patches = [
     ./deterministic.patch
   ];
+
+  native_inputs = [ native.nixpkgs.texinfo ];
 
   configure_flags =
     "--target=${host} " +

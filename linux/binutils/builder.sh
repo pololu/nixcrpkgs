@@ -3,8 +3,9 @@ source $stdenv/setup
 unset CC CXX CFLAGS LDFLAGS LD AR AS RANLIB SIZE STRINGS NM STRIP OBJCOPY
 
 tar -xf $src
+mv binutils-* src
 
-cd binutils-$version
+cd src
 for patch in $patches; do
   echo applying patch $patch
   patch -p1 -i $patch
@@ -18,9 +19,9 @@ cd ..
 mkdir build
 cd build
 
-../binutils-$version/configure --prefix=$out $configure_flags
+../src/configure --prefix=$out $configure_flags
 
-make
+make -j1
 
-make install
+make -j1 install
 
