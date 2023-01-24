@@ -1,0 +1,11 @@
+--- qtbase-everywhere-src-6.4.1-orig/src/gui/CMakeLists.txt
++++ qtbase-everywhere-src-6.4.1/src/gui/CMakeLists.txt
+@@ -995,6 +995,8 @@
+ qt_internal_extend_target(Gui CONDITION UNIX AND (QT_FEATURE_xcb)
+     SOURCES
+         platform/unix/qtx11extras.cpp platform/unix/qtx11extras_p.h
++    LIBRARIES
++        XCB::XCB
+ )
+ 
+ qt_internal_extend_target(Gui CONDITION TARGET Qt::DBus AND UNIX AND (QT_FEATURE_xcb OR NOT UIKIT)
