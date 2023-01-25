@@ -2,7 +2,9 @@
 # hello world program, which comes from static_init_tls() in Musl 1.1.20.
 
 { native, host }:
-
+let
+  nixpkgs = native.nixpkgs;
+in
 native.make_derivation rec {
   name = "binutils-${version}-${host}";
 
@@ -17,7 +19,7 @@ native.make_derivation rec {
     ./deterministic.patch
   ];
 
-  native_inputs = [ native.nixpkgs.texinfo native.nixpkgs.bison ];
+  native_inputs = [ nixpkgs.texinfo nixpkgs.bison nixpkgs.m4 ];
 
   configure_flags =
     "--target=${host} " +

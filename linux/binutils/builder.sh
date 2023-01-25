@@ -20,8 +20,6 @@ mkdir build
 cd build
 
 ../src/configure --prefix=$out $configure_flags
-
-make -j1
-
-make -j1 install
+make
+make install
 
