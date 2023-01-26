@@ -76,9 +76,6 @@ let
       ./qtx11extras.patch
 
       # Fixes a compilation error.  qxcbcursor.cpp uses X11/cursorfont.h.
-      # TODO: Once everything is compiling, try to get rid of that 'sed'
-      # command in the builder script by add PkgConfig::X11 to
-      # PRIVATE_LIBRARIES (?) instead of public libraries.
       ./find_x11.patch
 
       # Look for fonts in the same directory as the application by default if
@@ -87,7 +84,7 @@ let
       # not exist, and prints warnings.
       # You must put a font file in the same directory as your executable
       # (e.g. a TTF file from the nixcrpkg dejavu-fonts package).
-      ./font-dir.patch
+      ./font_dir.patch
     ];
 
     builder = ./builder.sh;
@@ -106,11 +103,11 @@ let
       "-no-shared -static " +
       (if crossenv.os == "linux" then
         "-xcb " +
-        "-no-opengl "  # TODO: support OpenGL on Linux
-      else "") +
-      "-- " +
-      "-DFEATURE_system_xcb_xinput=ON " +
-      "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt ";
+        "-no-opengl " +  # TODO: support OpenGL on Linux
+        "-- " +
+        "-DFEATURE_system_xcb_xinput=ON "
+      else "-- ") +
+      "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
 
   examples = crossenv.make_derivation {

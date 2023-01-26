@@ -26,5 +26,6 @@ for i in $cross_inputs; do
   fi
 done
 
-# TODO: need to avoid running this if the cmake file doesn't exist
-sed -i 's/PkgConfig::X11;//' lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake
+if [ -f lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake ]; then
+  sed -i 's/\\$<LINK_ONLY:PkgConfig::X11>;//' lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake
+fi
