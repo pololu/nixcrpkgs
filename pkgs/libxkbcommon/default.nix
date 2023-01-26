@@ -1,7 +1,7 @@
 { crossenv, libxcb }:
 
 let
-  version = "0.8.3";
+  version = "1.5.0";
 
   name = "libxkbcommon-${version}";
 
@@ -9,7 +9,7 @@ let
 
   src = nixpkgs.fetchurl {
     url = "https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-${version}.tar.gz";
-    sha256 = "0schaliwd5garrq3w7c8bg2cpnyr0ijg7583m3q2517iyqis9zmf";
+    hash = "sha256-BT5qaiwxeeuiDDragn+4gzpmY7f/0nj9uFMMPL+SR4A=";
   };
 
   lib = crossenv.make_derivation rec {
@@ -18,9 +18,11 @@ let
     builder = ./builder.sh;
 
     configure_flags =
-      "--host=${crossenv.host} " +
-      "--enable-static " +
-      "--disable-shared";
+      "--buildtype release " +
+      "--default-library static " +
+      "-Denable-xkbregistry=false " +
+      "-Denable-wayland=false " +
+      "-Denable-docs=false";
 
     cross_inputs = [ libxcb ];
 
