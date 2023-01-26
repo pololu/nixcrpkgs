@@ -21,12 +21,17 @@ corelib/threads/mandelbrot
 
 mkdir build
 cd build
-for example in $examples
-do
-  cmake-cross ../src/examples/$example -DCMAKE_INSTALL_PREFIX=$out
+for example in $examples; do
+  cmake-cross ../src/examples/$example -DCMAKE_INSTALL_PREFIX=../staging
   cmake --build .
   cmake --install .
   rm -r ../build/*
 done
 
+mkdir -p $out/bin
+cp $(find ../staging -type f) $out/bin/
 $host-strip $(find $out -type f -executable)
+
+if [ -n "$font" ]; then
+  cp $font $out/bin/
+fi

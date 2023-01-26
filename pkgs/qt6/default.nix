@@ -80,6 +80,14 @@ let
       # command in the builder script by add PkgConfig::X11 to
       # PRIVATE_LIBRARIES (?) instead of public libraries.
       ./find_x11.patch
+
+      # Look for fonts in the same directory as the application by default if
+      # the QT_QPA_FONTDIR environment variable is not present.  Without this
+      # patch, Qt tries to look for a font directory in the nix store that does
+      # not exist, and prints warnings.
+      # You must put a font file in the same directory as your executable
+      # (e.g. a TTF file from the nixcrpkg dejavu-fonts package).
+      ./font-dir.patch
     ];
 
     builder = ./builder.sh;
@@ -110,6 +118,8 @@ let
     src = base_src;
     cross_inputs = [ base ];
     builder = ./examples_builder.sh;
+    font = if crossenv.os == "linux" then "${dejavu-fonts}/ttf/DejaVuSans.ttf"
+      else "";
   };
 in
   base // { inherit examples; }
