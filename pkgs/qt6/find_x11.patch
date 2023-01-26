@@ -4,17 +4,16 @@
  ## XcbQpaPrivate Module:
  #####################################################################
 
-+pkg_check_modules(X11 REQUIRED IMPORTED_TARGET x11)
++pkg_check_modules(X11 REQUIRED x11)
 +
  qt_internal_add_module(XcbQpaPrivate
      CONFIG_MODULE_NAME xcb_qpa_lib
      INTERNAL_MODULE
-@@ -40,6 +42,8 @@
+@@ -40,6 +42,7 @@
          QT_NO_FOREACH
      INCLUDE_DIRECTORIES
          gl_integrations
-+    LIBRARIES
-+        PkgConfig::X11
++        ${X11_INCLUDE_DIRS}
      PUBLIC_LIBRARIES
          PkgConfig::XKB_COMMON_X11
          Qt::CorePrivate

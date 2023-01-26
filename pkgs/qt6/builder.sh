@@ -25,7 +25,3 @@ for i in $cross_inputs; do
     ln -s $i/lib/pkgconfig/* lib/pkgconfig/
   fi
 done
-
-if [ -f lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake ]; then
-  sed -i 's/\\$<LINK_ONLY:PkgConfig::X11>;//' lib/cmake/Qt6XcbQpaPrivate/Qt6XcbQpaPrivateTargets.cmake
-fi
