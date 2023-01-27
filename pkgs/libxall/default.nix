@@ -1,5 +1,6 @@
 # Amalgamates all of our X libraries into one derivation to make it easier to
-# build projects that use a lot of them.
+# build projects that use a lot of them and have broken build systems that do
+# not correctly use pkg-config for all of their dependencies.
 
 { crossenv, libs }:
 

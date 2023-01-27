@@ -161,7 +161,12 @@ rec {
   };
 
   qt6 = import ./pkgs/qt6 {
-    inherit crossenv libudev libxall at-spi2-headers dejavu-fonts;
+    inherit crossenv libudev at-spi2-headers dejavu-fonts;
+    xlibs = [
+      libxcb xcb-util xcb-util-wm xcb-util-image
+      xcb-util-keysyms xcb-util-renderutil
+      libx11 libxkbcommon
+    ];
   };
 
   pavr2 = import ./pkgs/pavr2 {

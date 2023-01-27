@@ -18,10 +18,13 @@ PKG_CONFIG=pkg-config-cross ../src/configure -prefix $out $configure_flags
 cmake --build . --parallel
 cmake --install .
 
+mkdir -p $out/lib/pkgconfig
 cd $out
 for i in $cross_inputs; do
   if [ -d $i/lib/pkgconfig ]; then
     mkdir -p lib/pkgconfig
-    ln -s $i/lib/pkgconfig/* lib/pkgconfig/
+    for pc in $i/lib/pkgconfig/*; do
+      ln -sf $(realpath $pc) lib/pkgconfig/
+    done
   fi
 done

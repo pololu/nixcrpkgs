@@ -1,4 +1,4 @@
-{ crossenv, libudev, libxall, at-spi2-headers, dejavu-fonts }:
+{ crossenv, libudev, xlibs, at-spi2-headers, dejavu-fonts }:
 
 let
   version = "6.4.1";
@@ -92,7 +92,7 @@ let
     native_inputs = [ crossenv.nixpkgs.perl ];
 
     cross_inputs =
-      if crossenv.os == "linux" then [ libxall libudev at-spi2-headers ]
+      if crossenv.os == "linux" then xlibs ++ [ libudev at-spi2-headers ]
       else [];
 
     configure_flags =
