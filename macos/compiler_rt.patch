@@ -1,6 +1,5 @@
-diff -ur compiler-rt-14.0.6.src/cmake/base-config-ix.cmake compiler-rt-14.0.6.src.patched/cmake/base-config-ix.cmake
---- compiler-rt-14.0.6.src/cmake/base-config-ix.cmake	2022-06-22 09:46:24.000000000 -0700
-+++ compiler-rt-14.0.6.src.patched/cmake/base-config-ix.cmake	2022-09-05 15:21:58.852000000 -0700
+--- compiler-rt-14.0.6.src/cmake/base-config-ix.cmake
++++ compiler-rt-14.0.6.src.patched/cmake/base-config-ix.cmake
 @@ -120,24 +120,6 @@
    "Path where compiler-rt data files should be installed.")
  
@@ -26,9 +25,8 @@ diff -ur compiler-rt-14.0.6.src/cmake/base-config-ix.cmake compiler-rt-14.0.6.sr
    option(COMPILER_RT_ENABLE_IOS "Enable building for iOS" On)
    option(COMPILER_RT_ENABLE_WATCHOS "Enable building for watchOS - Experimental" Off)
    option(COMPILER_RT_ENABLE_TVOS "Enable building for tvOS - Experimental" Off)
-diff -ur compiler-rt-14.0.6.src/cmake/Modules/AddCompilerRT.cmake compiler-rt-14.0.6.src.patched/cmake/Modules/AddCompilerRT.cmake
---- compiler-rt-14.0.6.src/cmake/Modules/AddCompilerRT.cmake	2022-06-22 09:46:24.000000000 -0700
-+++ compiler-rt-14.0.6.src.patched/cmake/Modules/AddCompilerRT.cmake	2022-09-05 15:17:27.524000000 -0700
+--- compiler-rt-14.0.6.src/cmake/Modules/AddCompilerRT.cmake
++++ compiler-rt-14.0.6.src.patched/cmake/Modules/AddCompilerRT.cmake
 @@ -372,7 +372,7 @@
          set_target_properties(${libname} PROPERTIES IMPORT_PREFIX "")
          set_target_properties(${libname} PROPERTIES IMPORT_SUFFIX ".lib")

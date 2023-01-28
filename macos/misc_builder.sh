@@ -42,6 +42,9 @@ for f in ../libstuff/*.c; do
   eval "gcc -c $CFLAGS $f -o $(basename $f).o"
 done
 
+echo building install_name_tool
+eval "gcc ../misc/install_name_tool.c *.o $CFLAGS $LDFLAGS -o install_name_tool"
+
 echo building $host-libtool
 eval "gcc ../misc/libtool.c *.o $CFLAGS $LDFLAGS -o $host-libtool"
 
@@ -64,4 +67,4 @@ echo building $host-ranlib
 eval "gcc ../misc/libtool.c *.o -DRANLIB $CFLAGS $LDFLAGS -o $host-ranlib"
 
 mkdir -p $out/bin
-cp $host-* lipo $out/bin/
+cp $host-* lipo install_name_tool $out/bin/

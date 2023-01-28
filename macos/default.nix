@@ -75,20 +75,31 @@ let
     native_inputs = [ nixpkgs.python3 ];
   };
 
-  cctools_commit = "0466329";  # 2022-01-14
+  cctools_commit = "3ecb04b";  # 2023-01-24
   cctools_apple_version = "973.0.1";  # from README.md
   cctools_port_src = nixpkgs.fetchurl {
     url = "https://github.com/tpoechtrager/cctools-port/archive/${cctools_commit}.tar.gz";
-    sha256 = "cKcYlBjCCG0gwpnF1ZJQz1lAeCx3iJLMyJnGZRbtJA4=";
+    hash = "sha256-ZGjOJD8rUPcldLmbRW2FDKj23IzpWwwM5wa+klMQCRE==";
   };
+  cctools_patches = [
+    # Fix a warning about returning a local variable.  A memory leak would
+    # be better than doing that.
+    ./cctools_symloc_bug.patch
+
+    # libstuff has a function named 'error' and that clashes with the
+    # functions of the same name in the programs we are linking, like 'ar'.
+    ./cctools_stuff_error.patch
+
+    #./cctools-bytesex.patch
+    #./cctools-libstuff-no-error.patch
+  ];
 
   # We build ld with clang because it uses "Blocks", a clang extension.
   ld = native.make_derivation rec {
     name = "cctools-ld64";
     apple_version = cctools_apple_version;
     src = cctools_port_src;
-    patches = [
-    ];
+    patches = cctools_patches;
     builder = ./ld_builder.sh;
     native_inputs = [ nixpkgs.clang tapi ];
     inherit host;
@@ -99,9 +110,7 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     builder = ./misc_builder.sh;
-    patches = [
-      ./cctools-bytesex.patch
-    ];
+    patches = cctools_patches;
     inherit host;
   };
 
@@ -110,9 +119,7 @@ let
     apple_version = cctools_apple_version;
     src = cctools_port_src;
     builder = ./ar_builder.sh;
-    patches = [
-      ./cctools-libstuff-no-error.patch
-    ];
+    patches = cctools_patches;
     inherit host;
     ranlib = misc;
   };

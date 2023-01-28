@@ -1,0 +1,11 @@
+--- cctools-port-0466329/cctools/libstuff/SymLoc.c
++++ cctools-port-patched/cctools/libstuff/SymLoc.c
+@@ -256,7 +256,7 @@
+         return NULL;
+     } else {
+ 	*found_project = TRUE;
+-        return c;
++        return strdup(c);
+     }
+ }
+ #endif /* !defined(RLD) */

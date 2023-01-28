@@ -1,0 +1,11 @@
+--- cctools-port-3ecb04b/cctools/include/stuff/errors.h
++++ cctools-port-patched/cctools/include/stuff/errors.h
+@@ -34,6 +34,8 @@
+ /* number of detected calls to error() */
+ extern uint32_t errors __attribute__((visibility("hidden")));
+ 
++#define error stuff_error
++
+ extern void warning(
+     const char *format, ...)
+ #ifdef __GNUC__

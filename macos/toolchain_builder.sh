@@ -12,6 +12,7 @@ ln -s $clang/bin/llvm-dsymutil dsymutil
 
 ln -s $ld/bin/$host-ld
 
+ln -s $misc/bin/install_name_tool
 ln -s $misc/bin/$host-libtool
 ln -s $misc/bin/lipo
 ln -s $misc/bin/$host-nm
