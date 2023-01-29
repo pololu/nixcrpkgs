@@ -1,0 +1,11 @@
+--- qtbase-everywhere-src-6.4.1-orig/src/printsupport/CMakeLists.txt
++++ qtbase-everywhere-src-6.4.1/src/printsupport/CMakeLists.txt
+@@ -45,7 +45,7 @@
+ ## Scopes:
+ #####################################################################
+
+-qt_internal_extend_target(PrintSupport CONDITION MACOS
++qt_internal_extend_target(PrintSupport CONDITION MACOS AND Cups_FOUND
+     SOURCES
+         platform/macos/qcocoaprintdevice.mm platform/macos/qcocoaprintdevice_p.h
+         platform/macos/qcocoaprintersupport.mm platform/macos/qcocoaprintersupport_p.h

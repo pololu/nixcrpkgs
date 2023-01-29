@@ -78,13 +78,18 @@ let
       # Fixes a compilation error.  qxcbcursor.cpp uses X11/cursorfont.h.
       ./find_x11.patch
 
-      # Look for fonts in the same directory as the application by default if
-      # the QT_QPA_FONTDIR environment variable is not present.  Without this
-      # patch, Qt tries to look for a font directory in the nix store that does
-      # not exist, and prints warnings.
+      # On Linux, look for fonts in the same directory as the application by
+      # default if the QT_QPA_FONTDIR environment variable is not present.
+      # Without this patch, Qt tries to look for a font directory in the nix
+      # store that does not exist, and prints warnings.
       # You must put a font file in the same directory as your executable
-      # (e.g. a TTF file from the nixcrpkg dejavu-fonts package).
+      # (e.g. a TTF file from the nixcrpkgs dejavu-fonts package).
       ./font_dir.patch
+
+      # The CUPS library is not detected in our environment and Qt prints a
+      # message saying it isn't detected, but for some reason it tries to
+      # link to it anyway.
+      ./macos_cups.patch
     ];
 
     builder = ./builder.sh;
@@ -106,6 +111,10 @@ let
         "-no-opengl " +  # TODO: support OpenGL on Linux
         "-- " +
         "-DFEATURE_system_xcb_xinput=ON "
+      else if crossenv.os == "macos" then
+        "-no-opengl " +  # TODO: support OpenGL on macOS
+        "-- " +
+        "-DCMAKE_FRAMEWORK_PATH=${crossenv.sdk}/System/Library/Frameworks/ "
       else "-- ") +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
