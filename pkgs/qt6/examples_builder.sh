@@ -29,8 +29,8 @@ for example in $examples; do
 done
 
 mkdir -p $out/bin
-cp $(find ../staging -type f) $out/bin/
-$host-strip $(find $out -type f -executable)
+cp -r $(find ../staging -name \*.app -prune -o -type f -executable) $out/bin/
+$host-strip $(find $out/bin -type f -executable)
 
 if [ -n "$font" ]; then
   cp $font $out/bin/
