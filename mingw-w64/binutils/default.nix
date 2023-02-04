@@ -1,20 +1,22 @@
 { native, host }:
-
+let
+  nixpkgs = native.nixpkgs;
+in
 native.make_derivation rec {
   name = "binutils-${version}-${host}";
 
-  version = "2.39";
+  version = "2.40";
 
   src = native.nixpkgs.fetchurl {
     url = "mirror://gnu/binutils/binutils-${version}.tar.xz";
-    hash = "sha256-ZFwl9WO4rcCoHb1qQc/79NNwg6OC4C1dPfT2XAlRbQA=";
+    hash = "sha256-D4pMJy1/F/Np3tEKSsoouOMEgo6VUm2kgrDMxN/J2OE=";
   };
 
   patches = [
     ./deterministic.patch
   ];
 
-  native_inputs = [ native.nixpkgs.texinfo ];
+  native_inputs = [ nixpkgs.texinfo nixpkgs.bison nixpkgs.m4 ];
 
   configure_flags =
     "--target=${host} " +

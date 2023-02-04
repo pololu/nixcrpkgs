@@ -1,6 +1,3 @@
-# We cannot use binutils 2.31 because then we get a segmentation fault in our
-# hello world program, which comes from static_init_tls() in Musl 1.1.20.
-
 { native, host }:
 let
   nixpkgs = native.nixpkgs;
