@@ -1,7 +1,7 @@
 source $setup
 
-tar -xf $src
-mv qtbase-everywhere-src-* src
+cp -r $src src
+chmod u+w -R src
 
 mkdir build
 cd build

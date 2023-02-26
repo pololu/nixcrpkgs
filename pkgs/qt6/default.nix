@@ -6,9 +6,9 @@ let
 
   nixpkgs = crossenv.nixpkgs;
 
-  base_src = crossenv.nixpkgs.fetchurl {
+  base_src = crossenv.nixpkgs.fetchzip {
     url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
-    hash = "sha256-UyrXHMD5yPfLknZsR7w9IyY8YIdr7NkFOAL5cnryT64=";
+    hash = "sha256-9IThLxxA5P/tGOe517TslwApBr8uKsAtBh9KlJW0k6s=";
   };
 
   # First build Qt for the host, which provides tools like moc and rcc.
@@ -67,9 +67,9 @@ let
 
     src = base_src;
     patches = [
-      # This fixes a linker error when building Qt for Linux, which is caused by
-      # it not respecting the info in XCB's .pc files.
-      # https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
+      # This fixes  linker error when building Qt for Linux, which is caused by
+      # it not respcting the info in XCB's .pc files.
+      # https://invnt.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
       ./find_xcb.patch
 
       # Fixes a compilation error. qtx11extra_p.h uses <xcb/xcb.h>.
@@ -123,32 +123,45 @@ let
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
 
-  qtserialport = crossenv.make_derivation {
-    name = "qtserialport-${version}";
+  module = { name, src }: crossenv.make_derivation {
+    name = "${name}-${version}";
+    inherit src base;
+    native_inputs = [ nixpkgs.perl ];
+    builder = ./module_builder.sh;
+  };
+
+  qtserialport = module {
+    name = "qtserialport";
     src = crossenv.nixpkgs.fetchzip {
       url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtserialport-everywhere-src-${version}.tar.xz";
       hash = "sha256-3sXfayqPSjfCswmpQmqfkoIThr0UaEiFYXMMMriKaCY=";
     };
-    inherit base;
-    native_inputs = [ nixpkgs.perl ];
-    builder = ./module_builder.sh;
-  } // {
-    terminal = crossenv.make_derivation {
-      name = "qtserialport-terminal-${version}";
-      src = "${qtserialport.src}/examples/serialport/terminal";
-      inherit base;
-      cross_inputs = [ base qtserialport ];
-      builder = ./one_example_builder.sh;
-    };
   };
 
+  # Build a selection of Qt examples that help us see if the library and its
+  # modules are working.
   examples = crossenv.make_derivation {
     name = "qt-examples-${version}";
-    src = base_src;
-    cross_inputs = [ base ];
+    examples = [
+      "${base_src}/examples/qpa/qrasterwindow"
+      "${base_src}/examples/qpa/windows"
+      "${base_src}/examples/network/http"
+      "${base_src}/examples/qtconcurrent/imagescaling"
+      "${base_src}/examples/widgets/mainwindows/mainwindow"
+      "${base_src}/examples/widgets/itemviews/chart"
+      "${base_src}/examples/widgets/tools/regularexpression"
+      "${base_src}/examples/widgets/painting/composition"
+      "${base_src}/examples/widgets/effects/blurpicker"
+      "${base_src}/examples/widgets/dialogs/findfiles"
+      "${base_src}/examples/widgets/widgets/elidedlabel"
+      "${base_src}/examples/widgets/layouts/dynamiclayouts"
+      "${base_src}/examples/corelib/threads/mandelbrot"
+      "${qtserialport.src}/examples/serialport/terminal"
+    ];
+    cross_inputs = [ base qtserialport ];
     builder = ./examples_builder.sh;
     font = if crossenv.os == "linux" then "${dejavu-fonts}/ttf/DejaVuSans.ttf"
       else "";
   };
 in
-  base // { inherit examples qtserialport; }
+  base // { inherit qt_host qtserialport examples; }

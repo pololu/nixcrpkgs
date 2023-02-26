@@ -1,6 +1,7 @@
 source $setup
 
-cp -r --no-preserve=mode $src src
+cp -r $src src
+chmod u+w -R src
 
 mkdir build
 cd build

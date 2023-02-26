@@ -1,7 +1,7 @@
 source $setup
 
-tar -xf $src
-mv qtbase-everywhere-src-* src
+cp -r $src src
+chmod u+w -R src
 cd src
 for patch in $patches; do
   echo applying patch $patch

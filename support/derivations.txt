@@ -34,6 +34,7 @@ omni.dejavu-fonts
 {$all}.qt slow=1
 {$all}.qt.examples
 {$all}.qt6 slow=1
+{$all}.qt6.qtserialport
 {$all}.qt6.examples
 {$windows}.readline
 {$all}.tic
