@@ -1,0 +1,12 @@
+diff -ur qtbase-everywhere-src-6.4.1-orig/cmake/QtConfig.cmake.in qtbase-everywhere-src-6.4.1/cmake/QtConfig.cmake.in
+--- qtbase-everywhere-src-6.4.1-orig/cmake/QtConfig.cmake.in	2023-02-25 19:39:31.616000000 -0800
++++ qtbase-everywhere-src-6.4.1/cmake/QtConfig.cmake.in	2023-02-25 19:40:31.932000000 -0800
+@@ -51,6 +51,8 @@
+ include("${CMAKE_CURRENT_LIST_DIR}/QtPublicToolHelpers.cmake")
+ include("${CMAKE_CURRENT_LIST_DIR}/QtPublicCMakeHelpers.cmake")
+ 
++set(QT_DISABLE_NO_DEFAULT_PATH_IN_QT_PACKAGES TRUE)
++
+ set(QT_ADDITIONAL_PACKAGES_PREFIX_PATH "" CACHE STRING
+     "Additional directories where find(Qt6 ...) components are searched")
+ set(QT_ADDITIONAL_HOST_PACKAGES_PREFIX_PATH "" CACHE STRING

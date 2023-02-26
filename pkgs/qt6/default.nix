@@ -90,6 +90,10 @@ let
       # message saying it isn't detected, but for some reason it tries to
       # link to it anyway.
       ./macos_cups.patch
+
+      # Tell Qt to not ignore CMAKE_PREFIX_PATH (set by cmake-cross) when
+      # searching for its own modules (e.g. QtSerialPort).
+      ./find_modules.patch
     ];
 
     builder = ./builder.sh;
@@ -119,6 +123,25 @@ let
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
 
+  qtserialport = crossenv.make_derivation {
+    name = "qtserialport-${version}";
+    src = crossenv.nixpkgs.fetchzip {
+      url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtserialport-everywhere-src-${version}.tar.xz";
+      hash = "sha256-3sXfayqPSjfCswmpQmqfkoIThr0UaEiFYXMMMriKaCY=";
+    };
+    inherit base;
+    native_inputs = [ nixpkgs.perl ];
+    builder = ./module_builder.sh;
+  } // {
+    terminal = crossenv.make_derivation {
+      name = "qtserialport-terminal-${version}";
+      src = "${qtserialport.src}/examples/serialport/terminal";
+      inherit base;
+      cross_inputs = [ base qtserialport ];
+      builder = ./one_example_builder.sh;
+    };
+  };
+
   examples = crossenv.make_derivation {
     name = "qt-examples-${version}";
     src = base_src;
@@ -128,4 +151,4 @@ let
       else "";
   };
 in
-  base // { inherit examples; }
+  base // { inherit examples qtserialport; }
