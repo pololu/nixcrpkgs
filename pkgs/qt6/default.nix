@@ -125,8 +125,9 @@ let
 
   module = { name, src }: crossenv.make_derivation {
     name = "${name}-${version}";
-    inherit src base;
+    inherit src;
     native_inputs = [ nixpkgs.perl ];
+    cross_inputs = [ base ];
     builder = ./module_builder.sh;
   };
 
