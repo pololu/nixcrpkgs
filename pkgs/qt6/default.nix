@@ -69,7 +69,7 @@ let
     patches = [
       # This fixes  linker error when building Qt for Linux, which is caused by
       # it not respcting the info in XCB's .pc files.
-      # https://invnt.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
+      # https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
       ./find_xcb.patch
 
       # Fixes a compilation error. qtx11extra_p.h uses <xcb/xcb.h>.
