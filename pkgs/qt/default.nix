@@ -30,8 +30,8 @@ let
     in "${os_code}-${compiler_code}";
 
   base_src = crossenv.nixpkgs.fetchurl {
-    url = "https://download.qt.io/official_releases/qt/5.12/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
-    sha256 = "fBXDFZC27BJAgkKxoyB10dVF814dQf260x7GcNAGgPI=";
+    url = "https://download.qt.io/archive/qt/5.12/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
+    hash = "sha256-fBXDFZC27BJAgkKxoyB10dVF814dQf260x7GcNAGgPI=";
   };
 
   base_raw = crossenv.make_derivation {
