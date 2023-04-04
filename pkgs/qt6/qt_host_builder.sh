@@ -2,6 +2,12 @@ source $setup
 
 cp -r $src src
 chmod u+w -R src
+cd src
+for patch in $patches; do
+  echo applying patch $patch
+  patch -p1 -i $patch
+done
+cd ..
 
 mkdir build
 cd build

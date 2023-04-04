@@ -16,6 +16,7 @@ let
     name = "qtbase-host-${version}";
 
     src = base_src;
+    patches = [ ./pwd.patch ];
 
     gcc_lib = nixpkgs.gccForLibs.lib;
     glibc = nixpkgs.glibc;
@@ -67,8 +68,11 @@ let
 
     src = base_src;
     patches = [
-      # This fixes  linker error when building Qt for Linux, which is caused by
-      # it not respcting the info in XCB's .pc files.
+      # Don't use /bin/pwd.
+      ./pwd.patch
+
+      # This fixes a linker error when building Qt for Linux, which is caused by
+      # it not respecting the info in XCB's .pc files.
       # https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
       ./find_xcb.patch
 
