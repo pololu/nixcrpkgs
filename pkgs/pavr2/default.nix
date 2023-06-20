@@ -3,11 +3,11 @@
 crossenv.make_derivation rec {
   name = "pavr2-${version}";
 
-  version = "a80b4b6";  # 2020-11-30
+  version = "f5a476d";  # 2023-06-20
 
   src = crossenv.nixpkgs.fetchurl {
     url = "https://github.com/pololu/pololu-usb-avr-programmer-v2/archive/${version}.tar.gz";
-    hash = "sha256-ciB53Rw+K7tXPR0ILcteWRttY80wV/MAmd8IuQkqOOU=";
+    hash = "sha256-GAb4OvfF8NUxbtVKfT4NnRgjnkP6iurOfmHr5ly/yRQ=";
   };
 
   builder = ./builder.sh;
