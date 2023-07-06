@@ -207,7 +207,7 @@ let
 
     # License information that should be shipped with any software
     # compiled by this environment.
-    global_license_set = { compiler_rt = compiler_rt.license; };
+    global_license_set = { compiler_rt = "${compiler_rt}/LICENSE.txt"; };
 
     # Handy shortcuts.
     inherit clang compiler_rt tapi ld misc ar sdk toolchain;

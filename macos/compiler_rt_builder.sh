@@ -16,3 +16,5 @@ cmake ../src -GNinja -DCMAKE_INSTALL_PREFIX=$out $cmake_flags
 
 ninja
 ninja install
+
+cp ../src/LICENSE.TXT $out/LICENSE.txt
