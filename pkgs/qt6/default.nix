@@ -143,6 +143,14 @@ let
     };
   };
 
+  qt5compat = module {
+    name = "qt5compat";
+    src = crossenv.nixpkgs.fetchzip {
+      url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qt5compat-everywhere-src-${version}.tar.xz";
+      hash = "sha256-kCEQHh+J7sTHQQKKynUvv/pKxyREFztN0fi7sRdzY7Q=";
+    };
+  };
+
   # Build a selection of Qt examples that help us see if the library and its
   # modules are working.
   examples = crossenv.make_derivation {
@@ -169,4 +177,4 @@ let
       else "";
   };
 in
-  base // { inherit qt_host qtserialport examples; }
+  base // { inherit qt_host qtserialport qt5compat examples; }
