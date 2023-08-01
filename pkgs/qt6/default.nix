@@ -170,8 +170,10 @@ let
       "${base_src}/examples/widgets/layouts/dynamiclayouts"
       "${base_src}/examples/corelib/threads/mandelbrot"
       "${qtserialport.src}/examples/serialport/terminal"
+      # TODO: "${qt5compat.src}/examples/core5/widgets/tools/codecs"
+      # (linux32 build is failing with an error about FindWrapIconv.cmake)
     ];
-    cross_inputs = [ base qtserialport ];
+    cross_inputs = [ base qtserialport qt5compat ];
     builder = ./examples_builder.sh;
     font = if crossenv.os == "linux" then "${dejavu-fonts}/ttf/DejaVuSans.ttf"
       else "";
