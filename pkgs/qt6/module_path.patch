@@ -1,0 +1,5 @@
+--- qtbase-everywhere-src-6.4.1-orig/cmake/QtModuleConfig.cmake.in
++++ qtbase-everywhere-src-6.4.1/cmake/QtModuleConfig.cmake.in
+@@ -8,1 +8,2 @@
+ get_filename_component(_import_prefix "${_import_prefix}" REALPATH)
++list(APPEND CMAKE_MODULE_PATH "${_import_prefix}/../Qt6")

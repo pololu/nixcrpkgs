@@ -22,7 +22,6 @@ mkdir -p $out/lib/pkgconfig
 cd $out
 for i in $cross_inputs; do
   if [ -d $i/lib/pkgconfig ]; then
-    mkdir -p lib/pkgconfig
     for pc in $i/lib/pkgconfig/*; do
       ln -sf $(realpath $pc) lib/pkgconfig/
     done

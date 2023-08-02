@@ -98,6 +98,10 @@ let
       # Tell Qt to not ignore CMAKE_PREFIX_PATH (set by cmake-cross) when
       # searching for its own modules (e.g. QtSerialPort).
       ./find_modules.patch
+
+      # Tell Qt to look for files like FindWrapIconv.cmake in the appropriate
+      # directory of the module that needs it.
+      ./module_path.patch
     ];
 
     builder = ./builder.sh;
@@ -170,8 +174,7 @@ let
       "${base_src}/examples/widgets/layouts/dynamiclayouts"
       "${base_src}/examples/corelib/threads/mandelbrot"
       "${qtserialport.src}/examples/serialport/terminal"
-      # TODO: "${qt5compat.src}/examples/core5/widgets/tools/codecs"
-      # (linux32 build is failing with an error about FindWrapIconv.cmake)
+      "${qt5compat.src}/examples/core5/widgets/tools/codecs"
     ];
     cross_inputs = [ base qtserialport qt5compat ];
     builder = ./examples_builder.sh;
