@@ -15,7 +15,7 @@ let
 
   # We can't just set PATH in our derivation because nix-shell will make the
   # derivation's PATH override the system PATH, meaning we can't use utilities
-  # like "git" or "which" form the host system.  So we set _PATH instead, and we
+  # like "git" or "which" from the host system.  So we set _PATH instead, and we
   # use a setup script ($setup) that copies _PATH to PATH. And we provide
   # $stdenv/setup so that nix-shell can find our setup script.
   #
