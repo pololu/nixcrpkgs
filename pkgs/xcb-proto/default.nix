@@ -1,19 +1,19 @@
 { crossenv }:
 
 let
-  version = "1.13";
+  version = "1.15.2";
 
   name = "xcb-proto-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xcb.freedesktop.org/dist/xcb-proto-${version}.tar.bz2";
-    sha256 = "1qdxw9syhbvswiqj5dvj278lrmfhs81apzmvx6205s4vcqg7563v";
+    url = "https://xcb.freedesktop.org/dist/xcb-proto-${version}.tar.xz";
+    hash = "sha256-cHK+sfaAov4/nlNbeXwUbSJSiZDHL2PdtJ0vNQo2U+0=";
   };
 
   lib = crossenv.native.make_derivation rec {
     inherit version name src;
     builder = ./builder.sh;
-    native_inputs = [ crossenv.nixpkgs.python2 ];
+    native_inputs = [ crossenv.nixpkgs.python3 ];
   };
 
   license = crossenv.native.make_derivation {

@@ -1,13 +1,13 @@
 { crossenv, xorgproto, libx11 }:
 
 let
-  version = "5.0.3";
+  version = "6.0.1";
 
   name = "libxfixes-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://www.x.org/releases/individual/lib/libXfixes-${version}.tar.bz2";
-    sha256 = "1miana3y4hwdqdparsccmygqr3ic3hs5jrqfzp70hvi2zwxd676y";
+    url = "https://www.x.org/releases/individual/lib/libXfixes-${version}.tar.xz";
+    hash = "sha256-tpX5PNJJlCGrAtInREWOZQzMiMHUyBMNYCACE6vALVg=";
   };
 
   lib = crossenv.make_derivation rec {

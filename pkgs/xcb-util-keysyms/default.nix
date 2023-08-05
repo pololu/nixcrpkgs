@@ -1,19 +1,19 @@
 { crossenv, libxcb }:
 
 let
-  version = "0.4.0";
+  version = "0.4.1";
 
-  name = "xcb-util-keysyms";
+  name = "xcb-util-keysyms-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xcb.freedesktop.org/dist/xcb-util-keysyms-${version}.tar.bz2";
-    sha256 = "1nbd45pzc1wm6v5drr5338j4nicbgxa5hcakvsvm5pnyy47lky0f";
+    url = "https://xcb.freedesktop.org/dist/xcb-util-keysyms-${version}.tar.xz";
+    hash = "sha256-fCYKUpRBKu1CnfHaL4r9O9B7fLo/7HcvuhWmE6bVxjg=";
   };
 
   lib = crossenv.make_derivation rec {
     inherit version name src;
 
-    builder = ./util_keysyms_builder.sh;
+    builder = ./builder.sh;
 
     configure_flags =
       "--host=${crossenv.host} " +

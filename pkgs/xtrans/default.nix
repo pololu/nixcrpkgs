@@ -1,13 +1,13 @@
 { crossenv }:
 
 let
-  version = "1.3.5";
+  version = "1.5.0";
 
   name = "xtrans-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xorg.freedesktop.org/releases/individual/lib/xtrans-${version}.tar.bz2";
-    sha256 = "00c3ph17acnsch3gbdmx33b9ifjnl5w7vx8hrmic1r1cjcv3pgdd";
+    url = "https://xorg.freedesktop.org/releases/individual/lib/xtrans-${version}.tar.xz";
+    hash = "sha256-G6S3A2lr/dv0C6zyW85OPvsqAIiHjwF6UOmISwyPsb0=";
   };
 
   lib = crossenv.native.make_derivation rec {

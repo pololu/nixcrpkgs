@@ -12,3 +12,5 @@ cd build
 make
 
 make install
+
+ln -s ../share/pkgconfig $out/lib/

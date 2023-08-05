@@ -1,19 +1,19 @@
 { crossenv, libxcb }:
 
 let
-  version = "0.4.1";
+  version = "0.4.2";
 
   name = "xcb-util-wm-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xcb.freedesktop.org/dist/xcb-util-wm-${version}.tar.bz2";
-    sha256 = "0gra7hfyxajic4mjd63cpqvd20si53j1q3rbdlkqkahfciwq3gr8";
+    url = "https://xcb.freedesktop.org/dist/xcb-util-wm-${version}.tar.xz";
+    hash = "sha256-YsNOIdBiZGh/rqftv2NjLJ8E1V5yEUqkpXu5Xk+Iigs=";
   };
 
   lib = crossenv.make_derivation rec {
     inherit version name src;
 
-    builder = ./util_wm_builder.sh;
+    builder = ./builder.sh;
 
     configure_flags =
       "--host=${crossenv.host} " +

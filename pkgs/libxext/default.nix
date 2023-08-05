@@ -1,13 +1,13 @@
 { crossenv, xorgproto, libx11 }:
 
 let
-  version = "1.3.3";
+  version = "1.3.5";
 
   name = "libxext-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://www.x.org/releases/individual/lib/libXext-${version}.tar.bz2";
-    sha256 = "0dbfn5bznnrhqzvkrcmw4c44yvvpwdcsrvzxf4rk27r36b9x865m";
+    url = "https://www.x.org/releases/individual/lib/libXext-${version}.tar.xz";
+    hash = "sha256-2xTAyJXFfqM6hVnejLK5PcdsQupKOeKU0XWTihM9e8o=";
   };
 
   lib = crossenv.make_derivation rec {

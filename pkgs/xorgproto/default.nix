@@ -1,14 +1,14 @@
 { crossenv, xorg-macros }:
 
 let
-  version = "2019-01-30";
+  version = "2023-07-19";
 
   name = "xorgproto-${version}";
 
   src = crossenv.nixpkgs.fetchgit {
     url = "https://anongit.freedesktop.org/git/xorg/proto/xorgproto";
-    rev = "a06b0e273420d34fe4c1fc0be50d3a5400e1545f";
-    sha256 = "0cck4c04wrix75nqc6gsa8yggasjgb1yi10ii8rj8wmzhzd83s21";
+    rev = "704a75eecdf177a8b18ad7e35813f2f979b0c277";
+    hash = "sha256-pt7zUKL6xtNZpBXYzXF8mfltuUslrTIa23rIRMro5U8=";
   };
 
   lib = crossenv.native.make_derivation rec {

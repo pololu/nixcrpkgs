@@ -1,20 +1,19 @@
 { crossenv, libxcb }:
 
 let
-  version = "0.3.9";
+  version = "0.3.10";
 
-  name = "xcb-util-renderutil"; # TODO: add -${version} (mass rebuild)
+  name = "xcb-util-renderutil-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xcb.freedesktop.org/dist/xcb-util-renderutil-${version}.tar.bz2";
-    sha256 = "0nza1csdvvxbmk8vgv8vpmq7q8h05xrw3cfx9lwxd1hjzd47xsf6";
+    url = "https://xcb.freedesktop.org/dist/xcb-util-renderutil-${version}.tar.xz";
+    hash = "sha256-PhXU8OItjdv7ufXXfbQ+rNejBAKb8lphZsxjyqltBLo=";
   };
 
   lib = crossenv.make_derivation {
     inherit version name src;
 
-    # TODO: rename all xcb-util builders to builder.sh (mass rebuild)
-    builder = ./util_renderutil_builder.sh;
+    builder = ./builder.sh;
 
     configure_flags =
       "--host=${crossenv.host} " +

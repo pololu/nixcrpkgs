@@ -1,13 +1,13 @@
 { crossenv, xorg-macros, xorgproto, libxcb, xtrans }:
 
 let
-  version = "1.6.7";
+  version = "1.8.6";
 
   name = "libx11-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xorg.freedesktop.org/releases/individual/lib/libX11-${version}.tar.gz";
-    sha256 = "1lara6j4qcmflya34spyhj009n3fpdanlwiqqcfmxdc75a6bhapn";
+    url = "https://xorg.freedesktop.org/releases/individual/lib/libX11-${version}.tar.xz";
+    hash = "sha256-WVNbfMaYm6gGoCL36FM7KMQ5e52G6dB7bfDAcD+iXMk=";
   };
 
   lib = crossenv.make_derivation rec {

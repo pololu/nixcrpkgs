@@ -1,19 +1,19 @@
 { crossenv, xcb-proto, libxau }:
 
 let
-  version = "1.13.1";
+  version = "1.15";
 
   name = "libxcb-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://xcb.freedesktop.org/dist/libxcb-${version}.tar.bz2";
-    sha256 = "1i27lvrcsygims1pddpl5c4qqs6z715lm12ax0n3vx0igapvg7x8";
+    url = "https://xcb.freedesktop.org/dist/libxcb-${version}.tar.xz";
+    hash = "sha256-zDh0T4F89oFMhH4t83/LiZc1fXL6S8vCKK4P5HIZoFk=";
   };
 
   lib = crossenv.make_derivation rec {
     inherit version name src;
 
-    patches = [ ./no-pthread-stubs.patch ];
+    patches = [];
 
     builder = ./builder.sh;
 
@@ -28,7 +28,7 @@ let
 
     inherit libxau;
 
-    native_inputs = [ crossenv.nixpkgs.python2 ];
+    native_inputs = [ crossenv.nixpkgs.python3 ];
   };
 
   examples = crossenv.make_derivation rec {
