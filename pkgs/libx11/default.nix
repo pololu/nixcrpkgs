@@ -15,6 +15,11 @@ let
 
     builder = ./builder.sh;
 
+    patches = [
+      # Fix a macro name collision issue on Windows.
+      ./name_collision.patch
+    ];
+
     configure_flags =
       "--host=${crossenv.host} " +
       "--disable-malloc0returnsnull " +
