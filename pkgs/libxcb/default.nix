@@ -13,7 +13,10 @@ let
   lib = crossenv.make_derivation rec {
     inherit version name src;
 
-    patches = [];
+    patches = [
+      # Fixes the build on Windows and macOS
+      ./no-pthread-stubs.patch
+    ];
 
     builder = ./builder.sh;
 

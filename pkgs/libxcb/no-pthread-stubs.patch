@@ -1,0 +1,13 @@
+--- libxcb-1.15-orig/configure
++++ libxcb-1.15/configure
+@@ -20661,10 +20661,6 @@
+ 
+ fi
+ NEEDED="xau >= 0.99.2"
+-case $host_os in
+-linux*) ;;
+-     *) NEEDED="$NEEDED pthread-stubs" ;;
+-esac
+ 
+ pkg_failed=no
+ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for NEEDED" >&5
