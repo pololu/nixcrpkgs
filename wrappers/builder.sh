@@ -9,6 +9,7 @@ set(CMAKE_SYSTEM_NAME ${cmake_system})
 set(CMAKE_C_COMPILER ${host}-gcc)
 set(CMAKE_CXX_COMPILER ${host}-g++)
 set(CMAKE_RC_COMPILER ${host}-windres)
+set(CMAKE_FRAMEWORK_PATH ${frameworks})
 EOF
 
 cat > meson_cross.txt <<END

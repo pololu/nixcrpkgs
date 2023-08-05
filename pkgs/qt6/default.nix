@@ -125,8 +125,7 @@ let
         "-DFEATURE_system_xcb_xinput=ON "
       else if crossenv.os == "macos" then
         "-no-opengl " +  # TODO: support OpenGL on macOS
-        "-- " +
-        "-DCMAKE_FRAMEWORK_PATH=${crossenv.sdk}/System/Library/Frameworks/ "
+        "-- "
       else "-- ") +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
@@ -160,6 +159,8 @@ let
   examples = crossenv.make_derivation {
     name = "qt-examples-${version}";
     examples = [
+      "${qtserialport.src}/examples/serialport/terminal"
+      "${qt5compat.src}/examples/core5/widgets/tools/codecs"
       "${base_src}/examples/qpa/qrasterwindow"
       "${base_src}/examples/qpa/windows"
       "${base_src}/examples/network/http"
@@ -173,8 +174,6 @@ let
       "${base_src}/examples/widgets/widgets/elidedlabel"
       "${base_src}/examples/widgets/layouts/dynamiclayouts"
       "${base_src}/examples/corelib/threads/mandelbrot"
-      "${qtserialport.src}/examples/serialport/terminal"
-      "${qt5compat.src}/examples/core5/widgets/tools/codecs"
     ];
     cross_inputs = [ base qtserialport qt5compat ];
     builder = ./examples_builder.sh;

@@ -53,6 +53,8 @@ let
       else throw "not sure what meson_cpu_family code to use";
     meson_cpu = arch;
 
+    frameworks = "";
+
     # Build tools.
     inherit nixpkgs native;
     wrappers = import ../wrappers crossenv;

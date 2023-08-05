@@ -201,6 +201,9 @@ let
     meson_cpu_family = arch;
     meson_cpu = arch;
 
+    # System libraries
+    frameworks = "${sdk}/System/Library/Frameworks/";
+
     # Build tools.
     inherit nixpkgs native;
     wrappers = import ../wrappers crossenv;
