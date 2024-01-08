@@ -1,7 +1,6 @@
 export PATH=$_PATH
 
-if [ ${NIX_BUILD_CORES:-0} -le 0 ]; then
-  export NIX_BUILD_CORES=1
+if [ ${NIX_BUILD_CORES:-0} -ge 1 ]; then
+  export MAKEFLAGS="${MAKEFLAGS:-} -j$NIX_BUILD_CORES"
 fi
-export MAKEFLAGS="${MAKEFLAGS:-} -j$NIX_BUILD_CORES"
 
