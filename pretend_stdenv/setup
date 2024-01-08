@@ -1,3 +1,7 @@
 export PATH=$_PATH
+
+if [ ${NIX_BUILD_CORES:-0} -le 0 ]; then
+  export NIX_BUILD_CORES=1
+fi
 export MAKEFLAGS="${MAKEFLAGS:-} -j$NIX_BUILD_CORES"
 
