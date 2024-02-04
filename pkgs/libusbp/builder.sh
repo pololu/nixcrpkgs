@@ -1,5 +1,4 @@
 source $setup
-
 tar -xf $src
 mv libusbp-* libusbp
 

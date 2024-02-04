@@ -7,7 +7,7 @@ native.make_derivation rec {
 
   version = "2.40";
 
-  src = native.nixpkgs.fetchurl {
+  src = nixpkgs.fetchurl {
     url = "mirror://gnu/binutils/binutils-${version}.tar.xz";
     hash = "sha256-D4pMJy1/F/Np3tEKSsoouOMEgo6VUm2kgrDMxN/J2OE=";
   };

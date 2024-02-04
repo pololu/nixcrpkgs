@@ -1,13 +1,13 @@
 { crossenv, libudev }:
 
 let
-  version = "1.0.22";
+  version = "1.0.27";
 
-  name = "libusbp-${version}";
+  name = "libusb-${version}";
 
   src = crossenv.nixpkgs.fetchurl {
-    url = "https://github.com/libusb/libusb/releases/download/v1.0.22/libusb-1.0.22.tar.bz2";
-    sha256 = "0mw1a5ss4alg37m6bd4k44v35xwrcwp5qm4s686q1nsgkbavkbkm";
+    url = "https://github.com/libusb/libusb/releases/download/v${version}/libusb-${version}.tar.bz2";
+    hash = "sha256-/6pB10Goo77iRKyOVKcuoFvyh5ZjwJjIL8V1eFNEFXU=";
   };
 
   lib = crossenv.make_derivation {
