@@ -13,7 +13,7 @@ let
   lib = crossenv.native.make_derivation {
     inherit version name src;
     builder = ./builder.sh;
-    pkgconfig = crossenv.nixpkgs.pkgconfig;
+    pkgconfig = crossenv.nixpkgs.pkg-config;
   };
 
   license = crossenv.native.make_derivation {
