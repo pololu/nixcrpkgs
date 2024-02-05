@@ -20,7 +20,7 @@ Packages collection (Nixpkgs)][nixpkgs].
   - Windows (i686 or x86_64) using [mingw-w64](https://mingw-w64.org/)
     and [GCC](https://gcc.gnu.org/) 12.2.0
   - Linux (i686, x86_64, and ARM) using [musl](https://www.musl-libc.org/)
-    and [GCC](https://gcc.gnu.org/) 8.2.0
+    and [GCC](https://gcc.gnu.org/) 13.2.0
   - macOS (x86_64 and ARM) using [Clang](https://clang.llvm.org/) 14.0.6
 - Supported languages for cross-compiling:
   - C
@@ -35,7 +35,7 @@ Packages collection (Nixpkgs)][nixpkgs].
   - [GNU Bash](https://www.gnu.org/software/bash/)
   - [Ruby](https://www.ruby-lang.org/)
 - Notable supported libraries:
-  - [Qt](https://www.qt.io/) 5.12.12 and 6.4.1
+  - [Qt](https://www.qt.io/) 5.12.12 and 6.5.3
   - [libusb](https://libusb.info/)
   - [libusbp](https://github.com/pololu/libusbp)
   - [Windows API](https://en.wikipedia.org/wiki/Windows_API) (thanks to mingw-w64)

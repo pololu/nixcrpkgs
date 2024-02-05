@@ -10,16 +10,16 @@ in
 native.make_derivation rec {
   name = "gcc-${version}-${host}";
 
-  version = "8.2.0";
+  version = "13.2.0";
   src = fetchurl {
     url = "mirror://gnu/gcc/gcc-${version}/gcc-${version}.tar.xz";
-    sha256 = "10007smilswiiv2ymazr3b6x2i933c0ycxrr529zh4r6p823qv0r";
+    hash = "sha256-4nXnZEKmBnNBon8Exca4PYYTFEAEwEE1KIY9xrXHQ9o=";
   };
 
-  musl_version = "1.1.20";
+  musl_version = "1.2.4";
   musl_src = nixpkgs.fetchurl {
     url = "https://www.musl-libc.org/releases/musl-${musl_version}.tar.gz";
-    sha256 = "0q8dsjxl41dccscv9a0r78bs7jap57mn4mni5pwbbip6s1qqggj4";
+    hash = "sha256-ejXq4z1TcqfA2hGI3nmHJvaIJVE7euPr6XqqpSEU8Dk=";
   };
 
   inherit host headers;
@@ -29,14 +29,6 @@ native.make_derivation rec {
   patches = [
     # This patch is from nixpkgs.
     ./libstdc++-target.patch
-
-    # Without this, we cannot build a simple hello world program for ARM.
-    # See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=31798
-    ./link_gcc_c_sequence_spec.patch
-
-    # Fix compilation errors about missing ISL function declarations.
-    # https://gcc.gnu.org/git/?p=gcc.git;a=patch;h=05103aed1d34b5ca07c9a70c95a7cb1d47e22c47
-    ./isl-headers.patch
   ];
 
   native_inputs = [ binutils ];
