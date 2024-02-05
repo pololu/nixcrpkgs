@@ -13,7 +13,7 @@ mkdir build
 cd build
 
 ../src/configure -prefix $out $configure_flags
-cmake --build . --parallel --verbose
+cmake --build . --parallel
 cmake --install .
 
 cd $out

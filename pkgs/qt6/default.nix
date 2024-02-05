@@ -1,14 +1,14 @@
 { crossenv, libudev, xlibs, at-spi2-headers, dejavu-fonts }:
 
 let
-  version = "6.4.1";
+  version = "6.5.3";
   name = "qtbase-${version}";
 
   nixpkgs = crossenv.nixpkgs;
 
   base_src = crossenv.nixpkgs.fetchzip {
-    url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
-    hash = "sha256-9IThLxxA5P/tGOe517TslwApBr8uKsAtBh9KlJW0k6s=";
+    url = "https://download.qt.io/official_releases/qt/6.5/${version}/submodules/qtbase-everywhere-src-${version}.tar.xz";
+    hash = "sha256-iRv13GxSF89FWQCBAJwOEpXNsuc5rf9WxoFlNfrs9u0=";
   };
 
   # First build Qt for the host, which provides tools like moc and rcc.
@@ -141,16 +141,16 @@ let
   qtserialport = module {
     name = "qtserialport";
     src = crossenv.nixpkgs.fetchzip {
-      url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qtserialport-everywhere-src-${version}.tar.xz";
-      hash = "sha256-3sXfayqPSjfCswmpQmqfkoIThr0UaEiFYXMMMriKaCY=";
+      url = "https://download.qt.io/official_releases/qt/6.5/${version}/submodules/qtserialport-everywhere-src-${version}.tar.xz";
+      hash = "sha256-kfropjqD5Htz1V2FHxTbwaLtXEPlMVJSG1deEu8iryQ=";
     };
   };
 
   qt5compat = module {
     name = "qt5compat";
     src = crossenv.nixpkgs.fetchzip {
-      url = "https://download.qt.io/official_releases/qt/6.4/${version}/submodules/qt5compat-everywhere-src-${version}.tar.xz";
-      hash = "sha256-kCEQHh+J7sTHQQKKynUvv/pKxyREFztN0fi7sRdzY7Q=";
+      url = "https://download.qt.io/official_releases/qt/6.5/${version}/submodules/qt5compat-everywhere-src-${version}.tar.xz";
+      hash = "sha256-4QgoK2IKVMhAvGahLcqI+U6ASXjR4RySyBjWEPzAROE=";
     };
   };
 
