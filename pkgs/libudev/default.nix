@@ -23,8 +23,8 @@ let
 
     size_flags = let
       ptr_size =
-        if crossenv.arch == "x86_64" then "8"
-        else "4";
+        if crossenv.arch == "i686" || crossenv.arch == "armv6" then "4"
+        else "8";
       in
         "-DSIZEOF_PID_T=4 " +
         "-DSIZEOF_UID_T=4 " +
@@ -37,6 +37,9 @@ let
     CFLAGS = "-Werror -D_GNU_SOURCE " +
       "-DHAVE_DECL_SETNS " +
       "-DHAVE_DECL_MEMFD_CREATE " +
+      "-DHAVE_DECL_GETTID " +
+      "-DHAVE_DECL_NAME_TO_HANDLE_AT " +
+      "-DHAVE_DECL_COPY_FILE_RANGE " +
       size_flags;
   };
 
