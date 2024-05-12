@@ -1,0 +1,11 @@
+--- qtbase-everywhere-src-5.12.12/src/gui/kernel/qhighdpiscaling_p.h
++++ qt-5.12.12-patched/src/gui/kernel/qhighdpiscaling_p.h
+@@ -260,7 +260,7 @@
+ 
+     const qreal scaleFactor = QHighDpiScaling::factor(window);
+     QRegion pointRegion;
+-    for (const QRectF &rect : pixelRegion) {
++    for (const QRectF rect : pixelRegion) {
+         const QPointF topLeftP = rect.topLeft() / scaleFactor;
+         const QSizeF sizeP = rect.size() / scaleFactor;
+         pointRegion += QRect(QPoint(qFloor(topLeftP.x()), qFloor(topLeftP.y())),

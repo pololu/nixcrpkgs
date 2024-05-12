@@ -1,0 +1,28 @@
+diff -ur qtbase-everywhere-src-5.12.12/src/platformsupport/input/evdevkeyboard/qevdevkeyboardhandler.cpp qt-5.12.12-patched/src/platformsupport/input/evdevkeyboard/qevdevkeyboardhandler.cpp
+--- qtbase-everywhere-src-5.12.12/src/platformsupport/input/evdevkeyboard/qevdevkeyboardhandler.cpp	2021-11-15 22:41:20.000000000 -0800
++++ qt-5.12.12-patched/src/platformsupport/input/evdevkeyboard/qevdevkeyboardhandler.cpp	2024-05-12 11:30:06.461991778 -0700
+@@ -148,8 +148,11 @@
+ {
+     qCDebug(qLcEvdevKey) << "switchLed" << led << state;
+ 
++    struct timeval tv;
++    ::gettimeofday(&tv, 0);
+     struct ::input_event led_ie;
+-    ::gettimeofday(&led_ie.time, 0);
++    led_ie.input_event_sec = tv.tv_sec;
++    led_ie.input_event_usec = tv.tv_usec;
+     led_ie.type = EV_LED;
+     led_ie.code = led;
+     led_ie.value = state;
+diff -ur qtbase-everywhere-src-5.12.12/src/platformsupport/input/evdevtouch/qevdevtouchhandler.cpp qt-5.12.12-patched/src/platformsupport/input/evdevtouch/qevdevtouchhandler.cpp
+--- qtbase-everywhere-src-5.12.12/src/platformsupport/input/evdevtouch/qevdevtouchhandler.cpp	2021-11-15 22:41:20.000000000 -0800
++++ qt-5.12.12-patched/src/platformsupport/input/evdevtouch/qevdevtouchhandler.cpp	2024-05-12 11:56:03.489373145 -0700
+@@ -568,7 +568,7 @@
+ 
+         // update timestamps
+         m_lastTimeStamp = m_timeStamp;
+-        m_timeStamp = data->time.tv_sec + data->time.tv_usec / 1000000.0;
++        m_timeStamp = data->input_event_sec + data->input_event_usec / 1000000.0;
+ 
+         m_lastTouchPoints = m_touchPoints;
+         m_touchPoints.clear();

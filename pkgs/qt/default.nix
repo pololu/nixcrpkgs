@@ -92,6 +92,13 @@ let
       # Fix some warnings that make the build output noisy and possibly
       # indicate bugs.
       ./warnings.patch
+
+      # Fix compiler errors due to change to 'struct input_event' in Linux
+      # headers for year 2038.  https://bugreports.qt.io/browse/QTBUG-84012
+      ./input_event.patch
+
+      # Fix a warning that gets printed frequently.
+      ./rect_warning.patch
     ];
 
     # Try to silence a warning coming from qvariant.h.
