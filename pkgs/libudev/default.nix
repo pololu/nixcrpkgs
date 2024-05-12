@@ -21,15 +21,11 @@ let
     ];
     fill = ./fill;
 
-    size_flags = let
-      ptr_size =
-        if crossenv.arch == "i686" || crossenv.arch == "armv6" then "4"
-        else "8";
-      in
+    size_flags =
         "-DSIZEOF_PID_T=4 " +
         "-DSIZEOF_UID_T=4 " +
         "-DSIZEOF_GID_T=4 " +
-        "-DSIZEOF_TIME_T=${ptr_size} " +
+        "-DSIZEOF_TIME_T=8 " +
         "-DSIZEOF_RLIM_T=8 " +
         "-DSIZEOF_INO_T=8 " +
         "-DSIZEOF_DEV_T=8";
