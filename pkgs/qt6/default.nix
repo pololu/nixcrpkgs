@@ -76,6 +76,10 @@ let
       # https://invent.kde.org/frameworks/extra-cmake-modules/-/merge_requests/327
       ./find_xcb.patch
 
+      # Prevent Qt from trying to set the RPATH of installed executables on
+      # Linux since we are using static linking and the files have no RPATH.
+      ./no_rpath_for_static.patch
+
       # Fixes a compilation error. qtx11extra_p.h uses <xcb/xcb.h>.
       ./qtx11extras.patch
 
@@ -161,18 +165,12 @@ let
     examples = [
       "${qtserialport.src}/examples/serialport/terminal"
       "${qt5compat.src}/examples/core5/widgets/tools/codecs"
-      "${base_src}/examples/qpa/qrasterwindow"
-      "${base_src}/examples/qpa/windows"
       "${base_src}/examples/network/http"
       "${base_src}/examples/qtconcurrent/imagescaling"
-      "${base_src}/examples/widgets/mainwindows/mainwindow"
-      "${base_src}/examples/widgets/itemviews/chart"
+      "${base_src}/examples/widgets/mainwindows/menus"
       "${base_src}/examples/widgets/tools/regularexpression"
       "${base_src}/examples/widgets/painting/composition"
       "${base_src}/examples/widgets/effects/blurpicker"
-      "${base_src}/examples/widgets/dialogs/findfiles"
-      "${base_src}/examples/widgets/widgets/elidedlabel"
-      "${base_src}/examples/widgets/layouts/dynamiclayouts"
       "${base_src}/examples/corelib/threads/mandelbrot"
     ];
     cross_inputs = [ base qtserialport qt5compat ];

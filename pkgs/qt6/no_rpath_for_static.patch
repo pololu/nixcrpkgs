@@ -1,0 +1,11 @@
+--- qt6_src/src/corelib/Qt6CoreMacros.cmake
++++ qt6_patched/src/corelib/Qt6CoreMacros.cmake
+@@ -2780,7 +2780,7 @@
+             if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+                 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+             endif()
+-        elseif(NOT APPLE)
++        elseif(NOT APPLE AND BUILD_SHARED_LIBS)
+             # Apart from Windows and Apple, most other platforms support RPATH
+             # and $ORIGIN. Make executables and non-static libraries use an
+             # install RPATH that allows them to find library dependencies if the
