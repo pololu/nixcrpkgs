@@ -111,6 +111,10 @@ rec {
     inherit crossenv libxcb;
   };
 
+  xcb-util-cursor = import ./pkgs/xcb-util-cursor {
+    inherit crossenv libxcb xcb-util xcb-util-image xcb-util-renderutil;
+  };
+
   xcb-util-wm = import ./pkgs/xcb-util-wm {
     inherit crossenv libxcb;
   };
@@ -164,7 +168,7 @@ rec {
     inherit crossenv libudev at-spi2-headers dejavu-fonts;
     xlibs = [
       libxcb xcb-util xcb-util-wm xcb-util-image
-      xcb-util-keysyms xcb-util-renderutil
+      xcb-util-keysyms xcb-util-renderutil xcb-util-cursor
       libx11 libxkbcommon
     ];
   };
