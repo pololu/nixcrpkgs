@@ -129,6 +129,7 @@ let
         "-DFEATURE_system_xcb_xinput=ON "
       else if crossenv.os == "macos" then
         "-no-opengl " +  # TODO: support OpenGL on macOS
+        "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
       else "-- ") +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
