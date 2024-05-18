@@ -9,6 +9,7 @@ let
   linux_arch =
     if arch == "i686" || arch == "x86_64" then "x86"
     else if arch == "armv6" || arch == "armv7" then "arm"
+    else if arch == "aarch64" then "arm64"
     else throw "not sure what Linux architecture code to use";
 
   headers = native.make_derivation rec {
@@ -50,6 +51,7 @@ let
       if arch == "i686" then "x86"
       else if arch == "x86_64" then "x86_64"
       else if arch == "armv6" || arch == "armv7" then "arm"
+      else if arch == "aarch64" then "aarch64"
       else throw "not sure what meson_cpu_family code to use";
     meson_cpu = arch;
 

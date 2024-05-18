@@ -19,7 +19,7 @@ Packages collection (Nixpkgs)][nixpkgs].
 - Supported target platforms:
   - Windows (i686 or x86_64) using [mingw-w64](https://mingw-w64.org/)
     and [GCC](https://gcc.gnu.org/) 12.2.0
-  - Linux (i686, x86_64, and ARM) using [musl](https://www.musl-libc.org/)
+  - Linux (i686, x86_64, armv6, aarch64) using [musl](https://www.musl-libc.org/)
     and [GCC](https://gcc.gnu.org/) 14.1.0
   - macOS (x86_64 and ARM) using [Clang](https://clang.llvm.org/) 14.0.6
 - Supported languages for cross-compiling:

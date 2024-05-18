@@ -17,6 +17,7 @@ rec {
       arch = "armv6";
       gcc_options = "--with-fpu=vfp --with-float=hard ";
     };
+    aarch64-linux-musl = import ./linux { inherit native; arch = "aarch64"; };
     x86_64-macos = import ./macos { inherit native macos_sdk; arch = "x86_64"; };
     aarch64-macos = import ./macos { inherit native macos_sdk; arch = "aarch64"; };
   };
@@ -29,6 +30,7 @@ rec {
   i686-linux-musl = pkgFun crossenvs.i686-linux-musl;
   x86_64-linux-musl = pkgFun crossenvs.x86_64-linux-musl;
   armv6-linux-musl = pkgFun crossenvs.armv6-linux-musl;
+  aarch64-linux-musl = pkgFun crossenvs.aarch64-linux-musl;
   x86_64-macos = pkgFun crossenvs.x86_64-macos;
   aarch64-macos = pkgFun crossenvs.aarch64-macos;
 
@@ -38,6 +40,7 @@ rec {
     i686-linux-musl
     x86_64-linux-musl
     armv6-linux-musl
+    aarch64-linux-musl
     x86_64-macos
     aarch64-macos
   ];
@@ -56,7 +59,11 @@ rec {
   linux64 = x86_64-linux-musl;
   linux-x86_64 = x86_64-linux-musl;
   linux-rpi = armv6-linux-musl;
+  linux-rpi32 = armv6-linux-musl;
+  linux-rpi64 = aarch64-linux-musl;
   rpi = armv6-linux-musl;
+  rpi32 = armv6-linux-musl;
+  rpi64 = aarch64-linux-musl;
   macos = x86_64-macos;
   mac = x86_64-macos;
   macos-arm = aarch64-macos;
