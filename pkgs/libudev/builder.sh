@@ -12,6 +12,7 @@ cd ..
 
 $host-g++ -x c -c $size_flags - -o test.o <<EOF
 #include <assert.h>
+#include <sys/timex.h>
 #include <sys/types.h>
 #include <sys/resource.h>
 static_assert(sizeof(pid_t) == SIZEOF_PID_T, "pid_t");
@@ -21,6 +22,8 @@ static_assert(sizeof(time_t) == SIZEOF_TIME_T, "time_t");
 static_assert(sizeof(rlim_t) == SIZEOF_RLIM_T, "rlim_t");
 static_assert(sizeof(dev_t) == SIZEOF_DEV_T, "dev_t");
 static_assert(sizeof(ino_t) == SIZEOF_INO_T, "ino_t");
+struct timex tmx;
+static_assert(sizeof(tmx.freq) == SIZEOF_TIMEX_MEMBER);
 EOF
 
 rm test.o
@@ -28,27 +31,48 @@ rm test.o
 mkdir build
 cd build
 
-$host-gcc -c -Werror -I$fill $fill/*.c
+mkdir include
+cat > include/version.h <<END
+#define GIT_VERSION "v$version"
+END
+
+cp -r $fill fill
+
+$host-gcc -c -Werror -Ifill fill/*.c
 $host-gcc -c $CFLAGS \
+  -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
+  -Iinclude \
+  -Ifill \
   -I../systemd/src/libudev \
   -I../systemd/src/basic \
+  -I../systemd/src/fundamental \
   -I../systemd/src/libsystemd/sd-device \
   -I../systemd/src/libsystemd/sd-hwdb \
+  -I../systemd/src/shared \
   -I../systemd/src/systemd \
   ../systemd/src/libudev/*.c
 $host-gcc -c $CFLAGS \
+  -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
+  -Iinclude \
+  -Ifill \
   -I../systemd/src/libsystemd/sd-device \
+  -I../systemd/src/libsystemd/sd-id128 \
+  -I../systemd/src/libsystemd/sd-netlink \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
+  -I../systemd/src/fundamental \
   ../systemd/src/libsystemd/sd-device/{device-enumerator,device-private,sd-device}.c
 $host-gcc -c $CFLAGS \
+  -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
   -DPACKAGE_STRING="\"libudev $version\"" \
   -DFALLBACK_HOSTNAME="\"localhost\"" \
   -DDEFAULT_HIERARCHY_NAME="\"hybrid\"" \
   -DDEFAULT_HIERARCHY=CGROUP_UNIFIED_SYSTEMD \
+  -Iinclude \
+  -Ifill \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
-  -I$fill \
+  -I../systemd/src/fundamental \
   ../systemd/src/basic/{alloc-util,architecture,bus-label,cgroup-util,device-nodes,dirent-util,env-util,escape,extract-word,fd-util,fileio,fs-util,gunicode,glob-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,log,login-util,mempool,mkdir,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,syslog-util,terminal-util,time-util,unit-name,user-util,utf8,util,virt,MurmurHash2}.c
 $host-ar cr libudev.a *.o
 

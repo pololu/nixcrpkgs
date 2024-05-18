@@ -51,7 +51,7 @@ Next, run `df -h` to make sure you have enough disk space.
 - The filesystem that holds `/nix` should have many gigabytes of free
 space.  Each cross-compiler can take about 1 GB while each Qt installation
 takes about 500 MB.
-- The filesystem that holds `/tmp` should have at least 4 GB of free
+- The filesystem that holds `/tmp` should have at least 5 GB of free
 space, which will be needed while building cross-compilers.  If that is not the
 case on your system, you can set the `TMPDIR` environment variable to tell
 `nix-build` to perform its builds in a different directory on a filesystem with
