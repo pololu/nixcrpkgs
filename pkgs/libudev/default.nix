@@ -33,7 +33,8 @@ let
         "-DSIZEOF_INO_T=8 " +
         "-DSIZEOF_DEV_T=8";
 
-    CFLAGS = "-Werror -D_GNU_SOURCE " +
+    CFLAGS = "-ffunction-sections -Werror " +
+      "-D_GNU_SOURCE " +
       "-DHAVE_REALLOCARRAY " +
       "-DHAVE_STRUCT_STATX " +
       "-DHAVE_NAME_TO_HANDLE_AT " +

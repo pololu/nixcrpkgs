@@ -79,7 +79,8 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{alloc-util,architecture,bus-label,cgroup-util,dirent-util,env-util,escape,extract-word,fd-util,fileio,fs-util,gunicode,glob-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,log,login-util,mempool,mkdir,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,syslog-util,terminal-util,time-util,unit-name,utf8,virt,MurmurHash2}.c
+  ../systemd/src/basic/{alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,filesystems,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,mkdir,mountpoint-util,nulstr-util,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,syslog-util,terminal-util,time-util,tmpfile-util,unit-name,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
+  ../systemd/src/fundamental/{sha256,string-util-fundamental}.c
 $host-ar cr libudev.a *.o
 
 mkdir -p $out/lib/pkgconfig $out/include
