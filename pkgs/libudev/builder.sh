@@ -12,6 +12,7 @@ cd ..
 
 $host-g++ -x c -c $size_flags - -o test.o <<EOF
 #include <assert.h>
+#include <string.h>
 #include <sys/timex.h>
 #include <sys/types.h>
 #include <sys/resource.h>
@@ -24,6 +25,7 @@ static_assert(sizeof(dev_t) == SIZEOF_DEV_T, "dev_t");
 static_assert(sizeof(ino_t) == SIZEOF_INO_T, "ino_t");
 struct timex tmx;
 static_assert(sizeof(tmx.freq) == SIZEOF_TIMEX_MEMBER);
+const char * in_word_set(const char *, GPERF_LEN_TYPE);
 EOF
 
 rm test.o
@@ -64,6 +66,10 @@ $host-gcc -c $CFLAGS \
   ../systemd/src/libsystemd/sd-device/{device-enumerator,device-private,sd-device}.c
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
+  -DDEFAULT_USER_SHELL=\"/nonexistent/bin/bash\" \
+  -DNOBODY_USER_NAME=\"nobody\" \
+  -DNOBODY_GROUP_NAME=\"nobody\" \
+  -DNOLOGIN=\"/nonexistent/nologin\" \
   -DPACKAGE_STRING="\"libudev $version\"" \
   -DFALLBACK_HOSTNAME="\"localhost\"" \
   -DDEFAULT_HIERARCHY_NAME="\"hybrid\"" \
@@ -73,7 +79,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{alloc-util,architecture,bus-label,cgroup-util,device-nodes,dirent-util,env-util,escape,extract-word,fd-util,fileio,fs-util,gunicode,glob-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,log,login-util,mempool,mkdir,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,syslog-util,terminal-util,time-util,unit-name,user-util,utf8,util,virt,MurmurHash2}.c
+  ../systemd/src/basic/{alloc-util,architecture,bus-label,cgroup-util,dirent-util,env-util,escape,extract-word,fd-util,fileio,fs-util,gunicode,glob-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,log,login-util,mempool,mkdir,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,syslog-util,terminal-util,time-util,unit-name,utf8,virt,MurmurHash2}.c
 $host-ar cr libudev.a *.o
 
 mkdir -p $out/lib/pkgconfig $out/include

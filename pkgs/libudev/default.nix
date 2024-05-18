@@ -22,7 +22,9 @@ let
     fill = ./fill;
 
     size_flags =
+        "-DGPERF_LEN_TYPE=size_t " +
         "-DSIZEOF_TIMEX_MEMBER=8 " +
+        "-D_FILE_OFFSET_BITS=64 " +  # not sure about this (TODO)
         "-DSIZEOF_PID_T=4 " +
         "-DSIZEOF_UID_T=4 " +
         "-DSIZEOF_GID_T=4 " +
@@ -35,7 +37,6 @@ let
       "-DHAVE_REALLOCARRAY " +
       "-DHAVE_STRUCT_STATX " +
       "-DHAVE_NAME_TO_HANDLE_AT " +
-      "-D_FILE_OFFSET_BITS=64 " +  # not sure about this
       "-DBUILD_MODE_DEVELOPER=0 " +
       "-DHAVE_DECL_SETNS " +
       "-DHAVE_DECL_MEMFD_CREATE " +

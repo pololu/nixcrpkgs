@@ -1,25 +1,61 @@
 diff '--exclude=testdata' -ur systemd-255-orig/src/basic/glob-util.c systemd-255/src/basic/glob-util.c
 --- systemd-255-orig/src/basic/glob-util.c	2024-05-18 13:21:30.910869411 -0700
-+++ systemd-255/src/basic/glob-util.c	2024-05-18 13:54:21.508786894 -0700
-@@ -19,9 +19,6 @@
++++ systemd-255/src/basic/glob-util.c	2024-05-18 14:04:00.989120300 -0700
+@@ -19,22 +19,8 @@
  int safe_glob(const char *path, int flags, glob_t *pglob) {
          int k;
  
 -        /* We want to set GLOB_ALTDIRFUNC ourselves, don't allow it to be set. */
 -        assert(!(flags & GLOB_ALTDIRFUNC));
 -
-         if (!pglob->gl_closedir)
-                 pglob->gl_closedir = closedir_wrapper;
-         if (!pglob->gl_readdir)
-@@ -34,7 +31,7 @@
-                 pglob->gl_stat = stat;
- 
+-        if (!pglob->gl_closedir)
+-                pglob->gl_closedir = closedir_wrapper;
+-        if (!pglob->gl_readdir)
+-                pglob->gl_readdir = (struct dirent *(*)(void *)) readdir_no_dot;
+-        if (!pglob->gl_opendir)
+-                pglob->gl_opendir = (void *(*)(const char *)) opendir;
+-        if (!pglob->gl_lstat)
+-                pglob->gl_lstat = lstat;
+-        if (!pglob->gl_stat)
+-                pglob->gl_stat = stat;
+-
          errno = 0;
 -        k = glob(path, flags | GLOB_ALTDIRFUNC, NULL, pglob);
 +        k = glob(path, flags, NULL, pglob);
          if (k == GLOB_NOMATCH)
                  return -ENOENT;
          if (k == GLOB_NOSPACE)
+@@ -53,7 +39,7 @@
+ 
+         assert(path);
+ 
+-        k = safe_glob(path, GLOB_NOSORT|GLOB_BRACE, &g);
++        k = safe_glob(path, GLOB_NOSORT, &g);
+         if (k == -ENOENT) {
+                 if (ret_first)
+                         *ret_first = NULL;
+@@ -78,7 +64,7 @@
+         _cleanup_globfree_ glob_t g = {};
+         int k;
+ 
+-        k = safe_glob(path, GLOB_NOSORT|GLOB_BRACE|flags, &g);
++        k = safe_glob(path, GLOB_NOSORT|flags, &g);
+         if (k < 0)
+                 return k;
+ 
+diff '--exclude=testdata' -ur systemd-255-orig/src/basic/linux/if.h systemd-255/src/basic/linux/if.h
+--- systemd-255-orig/src/basic/linux/if.h	2024-05-18 13:21:30.910869411 -0700
++++ systemd-255/src/basic/linux/if.h	2024-05-18 14:05:51.326935610 -0700
+@@ -132,9 +132,6 @@
+ #define IFF_ECHO			IFF_ECHO
+ #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
+ 
+-#define IFF_VOLATILE	(IFF_LOOPBACK|IFF_POINTOPOINT|IFF_BROADCAST|IFF_ECHO|\
+-		IFF_MASTER|IFF_SLAVE|IFF_RUNNING|IFF_LOWER_UP|IFF_DORMANT)
+-
+ #define IF_GET_IFACE	0x0001		/* for querying only */
+ #define IF_GET_PROTO	0x0002
+ 
 diff '--exclude=testdata' -ur systemd-255-orig/src/basic/sort-util.h systemd-255/src/basic/sort-util.h
 --- systemd-255-orig/src/basic/sort-util.h	2024-05-18 13:21:30.918868898 -0700
 +++ systemd-255/src/basic/sort-util.h	2024-05-18 13:35:46.075221094 -0700
