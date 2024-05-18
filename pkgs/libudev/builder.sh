@@ -8,6 +8,11 @@ for patch in $patches; do
   echo applying patch $patch
   patch -p1 -i $patch
 done
+
+# These files are difficult to compile, so we remove them
+# and patch out anything depending on them.
+rm src/basic/{filesystems,unit-name}.{c,h}
+
 cd ..
 
 $host-g++ -x c -c $size_flags - -o test.o <<EOF
@@ -63,7 +68,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/libsystemd/sd-device/{device-enumerator,device-private,sd-device}.c
+  ../systemd/src/libsystemd/sd-device/{device-enumerator,device-filter,device-private,sd-device}.c
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
   -DDEFAULT_USER_SHELL=\"/nonexistent/bin/bash\" \
@@ -79,7 +84,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,filesystems,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,mkdir,mountpoint-util,nulstr-util,path-util,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,syslog-util,terminal-util,time-util,tmpfile-util,unit-name,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
+  ../systemd/src/basic/{alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,mkdir,mountpoint-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
   ../systemd/src/fundamental/{sha256,string-util-fundamental}.c
 $host-ar cr libudev.a *.o
 
