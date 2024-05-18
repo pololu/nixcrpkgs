@@ -10,16 +10,16 @@ in
 native.make_derivation rec {
   name = "gcc-${version}-${host}";
 
-  version = "13.2.0";
+  version = "14.1.0";
   src = fetchurl {
     url = "mirror://gnu/gcc/gcc-${version}/gcc-${version}.tar.xz";
-    hash = "sha256-4nXnZEKmBnNBon8Exca4PYYTFEAEwEE1KIY9xrXHQ9o=";
+    hash = "sha256-4oPGVJh6/j3p2AgLwL15U0tcoNaBpzoR/ytdN2dCaEA=";
   };
 
-  musl_version = "1.2.4";
+  musl_version = "1.2.5";
   musl_src = nixpkgs.fetchurl {
     url = "https://www.musl-libc.org/releases/musl-${musl_version}.tar.gz";
-    hash = "sha256-ejXq4z1TcqfA2hGI3nmHJvaIJVE7euPr6XqqpSEU8Dk=";
+    hash = "sha256-qaEYu+hNh2TaDqDSizqz+uhHf8fkCF2QECuFlvx8deQ=";
   };
 
   inherit host headers;

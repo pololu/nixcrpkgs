@@ -5,11 +5,11 @@ in
 native.make_derivation rec {
   name = "binutils-${version}-${host}";
 
-  version = "2.40";
+  version = "2.42";
 
   src = native.nixpkgs.fetchurl {
     url = "mirror://gnu/binutils/binutils-${version}.tar.xz";
-    hash = "sha256-D4pMJy1/F/Np3tEKSsoouOMEgo6VUm2kgrDMxN/J2OE=";
+    hash = "sha256-9uTUH9X8d4sGt4kUV7NiDaXs6hAGxqSkGumYEJ+FqAA=";
   };
 
   patches = [
