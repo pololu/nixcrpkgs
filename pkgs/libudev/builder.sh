@@ -9,9 +9,9 @@ for patch in $patches; do
   patch -p1 -i $patch
 done
 
-# These files are difficult to compile, so we remove them
-# and patch out anything depending on them.
-rm src/basic/{capability-util,filesystems,unit-name}.{c,h}
+# These have compiler errors and we don't seem to need them.
+rm src/basic/{arphrd-util,cap-list,capability-util,compress,filesystems,path-lookup,uid-alloc-range,unit-def,unit-file,unit-name}.{c,h}
+rm $(find src/libsystemd/ -name test-*.c)
 
 cd ..
 
@@ -70,11 +70,11 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/libsystemd/sd-device/{device-enumerator,device-filter,device-private,sd-device}.c \
-  ../systemd/src/libsystemd/sd-id128/{id128-util,sd-id128}.c \
-  ../systemd/src/libsystemd/sd-netlink/{sd-netlink,netlink-{genl,message,message-rtnl,slot,socket,types,types-genl,types-nfnl,types-rtnl,util}}.c \
-  ../systemd/src/libsystemd/sd-daemon/sd-daemon.c \
-  ../systemd/src/libsystemd/sd-event/sd-event.c
+  ../systemd/src/libsystemd/sd-device/*.c \
+  ../systemd/src/libsystemd/sd-id128/*.c \
+  ../systemd/src/libsystemd/sd-netlink/*.c \
+  ../systemd/src/libsystemd/sd-daemon/*.c \
+  ../systemd/src/libsystemd/sd-event/*.c
 echo "Compiling helpers..."
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
@@ -91,8 +91,8 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{af-list,alloc-util,architecture,argv-util,btrfs,bus-label,cgroup-util,chase,devnum-util,dirent-util,env-file,env-util,errno-list,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hmac,hostname-util,initrd-util,inotify-util,iovec-util,io-util,label,locale-util,lock-util,log,login-util,ordered-set,os-util,memory-util,mempool,memstream-util,mkdir,mountpoint-util,namespace-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,psi-util,random-util,ratelimit,rlimit-util,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,sysctl-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
-  ../systemd/src/fundamental/{sha256,string-util-fundamental}.c
+  ../systemd/src/basic/*.c \
+  ../systemd/src/fundamental/*.c
 $host-ar cr libudev.a *.o
 
 mkdir -p $out/lib/pkgconfig $out/include
