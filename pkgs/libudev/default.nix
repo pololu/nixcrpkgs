@@ -18,6 +18,14 @@ let
     patches = [
       # Fix some compile-time errors caused by not using glibc.
       ./megapatch.patch
+
+      # We can't figure out how to compile src/basic/filesystems.c, so remove
+      # things that depend on it and a caused errors.
+      ./filesystems.patch
+
+      # We can't figure out how to compile src/basic/unit-name.c, so remove
+      # things that depend on it and a caused errors.
+      ./unit-name.patch
     ];
     fill = ./fill;
 
