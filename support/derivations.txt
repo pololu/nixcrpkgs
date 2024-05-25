@@ -51,6 +51,6 @@ omni.xtrans
 {$all}.zlib
 
 # Derivations we care about at Pololu
-{win32,linux32,linux-rpi,macos,macos-arm}.{p-load,pavr2,tic} priority=1
+{win32,linux32,linux-rpi32,macos,macos-arm}.{p-load,pavr2,tic} priority=1
 
 # TODO: Test building the license_sets somehow too.
