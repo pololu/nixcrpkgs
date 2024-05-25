@@ -23,9 +23,13 @@ let
       # them.  These patches clean up errors caused by that.
       ./filesystems.patch
       ./unit-name.patch
+      ./capability.patch
 
       # af-list.c includes some header files we don't have.
       ./af-list.patch
+
+      # We don't have errno-from-name.h or errno-to-name.h
+      ./errno.patch
     ];
     fill = ./fill;
 

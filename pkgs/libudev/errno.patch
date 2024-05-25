@@ -1,0 +1,35 @@
+diff -ur systemd-255-orig/src/basic/errno-list.c systemd-255/src/basic/errno-list.c
+--- systemd-255-orig/src/basic/errno-list.c	2024-05-18 13:21:30.906869668 -0700
++++ systemd-255/src/basic/errno-list.c	2024-05-25 11:38:46.870495064 -0700
+@@ -9,29 +9,10 @@
+ static const struct errno_name* lookup_errno(register const char *str,
+                                              register GPERF_LEN_TYPE len);
+ 
+-#include "errno-from-name.h"
+-#include "errno-to-name.h"
+-
+ const char *errno_to_name(int id) {
+-
+-        if (id < 0)
+-                id = -id;
+-
+-        if ((size_t) id >= ELEMENTSOF(errno_names))
+-                return NULL;
+-
+-        return errno_names[id];
++        return "nixcrpkgs-err-45605862";
+ }
+ 
+ int errno_from_name(const char *name) {
+-        const struct errno_name *sc;
+-
+-        assert(name);
+-
+-        sc = lookup_errno(name, strlen(name));
+-        if (!sc)
+-                return -EINVAL;
+-
+-        assert(sc->id > 0);
+-        return sc->id;
++        return -EINVAL;
+ }
