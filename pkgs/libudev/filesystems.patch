@@ -1,32 +1,6 @@
-diff '--exclude=testdata' -ur systemd-255-orig/src/basic/stat-util.c systemd-255/src/basic/stat-util.c
---- systemd-255-orig/src/basic/stat-util.c	2024-05-18 13:21:30.918868898 -0700
-+++ systemd-255/src/basic/stat-util.c	2024-05-18 16:27:28.285958468 -0700
-@@ -13,7 +13,6 @@
- #include "errno-util.h"
- #include "fd-util.h"
- #include "fileio.h"
--#include "filesystems.h"
- #include "fs-util.h"
- #include "hash-funcs.h"
- #include "macro.h"
-@@ -218,14 +217,6 @@
-         return is_fs_type(&s, magic_value);
- }
-
--bool is_temporary_fs(const struct statfs *s) {
--        return fs_in_group(s, FILESYSTEM_SET_TEMPORARY);
--}
--
--bool is_network_fs(const struct statfs *s) {
--        return fs_in_group(s, FILESYSTEM_SET_NETWORK);
--}
--
- int fd_is_temporary_fs(int fd) {
-         struct statfs s;
-
-diff '--exclude=testdata' -ur systemd-255-orig/src/basic/mountpoint-util.c systemd-255/src/basic/mountpoint-util.c
+diff '--exclude=test' -ur systemd-255-orig/src/basic/mountpoint-util.c systemd-255/src/basic/mountpoint-util.c
 --- systemd-255-orig/src/basic/mountpoint-util.c	2024-05-18 13:21:30.914869154 -0700
-+++ systemd-255/src/basic/mountpoint-util.c	2024-05-18 16:28:37.993246165 -0700
++++ systemd-255/src/basic/mountpoint-util.c	2024-05-25 09:23:11.318158112 -0700
 @@ -11,7 +11,6 @@
  #include "chase.h"
  #include "fd-util.h"
@@ -38,7 +12,7 @@ diff '--exclude=testdata' -ur systemd-255-orig/src/basic/mountpoint-util.c syste
 @@ -401,24 +400,6 @@
          return path_get_mnt_id_at_fallback(dir_fd, path, ret);
  }
-
+ 
 -bool fstype_is_network(const char *fstype) {
 -        const char *x;
 -
@@ -63,7 +37,7 @@ diff '--exclude=testdata' -ur systemd-255-orig/src/basic/mountpoint-util.c syste
 @@ -445,34 +426,6 @@
                            "f2fs");
  }
-
+ 
 -bool fstype_is_api_vfs(const char *fstype) {
 -        const FilesystemSet *fs;
 -
@@ -95,3 +69,84 @@ diff '--exclude=testdata' -ur systemd-255-orig/src/basic/mountpoint-util.c syste
  bool fstype_is_ro(const char *fstype) {
          /* All Linux file systems that are necessarily read-only */
          return STR_IN_SET(fstype,
+diff '--exclude=test' -ur systemd-255-orig/src/basic/stat-util.c systemd-255/src/basic/stat-util.c
+--- systemd-255-orig/src/basic/stat-util.c	2024-05-18 13:21:30.918868898 -0700
++++ systemd-255/src/basic/stat-util.c	2024-05-25 09:25:54.294164862 -0700
+@@ -13,7 +13,6 @@
+ #include "errno-util.h"
+ #include "fd-util.h"
+ #include "fileio.h"
+-#include "filesystems.h"
+ #include "fs-util.h"
+ #include "hash-funcs.h"
+ #include "macro.h"
+@@ -218,50 +217,6 @@
+         return is_fs_type(&s, magic_value);
+ }
+ 
+-bool is_temporary_fs(const struct statfs *s) {
+-        return fs_in_group(s, FILESYSTEM_SET_TEMPORARY);
+-}
+-
+-bool is_network_fs(const struct statfs *s) {
+-        return fs_in_group(s, FILESYSTEM_SET_NETWORK);
+-}
+-
+-int fd_is_temporary_fs(int fd) {
+-        struct statfs s;
+-
+-        if (fstatfs(fd, &s) < 0)
+-                return -errno;
+-
+-        return is_temporary_fs(&s);
+-}
+-
+-int fd_is_network_fs(int fd) {
+-        struct statfs s;
+-
+-        if (fstatfs(fd, &s) < 0)
+-                return -errno;
+-
+-        return is_network_fs(&s);
+-}
+-
+-int path_is_temporary_fs(const char *path) {
+-        struct statfs s;
+-
+-        if (statfs(path, &s) < 0)
+-                return -errno;
+-
+-        return is_temporary_fs(&s);
+-}
+-
+-int path_is_network_fs(const char *path) {
+-        struct statfs s;
+-
+-        if (statfs(path, &s) < 0)
+-                return -errno;
+-
+-        return is_network_fs(&s);
+-}
+-
+ int stat_verify_regular(const struct stat *st) {
+         assert(st);
+ 
+diff '--exclude=test' -ur systemd-255-orig/src/basic/stat-util.h systemd-255/src/basic/stat-util.h
+--- systemd-255-orig/src/basic/stat-util.h	2024-05-18 13:21:30.918868898 -0700
++++ systemd-255/src/basic/stat-util.h	2024-05-25 09:25:38.166164194 -0700
+@@ -56,15 +56,6 @@
+         return is_fs_type_at(AT_FDCWD, path, magic_value);
+ }
+ 
+-bool is_temporary_fs(const struct statfs *s) _pure_;
+-bool is_network_fs(const struct statfs *s) _pure_;
+-
+-int fd_is_temporary_fs(int fd);
+-int fd_is_network_fs(int fd);
+-
+-int path_is_temporary_fs(const char *path);
+-int path_is_network_fs(const char *path);
+-
+ /* Because statfs.t_type can be int on some architectures, we have to cast
+  * the const magic to the type, otherwise the compiler warns about
+  * signed/unsigned comparison, because the magic can be 32 bit unsigned.

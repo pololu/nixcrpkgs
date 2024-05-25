@@ -84,7 +84,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,devnum-util,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,inotify-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,memstream-util,mkdir,mountpoint-util,namespace-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
+  ../systemd/src/basic/{af-list,alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,devnum-util,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,inotify-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,memstream-util,mkdir,mountpoint-util,namespace-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,sysctl-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
   ../systemd/src/fundamental/{sha256,string-util-fundamental}.c
 $host-ar cr libudev.a *.o
 
