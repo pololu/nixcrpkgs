@@ -42,6 +42,7 @@ let
         "-DSIZEOF_DEV_T=8";
 
     CFLAGS = "-ffunction-sections -Werror " +
+      "-D__UAPI_DEF_ETHHDR=0 " +
       "-D_GNU_SOURCE " +
       "-DHAVE_REALLOCARRAY " +
       "-DHAVE_STRUCT_STATX " +

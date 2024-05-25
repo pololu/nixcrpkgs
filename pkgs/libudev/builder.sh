@@ -45,6 +45,7 @@ END
 
 cp -r $fill fill
 
+echo "Compiling libudev..."
 $host-gcc -c -Werror -Ifill fill/*.c
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
@@ -58,6 +59,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/shared \
   -I../systemd/src/systemd \
   ../systemd/src/libudev/*.c
+echo "Compiling libsystemd..."
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
   -Iinclude \
@@ -68,7 +70,12 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/libsystemd/sd-device/{device-enumerator,device-filter,device-private,sd-device}.c
+  ../systemd/src/libsystemd/sd-device/{device-enumerator,device-filter,device-private,sd-device}.c \
+  ../systemd/src/libsystemd/sd-id128/{id128-util,sd-id128}.c \
+  ../systemd/src/libsystemd/sd-netlink/{sd-netlink,netlink-{genl,message,message-rtnl,slot,socket,types,types-genl,types-nfnl,types-rtnl,util}}.c \
+  ../systemd/src/libsystemd/sd-daemon/sd-daemon.c \
+  ../systemd/src/libsystemd/sd-event/sd-event.c
+echo "Compiling helpers..."
 $host-gcc -c $CFLAGS \
   -DRELATIVE_SOURCE_PATH=\"../systemd/\" \
   -DDEFAULT_USER_SHELL=\"/nonexistent/bin/bash\" \
@@ -84,7 +91,7 @@ $host-gcc -c $CFLAGS \
   -I../systemd/src/basic \
   -I../systemd/src/systemd \
   -I../systemd/src/fundamental \
-  ../systemd/src/basic/{af-list,alloc-util,architecture,btrfs,bus-label,cgroup-util,chase,devnum-util,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hostname-util,inotify-util,io-util,label,locale-util,lock-util,log,login-util,os-util,memory-util,mempool,memstream-util,mkdir,mountpoint-util,namespace-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,random-util,ratelimit,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,sysctl-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
+  ../systemd/src/basic/{af-list,alloc-util,architecture,argv-util,btrfs,bus-label,cgroup-util,chase,devnum-util,dirent-util,env-file,env-util,escape,extract-word,fd-util,fileio,format-util,fs-util,gunicode,glob-util,glyph-util,hashmap,hash-funcs,hexdecoct,hmac,hostname-util,inotify-util,iovec-util,io-util,label,locale-util,lock-util,log,login-util,ordered-set,os-util,memory-util,mempool,memstream-util,mkdir,mountpoint-util,namespace-util,nulstr-util,path-util,pidref,proc-cmdline,parse-util,prioq,process-util,psi-util,random-util,ratelimit,rlimit-util,signal-util,siphash24,socket-util,sort-util,stat-util,string-table,string-util,strv,strxcpyx,sync-util,sysctl-util,syslog-util,terminal-util,time-util,tmpfile-util,user-util,utf8,virt,xattr-util,MurmurHash2}.c \
   ../systemd/src/fundamental/{sha256,string-util-fundamental}.c
 $host-ar cr libudev.a *.o
 

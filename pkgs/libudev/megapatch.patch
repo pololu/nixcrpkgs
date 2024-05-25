@@ -1,10 +1,10 @@
-diff '--exclude=testdata' -ur systemd-255-orig/src/basic/glob-util.c systemd-255/src/basic/glob-util.c
+diff -ur '--exclude=test' systemd-255-orig/src/basic/glob-util.c systemd-255/src/basic/glob-util.c
 --- systemd-255-orig/src/basic/glob-util.c	2024-05-18 13:21:30.910869411 -0700
-+++ systemd-255/src/basic/glob-util.c	2024-05-18 14:04:00.989120300 -0700
++++ systemd-255/src/basic/glob-util.c	2024-05-25 11:11:17.122426736 -0700
 @@ -19,22 +19,8 @@
  int safe_glob(const char *path, int flags, glob_t *pglob) {
          int k;
-
+ 
 -        /* We want to set GLOB_ALTDIRFUNC ourselves, don't allow it to be set. */
 -        assert(!(flags & GLOB_ALTDIRFUNC));
 -
@@ -26,9 +26,9 @@ diff '--exclude=testdata' -ur systemd-255-orig/src/basic/glob-util.c systemd-255
                  return -ENOENT;
          if (k == GLOB_NOSPACE)
 @@ -53,7 +39,7 @@
-
+ 
          assert(path);
-
+ 
 -        k = safe_glob(path, GLOB_NOSORT|GLOB_BRACE, &g);
 +        k = safe_glob(path, GLOB_NOSORT, &g);
          if (k == -ENOENT) {
@@ -37,34 +37,46 @@ diff '--exclude=testdata' -ur systemd-255-orig/src/basic/glob-util.c systemd-255
 @@ -78,7 +64,7 @@
          _cleanup_globfree_ glob_t g = {};
          int k;
-
+ 
 -        k = safe_glob(path, GLOB_NOSORT|GLOB_BRACE|flags, &g);
 +        k = safe_glob(path, GLOB_NOSORT|flags, &g);
          if (k < 0)
                  return k;
-
-diff '--exclude=testdata' -ur systemd-255-orig/src/basic/linux/if.h systemd-255/src/basic/linux/if.h
+ 
+diff -ur '--exclude=test' systemd-255-orig/src/basic/linux/if.h systemd-255/src/basic/linux/if.h
 --- systemd-255-orig/src/basic/linux/if.h	2024-05-18 13:21:30.910869411 -0700
-+++ systemd-255/src/basic/linux/if.h	2024-05-18 14:05:51.326935610 -0700
++++ systemd-255/src/basic/linux/if.h	2024-05-25 11:11:17.122426736 -0700
 @@ -132,9 +132,6 @@
  #define IFF_ECHO			IFF_ECHO
  #endif /* __UAPI_DEF_IF_NET_DEVICE_FLAGS_LOWER_UP_DORMANT_ECHO */
-
+ 
 -#define IFF_VOLATILE	(IFF_LOOPBACK|IFF_POINTOPOINT|IFF_BROADCAST|IFF_ECHO|\
 -		IFF_MASTER|IFF_SLAVE|IFF_RUNNING|IFF_LOWER_UP|IFF_DORMANT)
 -
  #define IF_GET_IFACE	0x0001		/* for querying only */
  #define IF_GET_PROTO	0x0002
-
-diff '--exclude=testdata' -ur systemd-255-orig/src/basic/sort-util.h systemd-255/src/basic/sort-util.h
+ 
+diff -ur '--exclude=test' systemd-255-orig/src/basic/sort-util.h systemd-255/src/basic/sort-util.h
 --- systemd-255-orig/src/basic/sort-util.h	2024-05-18 13:21:30.918868898 -0700
-+++ systemd-255/src/basic/sort-util.h	2024-05-18 13:35:46.075221094 -0700
++++ systemd-255/src/basic/sort-util.h	2024-05-25 11:11:17.122426736 -0700
 @@ -5,6 +5,8 @@
-
+ 
  #include "macro.h"
-
+ 
 +typedef int (*comparison_fn_t) (const void *, const void *);
 +
  /* This is the same as glibc's internal __compar_d_fn_t type. glibc exports a public comparison_fn_t, for the
   * external type __compar_fn_t, but doesn't do anything similar for __compar_d_fn_t. Let's hence do that
   * ourselves, picking a name that is obvious, but likely enough to not clash with glibc's choice of naming if
+diff -ur '--exclude=test' systemd-255-orig/src/libsystemd/sd-event/sd-event.c systemd-255/src/libsystemd/sd-event/sd-event.c
+--- systemd-255-orig/src/libsystemd/sd-event/sd-event.c	2024-05-18 13:21:30.946867101 -0700
++++ systemd-255/src/libsystemd/sd-event/sd-event.c	2024-05-25 11:11:47.486427994 -0700
+@@ -1888,7 +1888,7 @@
+ 
+         usec_t before_timestamp = now(CLOCK_MONOTONIC);
+         hashmap_trim_pools();
+-        r = malloc_trim(0);
++        r = 0;
+         usec_t after_timestamp = now(CLOCK_MONOTONIC);
+ 
+         if (r > 0)
