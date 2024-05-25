@@ -1,0 +1,43 @@
+diff -ur '--exclude=test' systemd-255-orig/src/basic/af-list.c systemd-255/src/basic/af-list.c
+--- systemd-255-orig/src/basic/af-list.c	2024-05-18 13:21:30.906869668 -0700
++++ systemd-255/src/basic/af-list.c	2024-05-25 10:53:21.922382205 -0700
+@@ -7,38 +7,6 @@
+ #include "af-list.h"
+ #include "macro.h"
+ 
+-static const struct af_name* lookup_af(register const char *str, register GPERF_LEN_TYPE len);
+-
+-#include "af-from-name.h"
+-#include "af-to-name.h"
+-
+-const char *af_to_name(int id) {
+-
+-        if (id <= 0)
+-                return NULL;
+-
+-        if ((size_t) id >= ELEMENTSOF(af_names))
+-                return NULL;
+-
+-        return af_names[id];
+-}
+-
+-int af_from_name(const char *name) {
+-        const struct af_name *sc;
+-
+-        assert(name);
+-
+-        sc = lookup_af(name, strlen(name));
+-        if (!sc)
+-                return -EINVAL;
+-
+-        return sc->id;
+-}
+-
+-int af_max(void) {
+-        return ELEMENTSOF(af_names);
+-}
+-
+ const char *af_to_ipv4_ipv6(int id) {
+         /* Pretty often we want to map the address family to the typically used protocol name for IPv4 +
+          * IPv6. Let's add special helpers for that. */
+Only in systemd-255/src/basic: .af-list.c.swp

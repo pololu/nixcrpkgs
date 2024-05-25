@@ -19,13 +19,13 @@ let
       # Fix some compile-time errors caused by not using glibc.
       ./megapatch.patch
 
-      # We can't figure out how to compile src/basic/filesystems.c, so remove
-      # things that depend on it and a caused errors.
+      # We can't figure out how to compile some compilation units, so we delete
+      # them.  These patches clean up errors caused by that.
       ./filesystems.patch
-
-      # We can't figure out how to compile src/basic/unit-name.c, so remove
-      # things that depend on it and a caused errors.
       ./unit-name.patch
+
+      # af-list.c includes some header files we don't have.
+      ./af-list.patch
     ];
     fill = ./fill;
 
