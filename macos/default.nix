@@ -1,4 +1,4 @@
-# Note: There are 4 LLVM versions in sight here:
+# Note: There are several LLVM versions in sight here:
 # 1. The one that comes with tapi.
 #    (Just so that the tapi library can use its YAML parser!)
 # 2. The one used by nixpkgs.clang which we use to build ld.

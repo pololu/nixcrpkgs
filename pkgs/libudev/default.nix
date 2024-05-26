@@ -12,6 +12,9 @@ let
     hash = "sha256-KIVP+yy1+eB/y9uvHgOoCzRioS7e74SJPKLzeyLkSR4=";
   };
 
+  pointer_size = if crossenv.arch == "i686" || crossenv.arch == "armv6" then 4
+    else 8;
+
   lib = crossenv.make_derivation rec {
     inherit version name src;
     builder = ./builder.sh;
@@ -35,7 +38,7 @@ let
 
     size_flags =
         "-DGPERF_LEN_TYPE=size_t " +
-        "-DSIZEOF_TIMEX_MEMBER=8 " +
+        "-DSIZEOF_TIMEX_MEMBER=${toString pointer_size} " +
         "-D_FILE_OFFSET_BITS=64 " +  # not sure about this (TODO)
         "-DSIZEOF_PID_T=4 " +
         "-DSIZEOF_UID_T=4 " +
