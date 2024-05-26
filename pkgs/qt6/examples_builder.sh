@@ -4,7 +4,7 @@ mkdir build
 cd build
 ls $examples > /dev/null
 for example in $examples; do
-  cmake-cross $example -DCMAKE_INSTALL_PREFIX=../staging
+  $qt/bin/qt-cmake $example -DCMAKE_INSTALL_PREFIX=../staging
   cmake --build .
   cmake --install .
   rm -r ../build/*

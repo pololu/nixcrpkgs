@@ -116,6 +116,8 @@ let
       if crossenv.os == "linux" then xlibs ++ [ libudev at-spi2-headers ]
       else [];
 
+    cmake_toolchain_from_env = "${crossenv.wrappers}/cmake_toolchain.txt";
+
     configure_flags =
       "-qt-host-path ${qt_host} " +
       "-xplatform ${platform} " +
@@ -131,15 +133,13 @@ let
         "-no-opengl " +  # TODO: support OpenGL on macOS
         "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
-      else "-- ") +
-      (if crossenv.arch == "i686" then
-      "-DCMAKE_CXX_FLAGS=-msse2 " else "") +
-      "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
+      else "-- ");
   };
 
   module = { name, src }: crossenv.make_derivation {
     name = "${name}-${version}";
     inherit src;
+    qt = base;
     native_inputs = [ nixpkgs.perl ];
     cross_inputs = [ base ];
     builder = ./module_builder.sh;
@@ -176,6 +176,7 @@ let
       "${base_src}/examples/widgets/effects/blurpicker"
       "${base_src}/examples/corelib/threads/mandelbrot"
     ];
+    qt = base;
     cross_inputs = [ base qtserialport qt5compat ];
     builder = ./examples_builder.sh;
     font = if crossenv.os == "linux" then "${dejavu-fonts}/ttf/DejaVuSans.ttf"
