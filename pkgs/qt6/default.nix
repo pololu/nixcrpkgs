@@ -132,6 +132,8 @@ let
         "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
       else "-- ") +
+      (if crossenv.arch == "i686" then
+      "-DCMAKE_CXX_FLAGS=-msse2 " else "") +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
   };
 
