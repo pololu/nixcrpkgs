@@ -134,6 +134,8 @@ let
         "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
       else "-- ");
+
+    LC_ALL = "C.UTF-8";  # fix some warnings from uic while building
   };
 
   module = { name, src }: crossenv.make_derivation {
@@ -182,5 +184,16 @@ let
     font = if crossenv.os == "linux" then "${dejavu-fonts}/ttf/DejaVuSans.ttf"
       else "";
   };
+
+  # This is here to reproduce the bug Qt has where it can't connect to DBus,
+  # which causes all the example apps to print a warning.
+  # TODO: Fix this bug, get DBus connection working
+  tmphax = crossenv.make_derivation {
+    name = "qt-tmphax";
+    builder = ./tmphax_builder.sh;
+    src = ./tmphax;
+    qt = base;
+    cross_inputs = [ base ];
+  };
 in
-  base // { inherit qt_host qtserialport qt5compat examples; }
+  base // { inherit qt_host qtserialport qt5compat examples tmphax; }
