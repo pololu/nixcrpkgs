@@ -1,0 +1,16 @@
+diff -ur qt-6.5.3-orig/src/corelib/CMakeLists.txt qt-6.5.3/src/corelib/CMakeLists.txt
+--- qt-6.5.3-orig/src/corelib/CMakeLists.txt	2024-02-04 20:42:39.907211353 -0800
++++ qt-6.5.3/src/corelib/CMakeLists.txt	2024-05-27 13:16:41.015981011 -0700
+@@ -357,6 +357,11 @@
+ set_target_properties(Core PROPERTIES INTERFACE_QT_COORD_TYPE "${QT_COORD_TYPE}")
+ set_property(TARGET Core APPEND PROPERTY COMPATIBLE_INTERFACE_STRING QT_COORD_TYPE)
+ 
++message("Hello from your patch: ${CMAKE_SYSTEM_PROCESSOR}")
++#if(CMAKE_SYSTEM_PROCESSOR STREQUAL "i686")
++  target_compile_options(Core PUBLIC -msse2)
++#endif()
++
+ # Handle qtConfig(thread): CONFIG += thread like in qt.prf.
+ # Aka if the feature is enabled, publicly link against the threading library.
+ # This also ensures the link flag is in the .prl file.
+Only in qt-6.5.3/src/corelib: .CMakeLists.txt.swp

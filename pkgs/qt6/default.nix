@@ -106,6 +106,12 @@ let
       # Tell Qt to look for files like FindWrapIconv.cmake in the appropriate
       # directory of the module that needs it.
       ./module_path.patch
+
+      # src/corelib/global/qfloat.h uses _Float16, which requires SSE2 if we are
+      # on i686.  So anything that depends on Qt6::Core should use the -msse2
+      # flag to avoid compilation errors.  Somehow this wasn't a problem for
+      # Qt 6.4.1, but is for Qt 6.5.3.
+      ./sse2.patch
     ];
 
     builder = ./builder.sh;
@@ -132,7 +138,6 @@ let
         "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
       else "-- ") +
-      (if crossenv.arch == "i686" then "-DCMAKE_CXX_FLAGS=-msse2 " else "") +
       "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
 
     LC_ALL = "C.UTF-8";  # fix some warnings from uic while building
