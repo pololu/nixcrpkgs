@@ -1,0 +1,12 @@
+--- gcc-14.1.0-orig/gcc/config/gnu-user.h
++++ gcc-14.1.0/gcc/config/gnu-user.h
+@@ -110,8 +110,7 @@
+ #endif
+ 
+ #define GNU_USER_TARGET_LINK_GCC_C_SEQUENCE_SPEC \
+-  "%{static|static-pie:--start-group} %G %{!nolibc:%L} \
+-   %{static|static-pie:--end-group}%{!static:%{!static-pie:%G}}"
++  "--start-group %G %{!nolibc:%L} --end-group"
+ 
+ #undef LINK_GCC_C_SEQUENCE_SPEC
+ #define LINK_GCC_C_SEQUENCE_SPEC GNU_USER_TARGET_LINK_GCC_C_SEQUENCE_SPEC

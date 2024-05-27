@@ -29,6 +29,24 @@ native.make_derivation rec {
   patches = [
     # This patch is from nixpkgs.
     ./libstdc++-target.patch
+
+    # This patch fixes the linker argument sequence for libcc and libc.
+    # libgcc and libc depend on eachother, so GCC should almost always link
+    # them into your program by passing these arguments to the linker:
+    #     --start-group -lgcc -lc --end-group
+    # However, someone trying to be overly clever decided that they could
+    # make their toolchain slightly faster by linking them like this:
+    #     -lgcc -lc -lgcc
+    # They assumed that if '-static' is not passed to GCC, then GCC will be
+    # linking against shared objects for libgcc and libc, and the sequence above
+    # would be OK.  That is NOT true for us because we only want to only provide
+    # static libraries for those things, so those static libraries are used
+    # whether the user passes '-static' or not.
+    # This bad assumption in GCC causes the build to fail with a cryptic error:
+    # "Link tests are not allowed after GCC_NO_EXECUTABLES." during the
+    # target "configure-target-libstdc++-v3", which is built by
+    # the command "make -C build_gcc".
+    ./link_gcc_c_sequence_spec.patch
   ];
 
   native_inputs = [ binutils ];
