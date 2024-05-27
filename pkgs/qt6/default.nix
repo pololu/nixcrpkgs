@@ -116,8 +116,6 @@ let
       if crossenv.os == "linux" then xlibs ++ [ libudev at-spi2-headers ]
       else [];
 
-    cmake_toolchain_from_env = "${crossenv.wrappers}/cmake_toolchain.txt";
-
     configure_flags =
       "-qt-host-path ${qt_host} " +
       "-xplatform ${platform} " +
@@ -133,7 +131,9 @@ let
         "-no-opengl " +  # TODO: support OpenGL on macOS
         "-no-feature-printsupport " + # can't find one of its headers in Qt 6.5.3
         "-- "
-      else "-- ");
+      else "-- ") +
+      (if crossenv.arch == "i686" then "-DCMAKE_CXX_FLAGS=-msse2 " else "") +
+      "-DCMAKE_TOOLCHAIN_FILE=${crossenv.wrappers}/cmake_toolchain.txt";
 
     LC_ALL = "C.UTF-8";  # fix some warnings from uic while building
   };
@@ -185,9 +185,8 @@ let
       else "";
   };
 
-  # This is here to reproduce the bug Qt has where it can't connect to DBus,
-  # which causes all the example apps to print a warning.
-  # TODO: Fix this bug, get DBus connection working
+  # This is here to help us reproduce bugs in Qt:
+  # - TODO: It can't connect to DBus, which all example apps to print a warning.
   tmphax = crossenv.make_derivation {
     name = "qt-tmphax";
     builder = ./tmphax_builder.sh;

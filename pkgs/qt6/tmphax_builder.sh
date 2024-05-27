@@ -1,4 +1,4 @@
 source $setup
-$qt/bin/qt-cmake $src -DCMAKE_INSTALL_PREFIX=$out #--debug-find-pkg=XCB
+cmake-cross $src -DCMAKE_INSTALL_PREFIX=$out
 cmake --build .
 cmake --install .

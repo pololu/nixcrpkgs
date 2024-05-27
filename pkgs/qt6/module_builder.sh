@@ -8,7 +8,7 @@ cd build
 
 mkdir -p $out/lib/cmake/Qt6
 
-$qt/bin/qt-cmake ../src -DCMAKE_INSTALL_PREFIX=$out
+cmake-cross ../src -DCMAKE_INSTALL_PREFIX=$out
 cmake --build .
 cmake --install .
 

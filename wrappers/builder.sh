@@ -5,6 +5,7 @@ mkdir -p $out/bin
 cd $out
 
 cat > cmake_toolchain.txt <<EOF
+set(CMAKE_SYSTEM_PROCESSOR ${arch})
 set(CMAKE_SYSTEM_NAME ${cmake_system})
 set(CMAKE_C_COMPILER ${host}-gcc)
 set(CMAKE_CXX_COMPILER ${host}-g++)

@@ -1,9 +1,4 @@
-// This is here to reproduce the bug Qt has where it can't connect to DBus,
-// which causes all the example apps to print a warning.
-//
-// Ths warning is printed in QGenericUnixThemeDBusListener::init
-// (in src/gui/platform/unix/qgenericunixthemes.cpp) as a result
-// of QDBusConnection::sessionBus().isConnected() returning false.
+// This is here to help us reproduce bugs in Qt.
 
 #include <QtCore/QCoreApplication>
 #include <QtDBus/QDBusConnection>
@@ -12,6 +7,10 @@
 int main(int argc, char ** argv)
 {
   QCoreApplication app(argc, argv);
+
+  // A warning is printed in QGenericUnixThemeDBusListener::init
+  // (in src/gui/platform/unix/qgenericunixthemes.cpp) as a result
+  // of QDBusConnection::sessionBus().isConnected() returning false.
   printf("Before dbus\n");
   fflush(stdout);
   QDBusConnection dbus = QDBusConnection::sessionBus();
