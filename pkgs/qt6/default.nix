@@ -112,6 +112,9 @@ let
       # flag to avoid compilation errors.  Somehow this wasn't a problem for
       # Qt 6.4.1, but is for Qt 6.5.3.
       ./sse2.patch
+
+      # Fix warnings we get while building Qt.
+      ./fix_warnings.patch
     ];
 
     builder = ./builder.sh;

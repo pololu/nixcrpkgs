@@ -27,10 +27,3 @@ for i in $cross_inputs; do
     done
   fi
 done
-
-
-if [ "$arch" == "i686" ]; then
-  cat <<END >> $out/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake
-target_compile_options(Qt6::Core INTERFACE -msse2)
-END
-fi
