@@ -17,6 +17,7 @@ cd build
 PKG_CONFIG=pkg-config-cross ../openocd/configure \
   --prefix=$out \
   --host=$host \
+  --disable-werror \
   --disable-dependency-tracking \
   --enable-static \
   --disable-shared

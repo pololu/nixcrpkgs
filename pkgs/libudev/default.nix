@@ -49,6 +49,8 @@ let
         "-DSIZEOF_DEV_T=8";
 
     CFLAGS = "-ffunction-sections -Werror " +
+      "-Dsocket_bind=libudev_socket_bind " +              # name conflict in OpenOCD
+      "-Dsocket_set_option=libudev_socket_set_option " +  # name conflict in OpenOCD
       "-D__UAPI_DEF_ETHHDR=0 " +
       "-D_GNU_SOURCE " +
       "-DHAVE_REALLOCARRAY " +

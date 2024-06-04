@@ -8,10 +8,11 @@ let
   nixpkgs = crossenv.nixpkgs;
 
   src = nixpkgs.fetchgit {
-    url = "git://repo.or.cz/openocd";  # official mirror
+    url = "https://github.com/openocd-org/openocd";
     rev = "de99836cf639b63dc357a34c13825669af841f17";
     sha256 = "sha256-+51wBfDc086Z+GauDeehsrSiYGNHrI8mmyIONR47WYo=";
     fetchSubmodules = true;
+    deepClone = true;
   };
 
   drv = crossenv.make_derivation {
