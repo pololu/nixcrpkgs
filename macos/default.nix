@@ -90,9 +90,6 @@ let
     # functions of the same name in the programs we are linking, like 'ar'.
     ./cctools_stuff_error.patch
 
-    #./cctools-bytesex.patch
-    #./cctools-libstuff-no-error.patch
-
     # Add -gc-sections as an alias for -dead_strip for better compatibility.
     ./cctools_gc_sections.patch
   ];
