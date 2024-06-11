@@ -1,0 +1,12 @@
+diff -ur cctools-port-3ecb04b/cctools/ld64/src/ld/Options.cpp cctools-port-patched/cctools/ld64/src/ld/Options.cpp
+--- cctools-port-3ecb04b/cctools/ld64/src/ld/Options.cpp	2023-01-24 09:21:41.000000000 -0800
++++ cctools-port-patched/cctools/ld64/src/ld/Options.cpp	2024-06-11 12:04:11.388300420 -0700
+@@ -3351,7 +3351,7 @@
+ 			else if ( strcmp(arg, "-Sp") == 0 ) {
+ 				warnObsolete(arg);
+ 			}
+-			else if ( strcmp(arg, "-dead_strip") == 0 ) {
++			else if ( strcmp(arg, "-dead_strip") == 0 || strcmp(arg, "-gc-sections") == 0 ) {
+ 				fDeadStrip = true;
+ 			}
+ 			else if ( strcmp(arg, "-no_dead_strip_inits_and_terms") == 0 ) {

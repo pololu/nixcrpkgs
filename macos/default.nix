@@ -92,6 +92,9 @@ let
 
     #./cctools-bytesex.patch
     #./cctools-libstuff-no-error.patch
+
+    # Add -gc-sections as an alias for -dead_strip for better compatibility.
+    ./cctools_gc_sections.patch
   ];
 
   # We build ld with clang because it uses "Blocks", a clang extension.
