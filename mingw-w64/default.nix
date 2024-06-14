@@ -5,7 +5,7 @@ let
 
   host = "${arch}-w64-mingw32";
 
-  binutils = import ./binutils { inherit native host; };
+  binutils = native.binutils_func { inherit host; };
 
   mingw-w64_info = rec {
     name = "mingw-w64-${version}";

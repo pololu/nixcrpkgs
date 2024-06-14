@@ -39,6 +39,11 @@ let
     mpfr = import ../pkgs/mpfr { env = native_base; inherit gmp; };
     libmpc = import ../pkgs/libmpc { env = native_base; inherit gmp mpfr; };
 
+    binutils_func = { host }: import ./binutils {
+      env = native_base;
+      inherit host;
+    };
+
     default_native_inputs = native_base.default_native_inputs ++ [
       pkgconf
     ];

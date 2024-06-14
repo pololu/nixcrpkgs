@@ -4,7 +4,7 @@ let
 
   host = "${arch}-linux-musleabi";
 
-  binutils = import ./binutils { inherit native host; };
+  binutils = native.binutils_func { inherit host; };
 
   linux_arch =
     if arch == "i686" || arch == "x86_64" then "x86"
