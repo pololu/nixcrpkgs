@@ -5,11 +5,11 @@ in
 env.make_derivation rec {
   name = "binutils-${version}-${host}";
 
-  version = "2.43.1";
+  version = "2.39";
 
   src = env.nixpkgs.fetchurl {
     url = "mirror://gnu/binutils/binutils-${version}.tar.xz";
-    hash = "sha256-E/dCAqPExREYt5ejnqQgDT9s++Ik2m0dlbuThIATLf0=";
+    hash = "sha256-ZFwl9WO4rcCoHb1qQc/79NNwg6OC4C1dPfT2XAlRbQA=";
   };
 
   patches = [
